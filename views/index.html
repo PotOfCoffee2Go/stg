@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Stegano</title>
+  <meta name="generator" content="Geany 1.33" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+  {{{cfg.head}}}
+
+  {{{cfg.theme}}}
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    p,
+    textarea,
+    input[type="text"],
+    img,
+    hr,
+    /* input[type="file"], */
+    #decrypt-source, #encrypt-source {
+     width: 100%;
+    }
+
+    .left-side {
+      float: left;
+    }
+    .right-side {
+      float: right;
+      width: 48%;
+    }
+
+    .box {
+      background: #09365d;
+      width: 50%;
+      padding: 0 10px 0 10px;
+      border: 1px solid #444;
+      border-radius: 16px;
+    }
+
+    hr {
+      margin: 0px;
+    }
+
+    textarea {
+      display: block;
+    }
+
+    label {
+      padding-right: 6px;
+      border-right: 1px solid black;
+    }
+    .material-icons-outlined {
+      font-size: .9em;
+      color: blue;
+    }
+    #decrypt-source, #encrypt-source {
+      display: inline-block;
+    }
+  </style>
+
+</head>
+<script>
+  const checkUrl = async (form, action = 'decrypt') => {
+    const formdata = new FormData(form);
+    const fileUrl = formdata.get('sampleUrlFile');
+    if (fileUrl) {
+      let fname = fileUrl.split('/').pop();
+      // Fetch, decrypt, and store a URL image
+      let imageBlob = await fetch(fileUrl).then(rsp => rsp.blob());
+      formdata.set("imageFile", imageBlob, fname);
+      let response = await fetch(`/${action}`, {
+        method: 'POST',
+        body: formdata
+      });
+      // Now get and decrypt the image from our server
+      form.setAttribute('action', `/${action}/${fname}`);
+      form.submit();
+      return true;
+    }
+    // Decrypt a local file
+    form.setAttribute('action', `/${action}`);
+    form.submit();
+    return false;
+  }
+
+  const submitDecrypt = async () => {
+    const form = document.getElementById('decryptForm');
+    try {
+      let hasUrl = await checkUrl(form, 'decrypt');
+    } catch(error) { alert(error); }
+  }
+
+  const submitView = () => {
+    const form = document.getElementById('decryptForm');
+    form.setAttribute('action', `/view`);
+    form.submit();
+  }
+
+  const submitEncrypt = async () => {
+    const form = document.getElementById('encryptForm');
+    try {
+      let hasUrl = await checkUrl(form, 'encrypt');
+    } catch(error) { alert(error); }
+  }
+
+
+  onload = () => {}
+</script>
+<body>
+  <img src="/assets/key.png" style="float: left; width: 64px; transform: scaleX(-1);">
+  <h2>{{cfg.heading}}</h2>
+
+  <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
+
+  <h3>Decrypt a message from an image:</h3>
+
+  <div class="left-side box">
+    <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
+    <br>
+    <form name="decryptForm" id="decryptForm" action="/decrypt" method="post" encType="multipart/form-data">
+      <input type="file" name="imageFile" accept=".png,.jpg" />
+      <br>
+      or image web address:
+      <input type="text" name="sampleUrlFile" />
+    </form>
+    <button onclick="submitDecrypt();">Decrypt</button>
+    <button onclick="submitView();">View</button>
+  </div>
+  <br>
+  <div class="right-side"></div>
+
+  <div style="clear: both;"> </div>
+  <h3>Or... Enter a message to encrypt into an image.</h3>
+  <div class="left-side box">
+    <input type="text" name="passphrase" form="encryptForm" value="{{{cfg.passphrase}}}" />
+    <textarea name="message" form="encryptForm" style="height: 120px;" placeholder="Enter your text, markdown, or HTML document..."></textarea>
+    <span style="padding-right: 6px; border-right: 1px solid black; ">Display as: </span>
+    <input type="radio" id="plain" name="textType" value="plain" form="encryptForm" checked>
+    <label for="plain">Plain</label>
+    <input type="radio" id="markdown" name="textType" value="markdown" form="encryptForm">
+    <label for="markdown">Markdown</label>
+    <input type="radio" id="html" name="textType" value="html" form="encryptForm">
+    <label for="html">HTML Document</label>
+    <br>
+    <form ref="encryptForm" id="encryptForm" action="/encrypt" method="post" encType="multipart/form-data">
+      <input type="file" name="imageFile" accept=".png,.jpg" />
+      <br>
+      or image web address:
+      <input type="text" name="sampleUrlFile" />
+    </form>
+    <p>Optional, rename resulting encrypted image (maybe a hint of the passphrase? ;)</p>
+    <input type="text" id="save-as" name="save-as" form="encryptForm" value="" placeholder="Name of encrypted image"/>
+    <br>
+    <button onclick="submitEncrypt();">Encrypt</button>
+  </div>
+  <div class="right-side">
+  </div>
+  <div style="clear: both;"> </div>
+
+</body>
+
+</html>

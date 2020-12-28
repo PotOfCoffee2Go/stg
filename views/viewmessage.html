@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Stegano</title>
+  <meta name="generator" content="Geany 1.33" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/{{cfg.highlightcss}}" rel="stylesheet">
+
+  {{{cfg.head}}}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.0.2/markdown-it.min.js" integrity="sha512-7VN0JcGJWL+i8LXzTvbROqUSPzZIu8Fp6GWpkVwtHwrgWwY8CrbZgyHA2YpNhAASQNrYqGYoI2HusCqV+S2xnQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+  </style>
+  <script>
+  // Init the markdown engine - currently is markdown-it
+  // Allow HTML and wire up code highlighting
+  window.mkdwn = window.markdownit({
+    html: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return '<pre class="hljs"><code>' +
+                 hljs.highlight(lang, str, true).value +
+                 '</code></pre>';
+        } catch (__) {}
+      }
+
+      return '<pre class="hljs"><code>' + webdocdown._mkdwn.utils.escapeHtml(str) + '</code></pre>';
+    }
+  });
+
+  const payload = {{{payload}}}; // ends up javascript object
+  var msg = payload.message;
+  if (payload.type === 'markdown') {
+    msg = mkdwn.render(payload.message);
+  }
+
+  window.onload = () => {
+    const msgdiv = document.getElementById('message-div');
+    msgdiv.innerHTML = msg;
+  }
+  </script>
+</head>
+
+<body>
+  <div id="message-div"></div>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Stegano</title>
+  <meta name="generator" content="Geany 1.33" />
+
+  {{{cfg.head}}}
+
+  {{{cfg.theme}}}
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    p,
+    textarea,
+    input[type="text"],
+    img {
+      width: 315px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <h3>{{cfg.heading}}</h3>
+  <input type="button" value="<= Go back" onclick="history.back()">
+
+  <p>Error:</p>
+  <p style="border: 1px solid red">{{error}}</p>
+
+</body>
+
+</html>

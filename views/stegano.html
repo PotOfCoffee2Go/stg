@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Stegano</title>
+  <meta name="generator" content="Geany 1.33" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/{{cfg.highlightcss}}" rel="stylesheet">
+
+  {{{cfg.head}}}
+
+  {{{cfg.theme}}}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.0.2/markdown-it.min.js" integrity="sha512-7VN0JcGJWL+i8LXzTvbROqUSPzZIu8Fp6GWpkVwtHwrgWwY8CrbZgyHA2YpNhAASQNrYqGYoI2HusCqV+S2xnQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    iframe {
+      background: aliceblue;
+      width: 100%;
+      height: auto;
+      resize: both;
+      overflow: auto;
+    }
+
+   #message-container {
+      width: 90%;
+      margin-top: 1em;
+      padding: 0 4px 0 4px;
+    }
+
+    #stegano-container p,
+    #stegano-container textarea,
+    #stegano-container input[type="text"],
+    #stegano-container img {
+       width: 100%;
+    }
+    #stegano-container img {
+      border: 1px solid #888;
+      border-radius: 15px;
+    }
+
+    #stegano-container {
+      width: 35%;
+      margin-right: 5%;
+    }
+  </style>
+  <script>
+  // Init the markdown engine - currently is markdown-it
+  // Allow HTML and wire up code highlighting
+  window.mkdwn = window.markdownit({
+    html: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return '<pre class="hljs"><code>' +
+                 hljs.highlight(lang, str, true).value +
+                 '</code></pre>';
+        } catch (__) {}
+      }
+
+      return '<pre class="hljs"><code>' + webdocdown._mkdwn.utils.escapeHtml(str) + '</code></pre>';
+    }
+  });
+
+const frame = (containingElem) => {
+  const div = document.createElement('div');
+  const frm = document.createElement('iframe');
+  const blob = new Blob([msg], { type: 'text/html' });
+  frm.src = URL.createObjectURL(blob);
+  frm.onload = () => { URL.revokeObjectURL(this.src); }
+  div.appendChild(frm);
+  containingElem.appendChild(div);
+}
+
+  const payload = {{{payload}}}; // ends up javascript object
+  var msg = payload.message;
+  if (payload.type === 'markdown') {
+    msg = mkdwn.render(payload.message);
+  }
+
+  window.onload = () => {
+    const msgdiv = document.getElementById('message-container');
+    if (payload.type === 'html') {
+      frame(msgdiv);
+    } else {
+      msgdiv.innerHTML = msg;
+    }
+  }
+  </script>
+
+</head>
+
+<body>
+  <div>
+  <h3>{{cfg.heading}}</h3>
+  <input type="button" value="<= Go back" onclick="history.back()">
+  <input type="button" value="Home" onclick="window.location.href='/';">
+  <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
+  </div>
+
+  <div id="message-container"></div>
+
+  <div id="stegano-container">
+    <hr>
+    <p> Image uploaded to:</p>
+    <a href="{{webaddr}}" target="_blank">{{webaddr}}</a>
+    <p>To save this image with encrypted text locally:
+    <br>
+    right-click image -> 'Save image as ...'</p>
+    <img src="{{webaddr}}">
+    </div>
+</body>
+
+</html>
