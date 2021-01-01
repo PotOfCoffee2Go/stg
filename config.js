@@ -3,9 +3,12 @@ const cfg = {
 
   // Server home directory
   homeDir: process.cwd(),
-  
+
+  // Logo in-front of heading
+  logo: '<img src="/assets/logo.png" style="float: left; width: 64px; transform: scaleX(-1);">',
+
   // Heading on top of page
-  heading: 'PotOfCoffee2Go Encrypted Steganography',
+  heading: '<h3>PotOfCoffee2Go Encrypted Steganography</h3>',
 
   // Default passphrase
   //  Of course cannot update passphrase on existing images
@@ -17,7 +20,7 @@ const cfg = {
   // Code highlightjs styles - see https://highlightjs.org/static/demo/
   highlightcss: 'agate.min.css',
 
-  // Allow fetching of images by URL 
+  // Allow fetching of images by URL
   allowurl: false,
 
 }
