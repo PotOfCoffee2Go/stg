@@ -92,7 +92,7 @@
     const form = document.getElementById('decryptForm');
     try {
       let hasUrl = await checkUrl(form, 'decrypt');
-    } catch(error) { alert(error); }
+    } catch(error) { window.location.href = `/error/${error}` }
   }
 
   const submitView = () => {
@@ -105,7 +105,7 @@
     const form = document.getElementById('encryptForm');
     try {
       let hasUrl = await checkUrl(form, 'encrypt');
-    } catch(error) { alert(error); }
+    } catch(error) { window.location.href = `/error/${error}` }
   }
 
 

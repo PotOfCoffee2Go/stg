@@ -51,6 +51,9 @@ app.post('/encrypt', (req, res) => encryptImage(cfg, req, res));
 app.post('/decrypt/:imagename?', (req, res) => decryptImage(cfg, req, res, 'stegano'));
 app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmessage'));
 
+// Request to show error page
+app.get('/error/:error', (req, res) => renderError(cfg, res, req.params.error));
+
 // Display custom directory listing of stored embedded images
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
