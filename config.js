@@ -1,6 +1,9 @@
 const cfg = {
   listenPort: 8000,
 
+  // Server home directory
+  homeDir: process.cwd(),
+  
   // Heading on top of page
   heading: 'PotOfCoffee2Go Encrypted Steganography',
 
@@ -14,13 +17,15 @@ const cfg = {
   // Code highlightjs styles - see https://highlightjs.org/static/demo/
   highlightcss: 'agate.min.css',
 
-  // Server home directory
-  homeDir: process.cwd(),
+  // Allow fetching of images by URL 
+  allowurl: false,
+
 }
 
 cfg.head = `
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">`,
+<link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
+`,
 
 // More robust way to enter styles using CSS
 //  Is applied to all pages
