@@ -5,7 +5,8 @@ const cfg = {
   homeDir: process.cwd(),
 
   // Logo in-front of heading
-  logo: '<img src="/assets/logo.png" style="float: left; width: 64px; transform: scaleX(-1);">',
+  logo: `<img src="/assets/logo.png"
+    style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;">`,
 
   // Heading on top of page
   heading: '<h3>PotOfCoffee2Go Encrypted Steganography</h3>',
