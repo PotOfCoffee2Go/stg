@@ -22,7 +22,7 @@ const cfg = {
   highlightcss: 'agate.min.css',
 
   // Allow fetching of images by URL
-  allowurl: false,
+  askurl: false,
 
 }
 
@@ -54,11 +54,15 @@ cfg.cli = () => {
       alias: 'p',
       describe: 'Server listen on port'
     })
+    .option('askurl', {
+      alias: 'a',
+      describe: 'Ask for images to be fetched from internet'
+    })
     .option('dir', {
       alias: 'd',
       describe: 'Directory of images'
     })
-    .usage('Usage: $0 [-p=port] [-d=directory] [-h]')
+    .usage('Usage: $0 [-p | --port <port>] [-a | --askurl] [-d | --dir=<path>] [-h]')
     .example('$0 -p 3000', 'Starts server on port 3000')
     .help('h')
     .alias('h', 'help')
@@ -66,6 +70,9 @@ cfg.cli = () => {
 
   if (argv.p) {
     cfg.listenPort = argv.p;
+  }
+  if (argv.a) {
+    cfg.askurl = true;
   }
   if (argv.d) {
     cfg.testdir = argv.d;

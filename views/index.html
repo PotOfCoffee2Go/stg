@@ -124,11 +124,11 @@
     <br>
     <form name="decryptForm" id="decryptForm" action="/decrypt" method="post" encType="multipart/form-data">
       <input type="file" name="imageFile" accept=".png,.jpg" />
-{{#cfg.allowurl}}
+{{#cfg.askurl}}
       <br>
       or image web address:
       <input type="text" name="sampleUrlFile" />
-{{/cfg.allowurl}}
+{{/cfg.askurl}}
     </form>
     <button onclick="submitDecrypt();">Decrypt</button>
     <button onclick="submitView();">View</button>
@@ -151,11 +151,11 @@
     <br>
     <form ref="encryptForm" id="encryptForm" action="/encrypt" method="post" encType="multipart/form-data">
       <input type="file" name="imageFile" accept=".png,.jpg" />
-{{#cfg.allowurl}}
+{{#cfg.askurl}}
       <br>
       or image web address:
       <input type="text" name="sampleUrlFile" />
-{{/cfg.allowurl}}
+{{/cfg.askurl}}
     </form>
     <p>Optional, rename resulting encrypted image (maybe a hint of the passphrase? ;)</p>
     <input type="text" id="save-as" name="save-as" form="encryptForm" value="" placeholder="Name of encrypted image"/>
