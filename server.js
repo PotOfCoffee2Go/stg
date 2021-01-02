@@ -51,19 +51,20 @@ app.post('/encrypt', (req, res) => encryptImage(cfg, req, res));
 app.post('/decrypt/:imagename?', (req, res) => decryptImage(cfg, req, res, 'stegano'));
 app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmessage'));
 
-// Request to show error page
-app.get('/error/:error', (req, res) => renderError(cfg, res, req.params.error));
-
 // Display custom directory listing of stored embedded images
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
 // ------
 // Static assets
-// Expose the public directory to internet
+// Expose any pages in the public directory
 app.use(express.static(cfg.homeDir + '/public'));
 
 // ------
-// Errors - no details
+// Errors - show few details
+// Request to show error page
+app.get('/error/:error', (req, res) => renderError(cfg, res, req.params.error));
+
+// Catch common server errors
 app.use((req, res) => renderError(cfg, res, '404: Page "' + req.originalUrl + '" not Found ;('));
 app.use((error, req, res, next) => renderError(cfg, res, '500: Internal Server Error ;('));
 
