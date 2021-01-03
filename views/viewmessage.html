@@ -8,8 +8,7 @@
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/{{cfg.highlightcss}}" rel="stylesheet">
-
-  {{{cfg.head}}}
+  <link href="/assets/md/themes/markdown1.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.0.2/markdown-it.min.js" integrity="sha512-7VN0JcGJWL+i8LXzTvbROqUSPzZIu8Fp6GWpkVwtHwrgWwY8CrbZgyHA2YpNhAASQNrYqGYoI2HusCqV+S2xnQ==" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
@@ -32,7 +31,7 @@
         } catch (__) {}
       }
 
-      return '<pre class="hljs"><code>' + webdocdown._mkdwn.utils.escapeHtml(str) + '</code></pre>';
+      return '<pre class="hljs"><code>' + mkdwn.utils.escapeHtml(str) + '</code></pre>';
     }
   });
 
