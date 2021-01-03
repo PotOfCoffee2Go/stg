@@ -31,8 +31,12 @@ Choose an image from your computer, let's say a pic of what you had for lunch (a
 
 The server stores every image which has an encrypted or decrypted message.
 
-Kudos to [Express][], [Mustache][], [highlightjs][], and [markdown-it][] which are used to run the site which encrypts and render the text embedded in images, while [yargs][] processes the command line arguments.
+## Kudos
+To [Express][], [Mustache][], [highlightjs][], and [markdown-it][] which are used to run the site.
 
+[yargs][] processes the command line arguments.
+
+The `/public/assets/md/themes` directory is a copy of [jasonm23's markdown-css-themes](http://jasonm23.github.io/markdown-css-themes/) repo.
 
 
 [1]: https://github.com/mykeels/steganography
