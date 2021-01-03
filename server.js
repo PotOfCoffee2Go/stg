@@ -65,8 +65,8 @@ app.use(express.static(cfg.homeDir + '/public'));
 app.get('/error/:error', (req, res) => renderError(cfg, res, req.params.error));
 
 // Catch common server errors
-app.use((req, res) => renderError(cfg, res, '404: Page "' + req.originalUrl + '" not Found ;('));
-app.use((error, req, res, next) => renderError(cfg, res, '500: Internal Server Error ;('));
+app.use((req, res) => res.status(400).send('404: Page "' + req.originalUrl + '" not Found ;('));
+app.use((error, req, res, next) => res.status(500).send('500: Internal Server Error ;('));
 
 // Fire up the server!
 app.listen(cfg.listenPort, () => {
