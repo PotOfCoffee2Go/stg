@@ -21,7 +21,6 @@
     }
 
     iframe {
-      background: aliceblue;
       width: 100%;
       height: auto;
       resize: both;
@@ -51,46 +50,22 @@
     }
   </style>
   <script>
-  // Init the markdown engine - currently is markdown-it
-  // Allow HTML and wire up code highlighting
-  window.mkdwn = window.markdownit({
-    html: true,
-    highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return '<pre class="hljs"><code>' +
-                 hljs.highlight(lang, str, true).value +
-                 '</code></pre>';
-        } catch (__) {}
-      }
+  var msg;
+  const frame = async (containingElem) => {
+    let formData = new FormData();
+    formData.append("passphrase", `{{{pw}}}`);
+    formData.append("hint", ``);
 
-      return '<pre class="hljs"><code>' + webdocdown._mkdwn.utils.escapeHtml(str) + '</code></pre>';
-    }
-  });
+    msg = await fetch(`/view/{{fname}}`, { method: 'POST', body: formData })
+    .then(rsp => rsp.text());
 
-const frame = (containingElem) => {
-  const div = document.createElement('div');
-  const frm = document.createElement('iframe');
-  const blob = new Blob([msg], { type: 'text/html' });
-  frm.src = URL.createObjectURL(blob);
-  frm.onload = () => { URL.revokeObjectURL(this.src); }
-  div.appendChild(frm);
-  containingElem.appendChild(div);
-}
-
-  const payload = {{{payload}}}; // ends up javascript object
-  var msg = payload.message;
-  if (payload.type === 'markdown') {
-    msg = mkdwn.render(payload.message);
+    const frm = document.createElement('iframe');
+    frm.srcdoc = msg;
+    containingElem.appendChild(frm);
   }
 
   window.onload = () => {
-    const msgdiv = document.getElementById('message-container');
-    if (payload.type === 'html') {
-      frame(msgdiv);
-    } else {
-      msgdiv.innerHTML = msg;
-    }
+    frame(document.getElementById('message-container'));
   }
   </script>
 
@@ -100,9 +75,9 @@ const frame = (containingElem) => {
   {{{cfg.logo}}}
   {{{cfg.heading}}}
   <div>
-  <input type="button" value="<= Go back" onclick="history.back()">
-  <input type="button" value="Home" onclick="window.location.href='/';">
-  <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
+    <input type="button" value="<= Go back" onclick="history.back()">
+    <input type="button" value="Home" onclick="window.location.href='/';">
+    <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
   </div>
 
   <div id="message-container"></div>
