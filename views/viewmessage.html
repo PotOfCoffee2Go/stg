@@ -20,7 +20,7 @@
   <script>
   // Init the markdown engine - currently is markdown-it
   // Allow HTML and wire up code highlighting
-  window.mkdwn = window.markdownit({
+  var mkdwn = window.markdownit({
     html: true,
     highlight: function (str, lang) {
       if (lang && hljs.getLanguage(lang)) {
@@ -36,8 +36,11 @@
   });
 
   const payload = {{{payload}}}; // ends up javascript object
-  var msg = payload.message;
-  if (payload.type === 'markdown') {
+  var msg = payload.message; // Assume HTML page
+  if (payload.type === 'plain') {
+    msg = '<pre>' + mkdwn.utils.escapeHtml(payload.message) + '</pre>';
+  }
+  else if (payload.type === 'markdown') {
     msg = mkdwn.render(payload.message);
   }
 
