@@ -67,6 +67,7 @@
 
     const frm = document.createElement('iframe');
     frm.srcdoc = '<pre>' + mkdwn.utils.escapeHtml(payload.message) + '</pre>';
+    frm.setAttribute('onload', 'resizeIframe(this)');
     containingElem.innerHTML = '';
     containingElem.appendChild(frm);
     btn.value = 'Show';
@@ -126,8 +127,8 @@
 
    <form name="viewForm" id="viewForm" action="/view/{{fname}}" method="post"
         encType="multipart/form-data" style="display: none;">
-      <input type="text" name="passphrase" form="viewForm" value="{{{pw}}}" />
-    </form>
+    <input type="text" name="passphrase" form="viewForm" value="{{{pw}}}" />
+  </form>
 </body>
 
 </html>

@@ -21,9 +21,9 @@ const noReqFiles = (req) =>
 const postData = (cfg, req, fromImagesDir = false) => {
   let fname = fromImagesDir ? req.params.imagename : req.files.imageFile.name;
   let iname = fname;
-  if (req.body.hint) {
-    alreadyHinted = new RegExp('^' + req.body.hint + '-');
-    if (!alreadyHinted.test(iname)) iname = req.body.hint + '-' + iname;
+  if (cfg.imagePrefix) {
+    alreadyPrefixed = new RegExp('^' + cfg.imagePrefix);
+    if (!alreadyPrefixed.test(iname)) iname = cfg.imagePrefix + iname;
   }
   return {
     imageFile: fromImagesDir ? '(unused)' : req.files.imageFile,
@@ -59,9 +59,6 @@ const encryptImage = (cfg, req, res) => {
 
 // Extract and decrypt payload from image
 const decryptImage = (cfg, req, res, webpage = 'stegano') => {
-  console.log('1>>>', req.params.imagename);
-  console.log('test dir>>>>', cfg.testdir);
-
   if (req.params.imagename) {
     return decryptStored(cfg, req, res, webpage);
   }

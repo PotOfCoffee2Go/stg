@@ -24,6 +24,8 @@ const cfg = {
   // Allow fetching of images by URL
   askurl: false,
 
+  // Help to identify embeded image filename using a prefix
+  imagePrefix: 'poc2go-',
 }
 
 cfg.head = `
