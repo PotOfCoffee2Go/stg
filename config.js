@@ -1,3 +1,6 @@
+// Sites allowed access to steganography server
+const allowedOrigins = ['http://localhost', 'http://127.0.0.1'];
+
 const cfg = {
   listenPort: 8000,
 
@@ -18,9 +21,6 @@ const cfg = {
 
   // Help to identify embeded images by prefixing embedded image's filename
   imagePrefix: 'poc2go-',
-
-  // Sites allowed access to steganography server
-  allowedOrigins: ['http://localhost', 'http://127.0.0.1'],
 
   // Allow overwriting of existing embedded images
   imageOverwrite: false,
@@ -54,8 +54,21 @@ cfg.theme = `
 </style>
 `
 
+cfg.corsOptions = {
+  origin: (origin, callback) => {
+    // Allow routes not monitored by CORS
+    if (!origin) return callback(null, true);
 
-// Command line interface overrides defaults above
+    let originAllowed = false;
+    allowedOrigins.forEach(allowed => {
+      if (origin.indexOf(allowed) !== -1) originAllowed = true;
+    });
+    if (originAllowed) return callback(null, true);
+    return callback(new Error(`CORS 'Access-Control-Allow-Origin' does not allow '${origin}'`));
+  }
+}
+
+// Command line interface
 // See https://stackabuse.com/how-to-create-a-node-js-cli-application/
 cfg.cli = () => {
   var argv = require('yargs')

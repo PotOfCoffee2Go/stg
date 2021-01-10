@@ -38,6 +38,7 @@ const postData = (cfg, req, fromImagesDir = false) => {
   return {
     imageFile: fromImagesDir ? '(unused)' : req.files.imageFile,
     fname: fname,
+    iname: iname,
     uploadPath: cfg.homeDir + '/uploads/' + fname,
     imagesPath: cfg.homeDir + '/public/images/' + iname,
     webaddr: req.protocol + '://' + req.get('host') + '/images/' + iname,
@@ -50,10 +51,10 @@ const encryptImage = (cfg, req, res) => {
   if (noReqFiles(req)) {
     return renderError(cfg,res, 'No image file selected to encrypt.');
   }
-  const { imageFile, fname, uploadPath, imagesPath, webaddr, pw } = postData(cfg, req);
+  const { imageFile, fname, iname, uploadPath, imagesPath, webaddr, pw } = postData(cfg, req);
   console.log('<<>>', exists(imagesPath), !cfg.imageOverwrite, imagesPath);
   if (exists(imagesPath) && !cfg.imageOverwrite) {
-    return renderError(cfg, res, `Image ${fname} already exists`);
+    return renderError(cfg, res, `Image ${iname} already exists`);
   }
   imageFile.mv(uploadPath, async (err) => {
     if (err) return renderError(cfg, res, err);

@@ -37,23 +37,7 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const app = express();
 
-// CORS options - origin(s) set in config.js
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    console.log('cors origin', origin);
-    let auth = false;
-    cfg.allowedOrigins.forEach(allowed => {
-      if (origin.indexOf(allowed) !== -1) {
-        auth = true;
-      }
-    });
-    if (auth) return callback(null, true);
-    return callback(new Error(`CORS header 'Access-Control-Allow-Origin' does not match '${origin}'`));
-  }
-}
-
-app.use(cors(corsOptions));
+app.use(cors(cfg.corsOptions));
 
 // Image files are uploaded for processing
 app.use(fileUpload());
@@ -61,7 +45,7 @@ app.use(fileUpload());
 // ------
 // Site specific pages
 // Render index.html
-app.get(['/','/index','/index.html'], cors(corsOptions), (req, res) => {
+app.get(['/','/index','/index.html'], (req, res) => {
     render(cfg, res, pages.index, {});
 });
 
@@ -87,7 +71,9 @@ app.get('/error/:error', (req, res) => renderError(cfg, res, req.params.error));
 app.use((req, res) => res.status(400).send('404: Page "' + req.originalUrl + '" not Found ;('));
 app.use((error, req, res, next) => {
   console.dir(error);
-  if (/^CORS/.test(error.message)) return res.status(403).send(error.message);
+  if (/^CORS/.test(error.message)) {
+    return renderError(cfg, res, error.message);
+  }
   res.status(500).send('500: Internal Server Error ;(');
 });
 
