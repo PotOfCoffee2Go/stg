@@ -16,19 +16,22 @@ const cfg = {
   //  since text/image passphases are not known or stored anywhere!
   passphrase: 'YOUR_PASSPHRASE_HERE', // 'YouR PassphasE H3R3',
 
-  // Help to identify embeded images by prefixing input image's filename
+  // Help to identify embeded images by prefixing embedded image's filename
   imagePrefix: 'poc2go-',
 
   // Sites allowed access to steganography server
-  allowedOrigins: [], // ['http://allowed', 'http://sites.com']
+  allowedOrigins: ['http://localhost', 'http://127.0.0.1'],
+
+  // Allow overwriting of existing embedded images
+  imageOverwrite: false,
+
+  // Allow fetching of images by URL
+  askurl: false,
 
   // Markdown styles - see
   markdowncss: 'agate.min.css',
   // Code highlightjs styles - see https://highlightjs.org/static/demo/
   highlightcss: 'agate.min.css',
-
-  // Allow fetching of images by URL
-  askurl: false,
 
 }
 

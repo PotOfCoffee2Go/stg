@@ -19,11 +19,12 @@ const noReqFiles = (req) =>
 
 // Check if file exists
 const exists = (filepath) => {
-  fs.stat(filepath, err => {
-    if (err === null) return true;
-    if (err.code === 'ENOENT') return false;
-    throw err;
-  });
+  try {
+    fs.statSync(filepath);
+    return true;
+  } catch(e) {
+    return false;
+  }
 }
 
 // Construct common used variables from web request
@@ -50,11 +51,15 @@ const encryptImage = (cfg, req, res) => {
     return renderError(cfg,res, 'No image file selected to encrypt.');
   }
   const { imageFile, fname, uploadPath, imagesPath, webaddr, pw } = postData(cfg, req);
+  console.log('<<>>', exists(imagesPath), !cfg.imageOverwrite, imagesPath);
+  if (exists(imagesPath) && !cfg.imageOverwrite) {
+    return renderError(cfg, res, `Image ${fname} already exists`);
+  }
   imageFile.mv(uploadPath, async (err) => {
-    if (err) return render(cfg, res, pages.error, { err, fname });
+    if (err) return renderError(cfg, res, err);
     try {
-      let message = req.body.message,
-        type = req.body.textType;
+      let message = req.body.message;
+      let type = req.body.textType;
       console.log('3>>>', { type, message });
       payload = JSON.stringify({ type, message }, null, 2);
       const buffer = await embed(uploadPath, payload, pw);
@@ -76,7 +81,7 @@ const decryptImage = (cfg, req, res, webpage = 'stegano') => {
   }
   const { imageFile, fname, uploadPath, imagesPath, webaddr, pw } = postData(cfg, req);
   imageFile.mv(imagesPath, async (err) => {
-    if (err) return render(cfg, res, pages.error, { err, fname });
+    if (err) return renderError(cfg, res, err);
     try {
       const payload = await digUp(imagesPath, pw);
       render(cfg, res, pages[webpage], { payload, pw, webaddr, fname });

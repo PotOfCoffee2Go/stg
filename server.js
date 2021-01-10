@@ -40,12 +40,16 @@ const app = express();
 // CORS options - origin(s) set in config.js
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log('cors origin >>>', origin);
-    if (cfg.allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
+    if (!origin) return callback(null, true);
+    console.log('cors origin', origin);
+    let auth = false;
+    cfg.allowedOrigins.forEach(allowed => {
+      if (origin.indexOf(allowed) !== -1) {
+        auth = true;
+      }
+    });
+    if (auth) return callback(null, true);
+    return callback(new Error(`CORS header 'Access-Control-Allow-Origin' does not match '${origin}'`));
   }
 }
 
@@ -57,7 +61,7 @@ app.use(fileUpload());
 // ------
 // Site specific pages
 // Render index.html
-app.get(['/','/index','/index.html'], (req, res) => {
+app.get(['/','/index','/index.html'], cors(corsOptions), (req, res) => {
     render(cfg, res, pages.index, {});
 });
 
@@ -82,7 +86,8 @@ app.get('/error/:error', (req, res) => renderError(cfg, res, req.params.error));
 // Catch common server errors
 app.use((req, res) => res.status(400).send('404: Page "' + req.originalUrl + '" not Found ;('));
 app.use((error, req, res, next) => {
-  console.log(error);
+  console.dir(error);
+  if (/^CORS/.test(error.message)) return res.status(403).send(error.message);
   res.status(500).send('500: Internal Server Error ;(');
 });
 
