@@ -17,6 +17,15 @@ const pages = {
 const noReqFiles = (req) =>
   (!req.files || Object.keys(req.files).length === 0);
 
+// Check if file exists
+const exists = (filepath) => {
+  fs.stat(filepath, err => {
+    if (err === null) return true;
+    if (err.code === 'ENOENT') return false;
+    throw err;
+  });
+}
+
 // Construct common used variables from web request
 const postData = (cfg, req, fromImagesDir = false) => {
   let fname = fromImagesDir ? req.params.imagename : req.files.imageFile.name;

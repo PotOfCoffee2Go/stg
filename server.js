@@ -33,8 +33,23 @@ const pages = {
 // ------
 // Express web server
 const express = require('express');
+const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const app = express();
+
+// CORS options - origin(s) set in config.js
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log('cors origin >>>', origin);
+    if (cfg.allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 
 // Image files are uploaded for processing
 app.use(fileUpload());
@@ -66,7 +81,10 @@ app.get('/error/:error', (req, res) => renderError(cfg, res, req.params.error));
 
 // Catch common server errors
 app.use((req, res) => res.status(400).send('404: Page "' + req.originalUrl + '" not Found ;('));
-app.use((error, req, res, next) => res.status(500).send('500: Internal Server Error ;('));
+app.use((error, req, res, next) => {
+  console.log(error);
+  res.status(500).send('500: Internal Server Error ;(');
+});
 
 // Fire up the server!
 app.listen(cfg.listenPort, () => {
