@@ -152,8 +152,22 @@
       form.submit();
     }
 
+    const imgOnClickEvt = () => {
+      for (let elem of document.querySelectorAll('#carousel img')) {
+        elem.addEventListener("click", (evt) => {
+          submitView(evt.target.getAttribute('src').replace('images/', ''));
+        }, false);
+      }
+    }
+
     onload = () => {
-      $('div[data-slick]').slick();
+      $('#carousel').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        arrows: false,
+      });
+      imgOnClickEvt();
       dirlist.forEach(item => { item.datetime = new Date(item.mtime) });
       sortlist.date_d();
     }
@@ -173,13 +187,13 @@
 
   <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
 
-  <div data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
-<div><img src="images/poc2go-steg-home.png" style="height: 100px;"></div>
-<div><img src="images/poc2go-logo@2x.png" style="height: 100px;"></div>
-<div><img src="images/poc2go-christmas-1827719_1280.png" style="height: 100px;"></div>
-<div><img src="images/poc2go-amsterdam-3849926_1920.jpg" style="height: 100px;"></div>
-<div><img src="images/christmas-1827719_1280.png" style="height: 100px;"></div>
-<div><img src="images/logo@2x.png" style="height: 100px;"></div>
+  <div id="carousel">
+<div><img src="images/poc2go-steg-home.png"></div>
+<div><img src="images/poc2go-logo@2x.png"></div>
+<div><img src="images/poc2go-christmas-1827719_1280.png"></div>
+<div><img src="images/poc2go-amsterdam-3849926_1920.jpg"></div>
+<div><img src="images/christmas-1827719_1280.png"></div>
+<div><img src="images/logo@2x.png"></div>
   </div>
 
   <p>Filter: (just type some text or can use regex!)</p>

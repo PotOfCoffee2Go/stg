@@ -91,6 +91,13 @@ const styles = {
     a:hover { color: aliceblue; text-decoration: none; }
     a:active { color: aliceblue; text-decoration: none; }
 
+    #carousel img {
+      height: 100px;
+      margin: auto;
+      border: 1px solid white;
+      border-radius: 15px;
+    }
+
     input[name="passphrase"] {
        width: 35%;
     }
