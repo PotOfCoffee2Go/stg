@@ -12,6 +12,12 @@
 
   {{{cfg.styles.imagesdir}}}
 
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+  ss<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
   <script>
     // Label size KB, MB, GB, etc. - from stackoverflow
     function formatBytes(bytes, decimals = 2) {
@@ -147,6 +153,7 @@
     }
 
     onload = () => {
+      $('div[data-slick]').slick();
       dirlist.forEach(item => { item.datetime = new Date(item.mtime) });
       sortlist.date_d();
     }
@@ -166,6 +173,15 @@
 
   <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
 
+  <div data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+<div><img src="images/poc2go-steg-home.png" style="height: 100px;"></div>
+<div><img src="images/poc2go-logo@2x.png" style="height: 100px;"></div>
+<div><img src="images/poc2go-christmas-1827719_1280.png" style="height: 100px;"></div>
+<div><img src="images/poc2go-amsterdam-3849926_1920.jpg" style="height: 100px;"></div>
+<div><img src="images/christmas-1827719_1280.png" style="height: 100px;"></div>
+<div><img src="images/logo@2x.png" style="height: 100px;"></div>
+  </div>
+
   <p>Filter: (just type some text or can use regex!)</p>
   <b>/</b><input type="text" id="filter" value="" onchange="filter();"/><b>/</b> matches
   <!-- input type="button" value="Find" onclick="filter();" -->
@@ -180,6 +196,7 @@
 
   <div id="listing"></div>
 
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </body>
 
 </html>
