@@ -23,7 +23,7 @@ const cfg = {
   imagePrefix: 'poc2go-',
 
   // Allow overwriting of existing embedded images
-  imageOverwrite: false,
+  imageOverwrite: true,
 
   // Allow fetching of images by URL
   askurl: false,
@@ -44,6 +44,10 @@ cfg.head = `
 //  Is applied to all pages
 cfg.theme = `
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     background: #16095d;
     color: aliceblue;
@@ -52,7 +56,10 @@ cfg.theme = `
 
   p { background: #2f328c; }
 </style>
-`
+`;
+
+const { styles } = require('./views/styles');
+cfg.styles = styles;
 
 cfg.corsOptions = {
   origin: (origin, callback) => {

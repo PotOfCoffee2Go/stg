@@ -13,42 +13,11 @@
 
   {{{cfg.theme}}}
 
+  {{{cfg.styles.stegano}}}
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.0.2/markdown-it.min.js" integrity="sha512-7VN0JcGJWL+i8LXzTvbROqUSPzZIu8Fp6GWpkVwtHwrgWwY8CrbZgyHA2YpNhAASQNrYqGYoI2HusCqV+S2xnQ==" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    iframe {
-      background: aliceblue;
-      width: 100%;
-      resize: both;
-      overflow: auto;
-    }
-
-   #message-container {
-      width: 90%;
-      margin-top: 1em;
-      padding: 0 4px 0 4px;
-    }
-
-    #stegano-container p,
-    #stegano-container textarea,
-    #stegano-container input[type="text"],
-    #stegano-container img {
-       width: 100%;
-    }
-    #stegano-container img {
-      border: 1px solid #888;
-      border-radius: 15px;
-    }
-
-    #stegano-container {
-      width: 35%;
-      margin-right: 5%;
-    }
-  </style>
   <script>
   const payload = {{{payload}}};
 
