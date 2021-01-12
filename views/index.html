@@ -59,8 +59,14 @@
   }
 
 
-  onload = () => {}
+  onload = () => {
+    try {
+      let elem = document.getElementById('{{cfg.textType}}');
+      elem.checked = true;
+    } catch(e) {}
+  }
 </script>
+
 <body>
   {{{cfg.logo}}}
   {{{cfg.heading}}}
@@ -92,7 +98,7 @@
     <input type="text" name="passphrase" form="encryptForm" value="{{{cfg.passphrase}}}" />
     <textarea name="message" form="encryptForm" style="height: 120px;" placeholder="Enter your text, markdown, or HTML document..."></textarea>
     <span style="padding-right: 6px; border-right: 1px solid black; ">Display as: </span>
-    <input type="radio" id="plain" name="textType" value="plain" form="encryptForm" checked>
+    <input type="radio" id="plain" name="textType" value="plain" form="encryptForm">
     <label for="plain">Plain</label>
     <input type="radio" id="markdown" name="textType" value="markdown" form="encryptForm">
     <label for="markdown">Markdown</label>

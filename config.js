@@ -45,6 +45,8 @@ const cfg = {
 
 // ------ Message formatting options
 
+  // Default text type 'plain', 'markdown,  'html'
+  textType: 'markdown',
   // Markdown styles - see
   markdowncss: 'agate.min.css',
   // Code highlightjs styles - see https://highlightjs.org/static/demo/
