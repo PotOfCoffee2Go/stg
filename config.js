@@ -1,32 +1,49 @@
-// Sites allowed access to steganography server
-const allowedOrigins = ['http://localhost', 'http://127.0.0.1'];
-
+// Server configuration options allow the site to be personalized
+//
 const cfg = {
+
+// ------ Server Options
+
+  // Port the server listens for requests
   listenPort: 8000,
 
   // Server home directory
   homeDir: process.cwd(),
 
-  // Logo in-front of heading
+  // HTML of logo in-front of heading
   logo: `<img src="/assets/logo.png"
     style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;">`,
 
   // Heading on top of page
   heading: '<h3>PotOfCoffee2Go Encrypted Steganography</h3>',
 
-  // Default passphrase
-  //  Of course cannot update passphrase on existing images
-  //  since text/image passphases are not known or stored anywhere!
+// ------ En/Decryption Options
+
+  // Default passphrase shown on web pages
   passphrase: 'YOUR_PASSPHRASE_HERE', // 'YouR PassphasE H3R3',
 
-  // Help to identify embeded images by prefixing embedded image's filename
+  // Carousel image onclick displays 'View' page or 'Decrypt' page
+  //  Note: the 'V' or 'D' are uppercase
+  carouselClick: 'Decrypt',
+
+// ------ Image Options
+
+  // Helps to identify encrypted images by prefixing the image's filename
+  // Is useful to identify person that encrypted the image
+  //  and/or hint of the passphrase used
   imagePrefix: 'poc2go-',
 
   // Allow overwriting of existing embedded images
+  // The message in an image can be overwritten with a different message
   imageOverwrite: true,
 
   // Allow fetching of images by URL
+  // Display text field to paste web link to the image
+  //  Note: Not uncommon to get a 'CORS' permission error depending
+  //     on how the sending web site's permissions are configured
   askurl: false,
+
+// ------ Message formatting options
 
   // Markdown styles - see
   markdowncss: 'agate.min.css',
@@ -35,13 +52,17 @@ const cfg = {
 
 }
 
+// ------ HTML to include in web pages
+
+// HTML inserted in pages <head> tag
+// At least, place your preferred font family here
+//  and in cfg.theme below
 cfg.head = `
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
 `,
 
-// More robust way to enter styles using CSS
-//  Is applied to all pages
+// Common styles for the pages
 cfg.theme = `
 <style>
   * {
@@ -49,18 +70,28 @@ cfg.theme = `
   }
 
   body {
+    font-family: 'Bad Script', cursive;
     background: #16095d;
     color: aliceblue;
-    font-family: 'Bad Script', cursive;
   }
 
   p { background: #2f328c; }
 </style>
 `;
 
+// Page specific styles are in './views/styles.js'
 const { styles } = require('./views/styles');
 cfg.styles = styles;
 
+
+// ------ Code used by server. Rarely changed!
+
+// Sites allowed access to steganography server
+//  Note: any site can GET files from 'public' and it's subdirectories
+const allowedOrigins = ['http://localhost', 'http://127.0.0.1'];
+
+// Function that determines if a site has permissions to en/decrypt
+//  - callback(null, true) = yes, callback(error) = no
 cfg.corsOptions = {
   origin: (origin, callback) => {
     // Allow routes not monitored by CORS
@@ -75,8 +106,8 @@ cfg.corsOptions = {
   }
 }
 
-// Command line interface
-// See https://stackabuse.com/how-to-create-a-node-js-cli-application/
+// Server command line interface
+// Allows temporary override of configuration parameters defined above
 cfg.cli = () => {
   var argv = require('yargs')
     .option('port', {
@@ -85,7 +116,7 @@ cfg.cli = () => {
     })
     .option('askurl', {
       alias: 'a',
-      describe: 'Ask for images to be fetched from internet'
+      describe: 'Allow images to be fetched from internet by URL'
     })
     .option('dir', {
       alias: 'd',
@@ -109,8 +140,7 @@ cfg.cli = () => {
   }
 }
 
-// Assign command line options
+// Apply command line options
 cfg.cli();
-
 
 exports.cfg = cfg;

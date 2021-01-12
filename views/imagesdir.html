@@ -127,7 +127,11 @@
           }
         ))) continue;
 
-        carousel.push('<div><img src="images/' + name + '" onclick="submitView(\'' + name + '\');"></div>');
+        carousel.push(
+          '<div class="img-container"><img src="images/' + name +
+          '" title="' + name +
+          '" onclick="submit{{cfg.carouselClick}}(\'' + name +
+          '\');"></div>');
 
         let actions = '<td>' +
           '<button onclick="submitView(\'' + name + '\');">view</button>' +
@@ -206,7 +210,7 @@
 
   <div id="carousel"></div>
 
-  <p>Sort: click a column name to sort</p>
+  <p>Sort: click a column heading to sort</p>
   <div id="listing"></div>
 
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

@@ -102,10 +102,14 @@ const styles = {
       cursor: pointer;
     }
 
+    #carousel .img-container { margin: auto; }
+
     #carousel div:focus { outline: none; }
+
     input[name="passphrase"] {
        width: 35%;
     }
+
     table {
       font-family: monospace;
     }
