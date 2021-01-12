@@ -28,10 +28,10 @@ const exists = (filepath) => {
 }
 
 // Construct common used variables from web request
-const postData = (cfg, req, fromImagesDir = false) => {
+const postData = (cfg, req, fromImagesDir = false, fromEncrypt = false) => {
   let fname = fromImagesDir ? req.params.imagename : req.files.imageFile.name;
   let iname = fname;
-  if (cfg.imagePrefix) {
+  if (fromEncrypt && cfg.imagePrefix) {
     alreadyPrefixed = new RegExp('^' + cfg.imagePrefix);
     if (!alreadyPrefixed.test(iname)) iname = cfg.imagePrefix + iname;
   }
@@ -51,7 +51,7 @@ const encryptImage = (cfg, req, res) => {
   if (noReqFiles(req)) {
     return renderError(cfg,res, 'No image file selected to encrypt.');
   }
-  const { imageFile, fname, iname, uploadPath, imagesPath, webaddr, pw } = postData(cfg, req);
+  const { imageFile, fname, iname, uploadPath, imagesPath, webaddr, pw } = postData(cfg, req, false, true);
   console.log('<<>>', exists(imagesPath), !cfg.imageOverwrite, imagesPath);
   if (exists(imagesPath) && !cfg.imageOverwrite) {
     return renderError(cfg, res, `Image ${iname} already exists`);

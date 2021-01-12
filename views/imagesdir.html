@@ -141,12 +141,24 @@
       }
       listing.push('</table>');
 
-      var elem = document.getElementById('carousel');
-      elem.innerHTML = carousel.join('\n');
-      elem = document.getElementById('listing');
-      elem.innerHTML = listing.join('\n');
-    };
+      // Init the carousel
+      try {
+        $('#carousel').slick('unslick');} catch(e) {}
+      finally {
+        var elem = document.getElementById('carousel');
+        elem.innerHTML = carousel.join('\n');
+        $('#carousel').slick({
+          dots: false,
+          infinite: true,
+          speed: 300,
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        });
 
+        elem = document.getElementById('listing');
+        elem.innerHTML = listing.join('\n');
+      }
+    };
     const submitDecrypt = (filename) => {
       const form = document.getElementById('decryptForm');
       form.setAttribute('action', `/decrypt/${filename}`);
@@ -163,15 +175,6 @@
       // Build directory list and carousel HTML
       dirlist.forEach(item => { item.datetime = new Date(item.mtime) });
       sortlist.date_d();
-
-      // Init the carousel
-      $('#carousel').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-      });
     }
   </script>
 
@@ -189,9 +192,8 @@
 
   <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
 
-  <div id="carousel"></div>
 
-  <p>Filter: (just type some text or can use regex!)</p>
+  <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
   <b>/</b><input type="text" id="filter" value="" onchange="filter();"/><b>/</b> matches
   <!-- input type="button" value="Find" onclick="filter();" -->
 
@@ -202,7 +204,9 @@
   <input type="radio" id="date-filter" name="radio-filter" value="date" onchange="filter();"/>
   <label for="date-filter">date</label>
 
+  <div id="carousel"></div>
 
+  <p>Sort: click a column name to sort</p>
   <div id="listing"></div>
 
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
