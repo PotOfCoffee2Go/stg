@@ -65,9 +65,9 @@ const encryptImage = (cfg, req, res) => {
       payload = JSON.stringify({ type, message }, null, 2);
       const buffer = await embed(uploadPath, payload, pw);
       fs.writeFileSync(imagesPath, buffer);
-      render(cfg, res, pages.stegano, { payload, pw, webaddr, fname });
+      render(cfg, res, pages.stegano, { payload, pw, webaddr, fname: iname });
     } catch (error) {
-      return renderError(cfg, res, error, fname);
+      return renderError(cfg, res, error, iname);
     }
   });
 }
