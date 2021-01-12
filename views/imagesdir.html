@@ -112,6 +112,7 @@
     // -----
     const dirlist = {{{dirlistJsonStr}}}; // ends up as Javascript object
     const showDir = () => {
+      let carousel = [];
       let listing = ['<table><tr>'];
       listing.push('<th>Actions</th>');
       listing.push('<th><a href="#" onclick="sortby.name();">Name</a></th>');
@@ -125,6 +126,9 @@
           date: datetime.toLocaleString().replace(/, (.):/,', 0$1:')
           }
         ))) continue;
+
+        carousel.push('<div><img src="images/' + name + '" onclick="submitView(\'' + name + '\');"></div>');
+
         let actions = '<td>' +
           '<button onclick="submitView(\'' + name + '\');">view</button>' +
           '<button onclick="submitDecrypt(\'' + name + '\');">decrypt</button>' +
@@ -136,7 +140,10 @@
         listing.push('<tr>' + actions + name + size + mtime + '</tr>');
       }
       listing.push('</table>');
-      const elem = document.getElementById('listing');
+
+      var elem = document.getElementById('carousel');
+      elem.innerHTML = carousel.join('\n');
+      elem = document.getElementById('listing');
       elem.innerHTML = listing.join('\n');
     };
 
@@ -152,25 +159,19 @@
       form.submit();
     }
 
-    const imgOnClickEvt = () => {
-      for (let elem of document.querySelectorAll('#carousel img')) {
-        elem.addEventListener("click", (evt) => {
-          submitView(evt.target.getAttribute('src').replace('images/', ''));
-        }, false);
-      }
-    }
-
     onload = () => {
-$('#carousel').slick({
-  dots: false,
-  infinite: true,
-  speed: 300,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-});
-      imgOnClickEvt();
+      // Build directory list and carousel HTML
       dirlist.forEach(item => { item.datetime = new Date(item.mtime) });
       sortlist.date_d();
+
+      // Init the carousel
+      $('#carousel').slick({
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      });
     }
   </script>
 
@@ -188,14 +189,7 @@ $('#carousel').slick({
 
   <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
 
-  <div id="carousel">
-<div><img src="images/poc2go-steg-home.png"></div>
-<div><img src="images/poc2go-logo@2x.png"></div>
-<div><img src="images/poc2go-christmas-1827719_1280.png"></div>
-<div><img src="images/poc2go-amsterdam-3849926_1920.jpg"></div>
-<div><img src="images/christmas-1827719_1280.png"></div>
-<div><img src="images/logo@2x.png"></div>
-  </div>
+  <div id="carousel"></div>
 
   <p>Filter: (just type some text or can use regex!)</p>
   <b>/</b><input type="text" id="filter" value="" onchange="filter();"/><b>/</b> matches
