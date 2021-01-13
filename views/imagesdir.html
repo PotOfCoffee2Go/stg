@@ -135,8 +135,7 @@
 
         let actions = '<td>' +
           '<button onclick="submitView(\'' + name + '\');">view</button>' +
-          '<button onclick="submitDecrypt(\'' + name + '\');">decrypt</button>' +
-          '<button onclick="">download</button></td>'
+          '<button onclick="submitDecrypt(\'' + name + '\');">decrypt</button></td>'
 
         name = `<td><a href="/images/${name}">${name}</a></td>`;
         size = `<td><span>${formatBytes(size)}</span></td>`;
@@ -214,6 +213,7 @@
   <div id="listing"></div>
 
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  {{{cfg.footer}}}
 </body>
 
 </html>

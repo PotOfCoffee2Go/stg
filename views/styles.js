@@ -10,6 +10,10 @@ const styles = {
     #decrypt-source, #encrypt-source {
      width: 100%;
     }
+    footer {
+      width: 50%;
+      margin-top: 10px;
+    }
 
     .left-side {
       float: left;
@@ -114,7 +118,7 @@ const styles = {
       font-family: monospace;
     }
     th {
-      min-width: 150px;
+      min-width: 110px;
     }
     td {
       padding-right: 10px;

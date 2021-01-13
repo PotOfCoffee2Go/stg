@@ -10,12 +10,17 @@ const cfg = {
   // Server home directory
   homeDir: process.cwd(),
 
+// ------ Page Layout
+
   // HTML of logo in-front of heading
   logo: `<img src="/assets/logo.png"
     style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;">`,
 
   // Heading on top of page
   heading: '<h3>PotOfCoffee2Go Encrypted Steganography</h3>',
+
+  // Footer on bottom of page
+  footer: `<div><hr><p>Images by <a href="https://pixabay.com" target="_blank">Pixabay</a></p><hr></div>`,
 
 // ------ En/Decryption Options
 
@@ -78,6 +83,13 @@ cfg.theme = `
   }
 
   p { background: #2f328c; }
+
+
+a:link { color: aliceblue; font-weight: bold; } /* unvisited link */
+a:visited { color: aliceblue; } /* visited link */
+a:hover { color: hotpink; } /* mouse over link */
+a:active { color: blue; }   /* selected link */
+
 </style>
 `;
 
