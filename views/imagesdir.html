@@ -196,21 +196,24 @@
   <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
 
   <div id="carousel"></div>
-
+{{#cfg.inlineHelp}}
   <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
-  <b>/</b><input type="text" id="filter" value="" onchange="filter();"/><b>/</b> matches
-  <!-- input type="button" value="Find" onclick="filter();" -->
+{{/cfg.inlineHelp}}
+  <div class="filter">
+    <b>/</b><input type="text" id="filter" value="" onchange="filter();"/><b>/</b> matches
+    <!-- input type="button" value="Find" onclick="filter();" -->
 
-  <input type="radio" id="name-filter" name="radio-filter" value="name" onchange="filter();" checked />
-  <label for="name-filter">name</label>
-  <input type="radio" id="size-filter" name="radio-filter" value="size" onchange="filter();"/>
-  <label for="size-filter">size</label>
-  <input type="radio" id="date-filter" name="radio-filter" value="date" onchange="filter();"/>
-  <label for="date-filter">date</label>
-
+    <input type="radio" id="name-filter" name="radio-filter" value="name" onchange="filter();" checked />
+    <label for="name-filter">name</label>
+    <input type="radio" id="size-filter" name="radio-filter" value="size" onchange="filter();"/>
+    <label for="size-filter">size</label>
+    <input type="radio" id="date-filter" name="radio-filter" value="date" onchange="filter();"/>
+    <label for="date-filter">date</label>
+  </div>
+{{#cfg.inlineHelp}}
   <p>Sort: click a column heading to sort</p>
+{{/cfg.inlineHelp}}
   <div id="listing"></div>
-
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   {{{cfg.footer}}}
 </body>

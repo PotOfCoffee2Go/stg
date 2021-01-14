@@ -98,7 +98,16 @@ const styles = {
     a:hover { color: aliceblue; text-decoration: none; }
     a:active { color: aliceblue; text-decoration: none; }
 
-    #carousel {margin: 64px; }
+    .filter {
+      margin-bottom: 16px;
+    }
+
+    #carousel {
+      margin: 16px 64px 16px 64px;
+      padding: 16px 0 16px 0;
+      border-top: 1px solid white;
+      border-bottom: 1px solid white;
+    }
 
     #carousel img {
       height: 100px;

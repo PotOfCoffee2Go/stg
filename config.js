@@ -10,6 +10,15 @@ const cfg = {
   // Server home directory
   homeDir: process.cwd(),
 
+// ------ En/Decryption Options
+
+  // Default passphrase shown on web pages
+  passphrase: 'YOUR_PASSPHRASE_HERE', // 'YouR PassphasE H3R3',
+
+  // Carousel image onclick displays 'View' page or 'Decrypt' page
+  //  Note: the 'V' or 'D' are uppercase
+  carouselClick: 'Decrypt',
+
 // ------ Page Layout
 
   // HTML of logo in-front of heading
@@ -20,16 +29,10 @@ const cfg = {
   heading: '<h3>PotOfCoffee2Go Encrypted Steganography</h3>',
 
   // Footer on bottom of page
-  footer: `<div><hr><p>Images by <a href="https://pixabay.com" target="_blank">Pixabay</a></p><hr></div>`,
+  footer: `<div><hr>Images by <a href="https://pixabay.com" target="_blank">Pixabay</a><hr></div>`,
 
-// ------ En/Decryption Options
-
-  // Default passphrase shown on web pages
-  passphrase: 'YOUR_PASSPHRASE_HERE', // 'YouR PassphasE H3R3',
-
-  // Carousel image onclick displays 'View' page or 'Decrypt' page
-  //  Note: the 'V' or 'D' are uppercase
-  carouselClick: 'Decrypt',
+  // Display help/hints in web pages
+  inlineHelp: true,
 
 // ------ Image Options
 

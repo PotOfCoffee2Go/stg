@@ -80,9 +80,13 @@
 
   <div id="stegano-container">
     <hr>
+{{#cfg.inlineHelp}}
     <p> Encrypted image uploaded to:</p>
+{{/cfg.inlineHelp}}
     <a href="{{webaddr}}">{{webaddr}}</a>
+{{#cfg.inlineHelp}}
     <p>To download, <b>Click</b> the image or <b>Right-click</b> -> 'Save image as ...'</p>
+{{/cfg.inlineHelp}}
     <a href="{{webaddr}}" download>
       <img src="{{webaddr}}">
     </a>
