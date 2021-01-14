@@ -1,6 +1,5 @@
-**node_modules
-**uploads
-**images
-**flotsam
-**draft
-**.c9
+# Node
+node_modules/
+
+# uploads is temp directory
+uploads/
