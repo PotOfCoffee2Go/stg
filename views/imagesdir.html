@@ -128,16 +128,16 @@
         ))) continue;
 
         carousel.push(
-          '<div class="img-container"><img src="images/' + name +
+          '<div class="img-container"><img src="/{{{cfg.imagesDir}}}/' + name +
           '" title="' + name +
           '" onclick="submit{{cfg.carouselClick}}(\'' + name +
           '\');"></div>');
 
         let actions = '<td>' +
-          '<button onclick="submitView(\'' + name + '\');">view</button>' +
+          '<button onclick="submitView(\'' + name + '\');">read</button>' +
           '<button onclick="submitDecrypt(\'' + name + '\');">decrypt</button></td>'
 
-        name = `<td><a href="/images/${name}">${name}</a></td>`;
+        name = `<td><a href="/{{{cfg.imagesDir}}}/${name}">${name}</a></td>`;
         size = `<td><span>${formatBytes(size)}</span></td>`;
         mtime = `<td><span>${datetime.toLocaleString().replace(/, (.):/,', 0$1:')}</span></td>`;
         listing.push('<tr>' + actions + name + size + mtime + '</tr>');

@@ -36,7 +36,14 @@ const cfg = {
 
 // ------ Image Options
 
-  // Helps to identify encrypted images by prefixing the image's filename
+  // Subdirectory path in 'public' to hold the encrypted images
+  // Do not include '/public/' - just the subdirectory path
+  // ex: 'images', 'images/mine', 'pictures'
+  imagesDir: 'images/mine',
+
+  // Help identify encrypted images by prefixing the image's filename
+  // The filename is prefixed when an image is encrypted.
+  // To prevent prefixing make imagePrefix an empty string ''.
   // Is useful to identify person that encrypted the image
   //  and/or hint of the passphrase used
   imagePrefix: 'poc2go',

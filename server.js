@@ -10,7 +10,9 @@ const { render, renderError } = require('./src/render');
 // ------
 // Directory maintenance on server startup
 const fs = require('fs');
-console.log('Home directory is:', cfg.homeDir);
+cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
+console.log('Home   directory:', cfg.homeDir);
+console.log('Images directory:', cfg.homeDir + '/public/' + cfg.imagesDir);
 
 // Clear uploads directory
 try {
@@ -18,7 +20,7 @@ try {
 } catch (e) {}
 
 // Insure working directories exist
-['/public/images', '/uploads']
+['/public/' + cfg.imagesDir, '/uploads']
 .forEach(dir => {
   try {
     fs.mkdirSync(cfg.homeDir + dir, { recursive: true })

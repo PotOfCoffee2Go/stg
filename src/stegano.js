@@ -41,8 +41,8 @@ const postData = (cfg, req, fromImagesDir = false, fromEncrypt = false) => {
     fname: fname,
     iname: iname,
     uploadPath: cfg.homeDir + '/uploads/' + fname,
-    imagesPath: cfg.homeDir + '/public/images/' + iname,
-    webaddr: req.protocol + '://' + req.get('host') + '/images/' + iname,
+    imagesPath: cfg.homeDir + '/public/' + cfg.imagesDir + '/' + iname,
+    webaddr: req.protocol + '://' + req.get('host') + '/' + cfg.imagesDir + '/' + iname,
     pw: req.body.passphrase || ''
   }
 }

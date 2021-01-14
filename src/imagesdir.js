@@ -14,9 +14,9 @@ const pages = {
 const viewImagesDir = async (cfg, req, res) => {
   try {
     let dirlist = [];
-    let files = await fsp.readdir(cfg.homeDir + '/public/images');
+    let files = await fsp.readdir(cfg.homeDir + '/public/' + cfg.imagesDir);
     for (let file of files) {
-      let stats = await fsp.stat(cfg.homeDir + '/public/images/' + file);
+      let stats = await fsp.stat(cfg.homeDir + '/public/' + cfg.imagesDir + '/' + file);
       dirlist.push({
         name: file,
         isFile: stats.isFile(),
