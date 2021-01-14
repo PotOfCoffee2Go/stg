@@ -80,13 +80,13 @@
 
   <div id="stegano-container">
     <hr>
-    <p> Image uploaded to:</p>
+    <p> Encrypted image uploaded to:</p>
     <a href="{{webaddr}}">{{webaddr}}</a>
-    <p>To save this image with encrypted text locally:
-    <br>
-    right-click image -> 'Save image as ...'</p>
-    <img src="{{webaddr}}">
-    </div>
+    <p>To download, <b>Click</b> the image or <b>Right-click</b> -> 'Save image as ...'</p>
+    <a href="{{webaddr}}" download>
+      <img src="{{webaddr}}">
+    </a>
+  </div>
 
   <hr>
   <input type="button" value="View" onclick="submitView();">

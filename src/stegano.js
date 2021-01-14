@@ -33,7 +33,8 @@ const postData = (cfg, req, fromImagesDir = false, fromEncrypt = false) => {
   let iname = fname;
   if (fromEncrypt && cfg.imagePrefix) {
     alreadyPrefixed = new RegExp('^' + cfg.imagePrefix);
-    if (!alreadyPrefixed.test(iname)) iname = cfg.imagePrefix + iname;
+    if (!alreadyPrefixed.test(iname)) iname = cfg.imagePrefix +
+      '-' + (iname.replace(/-/g,'_'));
   }
   return {
     imageFile: fromImagesDir ? '(unused)' : req.files.imageFile,

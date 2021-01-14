@@ -68,6 +68,9 @@ const styles = {
       padding: 0 4px 0 4px;
     }
 
+    #stegano-container a {
+      font-family: monospace;
+    }
     #stegano-container p,
     #stegano-container textarea,
     #stegano-container input[type="text"],

@@ -36,7 +36,7 @@ const cfg = {
   // Helps to identify encrypted images by prefixing the image's filename
   // Is useful to identify person that encrypted the image
   //  and/or hint of the passphrase used
-  imagePrefix: 'poc2go-',
+  imagePrefix: 'poc2go',
 
   // Allow overwriting of existing embedded images
   // The message in an image can be overwritten with a different message
@@ -77,7 +77,7 @@ cfg.theme = `
   }
 
   body {
-    font-family: 'Bad Script', cursive;
+    font-family: 'Bad Script'; //, cursive;
     background: #16095d;
     color: aliceblue;
   }

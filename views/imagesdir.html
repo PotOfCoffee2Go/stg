@@ -155,7 +155,7 @@
           infinite: true,
           speed: 300,
           slidesToShow: 4,
-          slidesToScroll: 1,
+          slidesToScroll: 3,
         });
 
         elem = document.getElementById('listing');
@@ -195,6 +195,7 @@
 
   <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
 
+  <div id="carousel"></div>
 
   <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
   <b>/</b><input type="text" id="filter" value="" onchange="filter();"/><b>/</b> matches
@@ -206,8 +207,6 @@
   <label for="size-filter">size</label>
   <input type="radio" id="date-filter" name="radio-filter" value="date" onchange="filter();"/>
   <label for="date-filter">date</label>
-
-  <div id="carousel"></div>
 
   <p>Sort: click a column heading to sort</p>
   <div id="listing"></div>
