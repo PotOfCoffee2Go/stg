@@ -102,7 +102,28 @@ const styles = {
       margin-bottom: 16px;
     }
 
-    #carousel {
+    #image-array figure {
+      display: inline-block;
+      height: 110px;
+      margin-right: 6px;
+      text-align: center;
+    }
+
+    #image-array figcaption {
+      font-family: monospace;
+    }
+
+    #image-array img {
+      display: block;
+      height: 100px;
+      margin: 0 auto 6px auto;
+      border: 1px solid white;
+      border-radius: 15px;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    #carousel { display:none;
       margin: 16px 64px 16px 64px;
       padding: 16px 0 16px 0;
       border-top: 1px solid white;

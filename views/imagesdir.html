@@ -112,6 +112,7 @@
     // -----
     const dirlist = {{{dirlistJsonStr}}}; // ends up as Javascript object
     const showDir = () => {
+      let imageArray = [];
       let carousel = [];
       let listing = ['<table><tr>'];
       listing.push('<th>Actions</th>');
@@ -126,6 +127,14 @@
           date: datetime.toLocaleString().replace(/, (.):/,', 0$1:')
           }
         ))) continue;
+
+        imageArray.push(
+          '<figure>' +
+          '<img src="/{{{cfg.imagesDir}}}/' + name +
+          '" title="' + name +
+          '" onclick="submit{{cfg.carouselClick}}(\'' + name + '\');">' +
+          '<figcaption>' + name + '<br>' + datetime.toLocaleString() +'</figcaption>' +
+          '</figure>');
 
         carousel.push(
           '<div class="img-container"><img src="/{{{cfg.imagesDir}}}/' + name +
@@ -160,8 +169,13 @@
 
         elem = document.getElementById('listing');
         elem.innerHTML = listing.join('\n');
+
+        elem = document.getElementById('image-array');
+        elem.innerHTML = imageArray.join('\n');
       }
     };
+
+
     const submitDecrypt = (filename) => {
       const form = document.getElementById('decryptForm');
       form.setAttribute('action', `/decrypt/${filename}`);
@@ -194,8 +208,6 @@
    method="post" encType="multipart/form-data"></form>
 
   <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
-
-  <div id="carousel"></div>
 {{#cfg.inlineHelp}}
   <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
 {{/cfg.inlineHelp}}
@@ -210,6 +222,10 @@
     <input type="radio" id="date-filter" name="radio-filter" value="date" onchange="filter();"/>
     <label for="date-filter">date</label>
   </div>
+
+  <div id="image-array"></div>
+  <hr>
+  <div id="carousel"></div>
 {{#cfg.inlineHelp}}
   <p>Sort: click a column heading to sort</p>
 {{/cfg.inlineHelp}}
