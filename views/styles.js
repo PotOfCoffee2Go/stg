@@ -92,11 +92,6 @@ const styles = {
 
   imagesdir: `
   <style>
-    /* unvisited, visited, mouse over, selected link */
-    a:link { color: aliceblue; text-decoration: none; }
-    a:visited { color: aliceblue; text-decoration: none; }
-    a:hover { color: aliceblue; text-decoration: none; }
-    a:active { color: aliceblue; text-decoration: none; }
 
     .filter {
       margin-bottom: 16px;
