@@ -79,7 +79,16 @@ app.use((error, req, res, next) => {
   res.status(500).send('500: Internal Server Error ;(');
 });
 
-// Fire up the server!
-app.listen(cfg.listenPort, () => {
-  console.log('Steganography server listening on port:', cfg.listenPort);
-});
+// Open gpg keys database
+const { openKeyDb } = require('./src/keydb');
+openKeyDb()
+  .then((count) => {console.log(`GPG Key database ready - ${count} on file`)})
+  .then(() => {
+    // Fire up the server!
+    app.listen(cfg.listenPort, () => {
+      console.log('Steganography server listening on port:', cfg.listenPort);
+    });
+
+  });
+
+
