@@ -1,49 +1,23 @@
 const _projectdir = require('path').resolve(__dirname, '..');
 
-const { datastore } = require('nedb-promise');
-var db;
-
-const openKeyDb = async () => {
-  db = datastore({
-     filename: _projectdir + '/private/key.db',
-     autoload: true // so that we don't have to call loadDatabase()
-  })
-  return await db.count({});
-};
-
-const record = {
-  name: '',
-  email: '',
-  public: '',
-  private: ''
-};
-
-
-const parseBlock = (pgpblock) => {
-
-}
-
-const keydb = {
-  findByName: async (name) => {
-    let rec = await db.find({name});
-    return rec;
-  },
-  findByEmail: async (email) => {
-    let rec = await db.find({email});
-    return rec;
-  },
-  insert: async (pgpblock) => {
-
-  },
-  update: async (pgpblock) => {
-
-  },
-}
-
 const openpgp = require('openpgp');
+const { datastore } = require('nedb-promise');
+var db, cfg; // database and server configuration
 
+// ---- PGP block processing
 const pgp = {
-  // Receiver public key
+  // Generate a key
+  genkey: async (name, email, phrase) => {
+    const key = await openpgp.generateKey({
+        userIds: [{ name: name, email: email }], // you can pass multiple user IDs
+        rsaBits: 4096,                                              // RSA key size
+        passphrase: phrase // 'super long and hard to guess secret'           // protects the private key
+    });
+    console.log(key);
+    return key;
+  },
+
+  // Encrypt a text message
   encrypt: async (msg, publics, private, phrase) => {
     // Text message
     const message = msg; // 'Hello, World!';
@@ -89,15 +63,44 @@ const pgp = {
     });
     console.log(decrypted); // 'Hello, World!'
   },
+}
 
-  genkey: async (name, email, phrase) => {
-    const key = await openpgp.generateKey({
-        userIds: [{ name: name, email: email }], // you can pass multiple user IDs
-        rsaBits: 4096,                                              // RSA key size
-        passphrase: phrase // 'super long and hard to guess secret'           // protects the private key
-    });
-    console.log(key);
-    return key;
+// ---- PGP key storage
+const openKeyDb = async (config) => {
+  cfg = config;
+  db = datastore({
+     filename: _projectdir + '/private/key.db',
+     autoload: true // so that we don't have to call loadDatabase()
+  })
+  return await db.count({});
+};
+
+const record = {
+  name: '',
+  email: '',
+  public: '',
+  private: ''
+};
+
+
+const parseBlock = (pgpblock) => {
+
+}
+
+const keydb = {
+  findByName: async (name) => {
+    let rec = await db.find({name});
+    return rec;
+  },
+  findByEmail: async (email) => {
+    let rec = await db.find({email});
+    return rec;
+  },
+  insert: async (pgpblock) => {
+
+  },
+  update: async (pgpblock) => {
+
   },
 }
 

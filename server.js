@@ -81,7 +81,7 @@ app.use((error, req, res, next) => {
 
 // Open gpg keys database
 const { openKeyDb } = require('./src/keydb');
-openKeyDb()
+openKeyDb(cfg)
   .then((count) => {console.log(`GPG Key database ready - ${count} on file`)})
   .then(() => {
     // Fire up the server!
