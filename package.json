@@ -21,6 +21,7 @@
     "express-fileupload": "^1.1.9",
     "mustache": "^4.1.0",
     "nedb-promise": "^2.0.1",
+    "openpgp": "^4.10.9",
     "yargs": "^16.2.0"
   }
 }
