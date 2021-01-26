@@ -7,9 +7,9 @@ var db, cfg; // database and server configuration
 // ---- PGP block processing
 const pgp = {
   // Generate a key
-  genkey: async (name, email, phrase) => {
+  genkey: async (name, email, comment, phrase) => {
     const key = await openpgp.generateKey({
-        userIds: [{ name: name, email: email }], // you can pass multiple user IDs
+        userIds: [{ name, email, comment }], // you can pass multiple user IDs
         rsaBits: 4096,                                              // RSA key size
         passphrase: phrase // 'super long and hard to guess secret'           // protects the private key
     });

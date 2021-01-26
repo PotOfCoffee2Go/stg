@@ -4,8 +4,8 @@ const { cfg } = require('./config');
 const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encrypted images
 const { viewImagesDir } = require('./src/imagesdir');
-// Directory listing of stored encrypted images
-const { viewKeys } = require('./src/keys');
+// Stored encrypted keys
+const { viewKeys, genPrimaryKey } = require('./src/keys');
 // Render views
 const { render, renderError } = require('./src/render');
 
@@ -57,6 +57,7 @@ app.get(['/','/index','/index.html'], (req, res) => {
 app.post('/encrypt', (req, res) => encryptImage(cfg, req, res));
 app.post('/decrypt/:imagename?', (req, res) => decryptImage(cfg, req, res, 'stegano'));
 app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmessage'));
+app.post('/genkey', (req, res) => genPrimaryKey(cfg, req, res));
 
 // Display custom directory listing of stored embedded images
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));

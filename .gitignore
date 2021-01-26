@@ -4,5 +4,7 @@ node_modules/
 # uploads is temp directory
 uploads/
 
-# private holds PGP keys
-private/
+# PGP keys
+keys/primary
+keys/public
+

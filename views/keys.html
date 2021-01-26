@@ -37,6 +37,11 @@ function makeid(length, upper = true, lower = true, digit = true) {
   return result;
 }
 
+submitGenKeys = () => {
+  const form = document.getElementById('genKeysForm');
+  form.submit();
+}
+
 onload = () => {
   document.getElementById('keyname').value = makeid(10);
   document.getElementById('keyemail').value =
@@ -67,7 +72,7 @@ onload = () => {
   <br>See Docs for further details.</p>
 {{/cfg.inlineHelp}}
   <div class="left-side box">
-    <form name="genKeysForm" id="genKeysForm" action="/decrypt???" method="post" encType="multipart/form-data">
+    <form name="genKeysForm" id="genKeysForm" action="/genkey" method="post" encType="multipart/form-data">
     Passphrase to decrypt the keys from their images<br>
     <input type="text" name="imgpassphrase" form="genKeysForm" value="{{{cfg.passphrase}}}" />
     <br>Passsphase for the Private key<br>
@@ -78,15 +83,6 @@ onload = () => {
     <input type="text" id="keyemail" name="keyemail" form="genKeysForm" value="" />
     <br>Optional comment to be included in key<br>
     <textarea name="keycomment" form="genKeysForm"></textarea>
-    Can leave ('Choose file') as 'No file chosen' to use the default key image(s)<br>
-    <span>Public&nbsp; key image </span><input type="file" name="publicImageFile" accept=".png,.jpg,.bmp,.tiff" />
-    <br>
-    <span>Private key image </span><input type="file" name="privateImageFile" accept=".png,.jpg,.bmp,.tiff" />
-{{#cfg.askurl}}
-      <br>
-      or image web address:
-      <input type="text" name="sampleUrlFile" />
-{{/cfg.askurl}}
     </form>
     <button onclick="submitGenKeys();">Create keys</button>
   </div>
