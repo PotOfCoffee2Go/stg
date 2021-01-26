@@ -67,6 +67,19 @@ const cfg = {
   // Code highlightjs styles - see https://highlightjs.org/static/demo/
   highlightcss: 'agate.min.css',
 
+// ------ OpenPGP options
+
+  // Primary key settings
+  key: {
+    passphrase: 'long and hard to guess secret passphrase',
+    primary: {
+      publicKeyImage: __dirname + '/keys/primary/publicKey',
+      privateKeyImage: __dirname + '/keys/primary/privateKey',
+      publicDefaultImage: __dirname + '/keys/primary/publicImage.png',
+      privateDefaultImage: __dirname + '/keys/primary/privateImage.png',
+    },
+    publicDir: __dirname + '/keys/public'
+  }
 }
 
 // ------ HTML to include in web pages

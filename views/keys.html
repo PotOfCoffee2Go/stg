@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Stegano</title>
+  <meta name="generator" content="Geany 1.33" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+  {{{cfg.head}}}
+
+  {{{cfg.theme}}}
+
+  {{{cfg.styles.index}}}
+
+<style>
+  p {
+    width: 50%;
+  }
+</style>
+
+</head>
+<script>
+
+// Modified:
+//  https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+function makeid(length, upper = true, lower = true, digit = true) {
+  var result           = '';
+  var characters       = '';
+  if (upper) characters += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if (lower) characters += 'abcdefghijklmnopqrstuvwxyz';
+  if (digit) characters += '0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+onload = () => {
+  document.getElementById('keyname').value = makeid(10);
+  document.getElementById('keyemail').value =
+    makeid(10, false) + '@' + makeid(10, false) + '.net';
+}
+</script>
+
+<body>
+  {{{cfg.logo}}}
+  {{{cfg.heading}}}
+
+  <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
+
+  <h3>Generate new primary public and private key images:</h3>
+  <p>Messages encrypted and embedded into images do not require OpenPGP
+  primary keys. However, OpenPGP can be used for additional levels of encryption,
+  specify receipients that can decrypt, signing messages, and verify messages
+  have not been altered.
+  <br>
+  If you <span style="font-family: monospace; font-size: 1.2em;">do not</span>
+  wish to use the added security, just press the 'Create keys'
+  button below and a default key will be generated to uniquely identify
+  the server.</p>
+{{#cfg.inlineHelp}}
+  <p>Key passphrases are encrypted using the server's master passphrase.
+  <br>Primary keys can only be created once and are bound to the server.
+  <br>Generally is easier to install a new server than to change existing keys.
+  <br>See Docs for further details.</p>
+{{/cfg.inlineHelp}}
+  <div class="left-side box">
+    <form name="genKeysForm" id="genKeysForm" action="/decrypt???" method="post" encType="multipart/form-data">
+    Passphrase to decrypt the keys from their images<br>
+    <input type="text" name="imgpassphrase" form="genKeysForm" value="{{{cfg.passphrase}}}" />
+    <br>Passsphase for the Private key<br>
+    <input type="text" name="keypassphrase" form="genKeysForm" value="{{{cfg.key.passphrase}}}" />
+    <br>Name, nickname, handle, or identity<br>
+    <input type="text" id="keyname" name="keyname" form="genKeysForm" value="" />
+    <br>Email, can be real or fake but needs to be formatted to look like one<br>
+    <input type="text" id="keyemail" name="keyemail" form="genKeysForm" value="" />
+    <br>Optional comment to be included in key<br>
+    <textarea name="keycomment" form="genKeysForm"></textarea>
+    Can leave ('Choose file') as 'No file chosen' to use the default key image(s)<br>
+    <span>Public&nbsp; key image </span><input type="file" name="publicImageFile" accept=".png,.jpg,.bmp,.tiff" />
+    <br>
+    <span>Private key image </span><input type="file" name="privateImageFile" accept=".png,.jpg,.bmp,.tiff" />
+{{#cfg.askurl}}
+      <br>
+      or image web address:
+      <input type="text" name="sampleUrlFile" />
+{{/cfg.askurl}}
+    </form>
+    <button onclick="submitGenKeys();">Create keys</button>
+  </div>
+  <div class="right-side"></div>
+
+  <div style="clear: both;"></div>
+{{#cfg.inlineHelp}}
+  <p>Not real long, but takes a bit of time to generate the keys.</p>
+{{/cfg.inlineHelp}}
+  <footer>{{{cfg.footer}}}</footer>
+</body>
+
+</html>

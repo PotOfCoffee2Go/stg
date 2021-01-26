@@ -4,6 +4,8 @@ const { cfg } = require('./config');
 const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encrypted images
 const { viewImagesDir } = require('./src/imagesdir');
+// Directory listing of stored encrypted images
+const { viewKeys } = require('./src/keys');
 // Render views
 const { render, renderError } = require('./src/render');
 
@@ -45,7 +47,7 @@ app.use(cors(cfg.corsOptions));
 app.use(fileUpload());
 
 // ------
-// Site specific pages
+// Site routes
 // Render index.html
 app.get(['/','/index','/index.html'], (req, res) => {
     render(cfg, res, pages.index, {});
@@ -58,6 +60,8 @@ app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmes
 
 // Display custom directory listing of stored embedded images
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
+// Display of stored keys
+app.get('/keys', (req, res) => viewKeys(cfg, req, res));
 
 // ------
 // Static assets
@@ -79,7 +83,7 @@ app.use((error, req, res, next) => {
   res.status(500).send('500: Internal Server Error ;(');
 });
 
-// Open gpg keys database
+// Open pcp keys database
 const { openKeyDb } = require('./src/keydb');
 openKeyDb(cfg)
   .then((count) => {console.log(`GPG Key database ready - ${count} on file`)})

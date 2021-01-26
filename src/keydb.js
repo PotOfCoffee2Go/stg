@@ -69,7 +69,7 @@ const pgp = {
 const openKeyDb = async (config) => {
   cfg = config;
   db = datastore({
-     filename: _projectdir + '/private/key.db',
+     filename: _projectdir + '/keys/key.db',
      autoload: true // so that we don't have to call loadDatabase()
   })
   return await db.count({});
