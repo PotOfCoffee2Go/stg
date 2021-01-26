@@ -40,6 +40,12 @@
   if (payload.type === 'plain') {
     msg = '<pre>' + mkdwn.utils.escapeHtml(payload.message) + '</pre>';
   }
+  else if (payload.type === 'key') {
+    let parsed = JSON.parse(msg);
+    let info = ['"' + parsed.name + '"', parsed.comment, '<' + parsed.email + '>'].join(' ');
+    let block = parsed.keyarmored.replace(/\\r\\\n/g, '<br>');
+    msg = '<pre>' + info + '<br><br>' + block + '</pre>';
+  }
   else if (payload.type === 'markdown') {
     msg = mkdwn.render(payload.message);
   }

@@ -23,7 +23,7 @@ const embedKey = async (srcpath, dstpath, payload, pw) => {
 
 // Construct keys and imbed in images
 const postData = async (cfg, req) => {
-  let type = 'plain';
+  let type = 'key';
   let keys = await pgp.genkey(req.body.keyname, req.body.keyemail, req.body.keycomment);
   let keyinfo = {
     name: req.body.keyname, email: req.body.keyemail, comment: req.body.keycomment,
