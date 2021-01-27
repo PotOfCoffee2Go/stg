@@ -15,6 +15,7 @@ const fs = require('fs');
 cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 console.log('Home   directory:', cfg.homeDir);
 console.log('Images directory:', cfg.homeDir + '/public/' + cfg.imagesDir);
+console.log('Keys   directory:', cfg.key.publicDir);
 
 // Clear uploads directory
 try {
