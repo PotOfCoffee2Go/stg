@@ -35,8 +35,7 @@ const postData = async (cfg, req) => {
   await embedKey(
     cfg.key.primary.publicDefaultImage,
     cfg.key.primary.publicKeyImage,
-    payload,
-    req.body.imgpassphrase);
+    payload,'');
 
   keyinfo.keyarmored = keys.privateKeyArmored;
   message = JSON.stringify(keyinfo, null, 2);
@@ -44,8 +43,7 @@ const postData = async (cfg, req) => {
   await embedKey(
     cfg.key.primary.privateDefaultImage,
     cfg.key.primary.privateKeyImage,
-    payload,
-    req.body.imgpassphrase);
+    payload,'');
 }
 
 

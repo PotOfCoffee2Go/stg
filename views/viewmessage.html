@@ -42,7 +42,8 @@
   }
   else if (payload.type === 'key') {
     let parsed = JSON.parse(msg);
-    let info = ['"' + parsed.name + '"', parsed.comment, '<' + parsed.email + '>'].join(' ');
+    let info = ['"' + parsed.name + '"', parsed.comment,
+      mkdwn.utils.escapeHtml('<' + parsed.email + '>')].join(' ');
     let block = parsed.keyarmored.replace(/\\r\\\n/g, '<br>');
     msg = '<pre>' + info + '<br><br>' + block + '</pre>';
   }
