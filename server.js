@@ -3,7 +3,7 @@ const { cfg } = require('./config');
 // En(De)crypt text and embed/extract to/from images
 const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encrypted images
-const { viewImagesDir } = require('./src/imagesdir');
+const { viewImagesDir, viewKeysDir  } = require('./src/viewdirs');
 // Stored encrypted keys
 const { viewKeys, genPrimaryKey } = require('./src/keys');
 // Render views
@@ -62,6 +62,8 @@ app.post('/genkey', (req, res) => genPrimaryKey(cfg, req, res));
 
 // Display custom directory listing of stored embedded images
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
+// Display custom directory listing of public keys
+app.get('/keysdir', (req, res) => viewKeysDir(cfg, req, res));
 // Display of stored keys
 app.get('/keys', (req, res) => viewKeys(cfg, req, res));
 
