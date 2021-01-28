@@ -8,3 +8,5 @@ uploads/
 keys/primary
 keys/public
 
+# Public keys - might want to comment out
+public/keys

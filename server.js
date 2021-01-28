@@ -5,7 +5,7 @@ const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encrypted images
 const { viewImagesDir, viewKeysDir  } = require('./src/viewdirs');
 // Stored encrypted keys
-const { viewKeys, genPrimaryKey } = require('./src/keys');
+const { promptPrimaryKeys, genPrimaryKeys } = require('./src/primarykeys');
 // Render views
 const { render, renderError } = require('./src/render');
 
@@ -60,14 +60,14 @@ app.get(['/','/index','/index.html'], (req, res) => {
 app.post('/encrypt', (req, res) => encryptImage(cfg, req, res));
 app.post('/decrypt/:imagename?', (req, res) => decryptImage(cfg, req, res, 'stegano'));
 app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmessage'));
-app.post('/genkey', (req, res) => genPrimaryKey(cfg, req, res));
 
 // Display custom directory listings public keys and embedded images
 app.get('/keysdir', (req, res) => viewKeysDir(cfg, req, res));
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
-// Display of stored keys
-app.get('/keys', (req, res) => viewKeys(cfg, req, res));
+// Display and generation of primary keys
+app.get('/genkeys', (req, res) => promptPrimaryKeys(cfg, req, res));
+app.post('/genkeys', (req, res) => genPrimaryKeys(cfg, req, res));
 
 // ------
 // Static assets
@@ -97,8 +97,7 @@ openKeyDb(cfg)
     // Fire up the server!
     app.listen(cfg.listenPort, () => {
       console.log('Steganography server listening on port:', cfg.listenPort);
-    });
-
+    })
   });
 
 

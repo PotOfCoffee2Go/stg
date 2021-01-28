@@ -85,8 +85,8 @@ const cfg = {
     primary: {
       publicKeyImage: __dirname + '/keys/primary/public_key.png',
       privateKeyImage: __dirname + '/keys/primary/private_key.png',
-      publicDefaultImage: __dirname + '/keys/default/public_key.png',
-      privateDefaultImage: __dirname + '/keys/default/private_key.png',
+      publicDefaultImage: __dirname + '/keys/images/public_key.png',
+      privateDefaultImage: __dirname + '/keys/images/private_key.png',
     },
     publicDir: __dirname + '/keys/public'
   }

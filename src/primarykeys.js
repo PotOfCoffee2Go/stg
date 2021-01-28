@@ -12,7 +12,7 @@ const { pgp } = require('./keydb');
 
 // Load keys page template on starup
 const pages = {
-  keys: fs.readFileSync(_projectdir + '/views/keys.html', { encoding: 'utf8' }),
+  promptprimarykeys: fs.readFileSync(_projectdir + '/views/promptprimarykeys.html', { encoding: 'utf8' }),
 };
 
 const embedKey = async (srcpath, dstpath, payload, pw) => {
@@ -21,7 +21,7 @@ const embedKey = async (srcpath, dstpath, payload, pw) => {
   fs.writeFileSync(dstpath, buffer);
 }
 
-// Construct keys and imbed in images
+// Construct keys and embed in images
 const postData = async (cfg, req) => {
   let type = 'key';
   let keys = await pgp.genkey(req.body.keyname, req.body.keyemail, req.body.keycomment);
@@ -47,15 +47,15 @@ const postData = async (cfg, req) => {
 }
 
 
-const viewKeys = (cfg, req, res) => {
-  return render(cfg, res, pages.keys, {  });
+const promptPrimaryKeys = (cfg, req, res) => {
+  return render(cfg, res, pages.promptprimarykeys, {  });
 }
 
-const genPrimaryKey = (cfg, req, res) => {
+const genPrimaryKeys = (cfg, req, res) => {
   postData(cfg, req);
   return renderError(cfg, res, 'made it');
 }
 
-exports.viewKeys = viewKeys;
-exports.genPrimaryKey = genPrimaryKey;
+exports.promptPrimaryKeys = promptPrimaryKeys;
+exports.genPrimaryKeys = genPrimaryKeys;
 
