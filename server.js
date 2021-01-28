@@ -12,10 +12,12 @@ const { render, renderError } = require('./src/render');
 // ------
 // Directory maintenance on server startup
 const fs = require('fs');
+cfg.keysDir = cfg.keysDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 console.log('Home   directory:', cfg.homeDir);
 console.log('Images directory:', cfg.homeDir + '/public/' + cfg.imagesDir);
-console.log('Keys   directory:', cfg.key.publicDir);
+console.log('Keys   directory:', cfg.homeDir + '/public/' + cfg.keysDir);
+//console.log('Keys   directory:', cfg.key.publicDir);
 
 // Clear uploads directory
 try {
@@ -23,7 +25,7 @@ try {
 } catch (e) {}
 
 // Insure working directories exist
-['/public/' + cfg.imagesDir, '/uploads']
+['/public/' + cfg.imagesDir, '/public/' + cfg.keysDir, '/uploads']
 .forEach(dir => {
   try {
     fs.mkdirSync(cfg.homeDir + dir, { recursive: true })
@@ -60,10 +62,10 @@ app.post('/decrypt/:imagename?', (req, res) => decryptImage(cfg, req, res, 'steg
 app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmessage'));
 app.post('/genkey', (req, res) => genPrimaryKey(cfg, req, res));
 
-// Display custom directory listing of stored embedded images
-app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
-// Display custom directory listing of public keys
+// Display custom directory listings public keys and embedded images
 app.get('/keysdir', (req, res) => viewKeysDir(cfg, req, res));
+app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
+
 // Display of stored keys
 app.get('/keys', (req, res) => viewKeys(cfg, req, res));
 

@@ -34,6 +34,16 @@ const cfg = {
   // Display help/hints in web pages
   inlineHelp: true,
 
+// ------ Public Keys Options
+
+  // Subdirectory path in 'public' to hold the public keys
+  // Do not include '/public/' - just the subdirectory path
+  // ex: 'keys', 'keys/mine', 'friends'
+  keysDir: 'keys',
+
+  // Allow overwriting of existing public keys
+  keysOverwrite: true,
+
 // ------ Image Options
 
   // Subdirectory path in 'public' to hold the encrypted images

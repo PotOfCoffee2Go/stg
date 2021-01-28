@@ -159,6 +159,76 @@ const styles = {
     }
   </style>
   `,
+
+  keysdir: `
+  <style>
+
+    .filter {
+      margin-bottom: 16px;
+    }
+
+    #image-array figure {
+      display: inline-block;
+      height: 110px;
+      margin-right: 6px;
+      text-align: center;
+    }
+
+    #image-array figcaption {
+      font-family: monospace;
+    }
+
+    #image-array img {
+      display: block;
+      height: 100px;
+      margin: 0 auto 6px auto;
+      border: 1px solid white;
+      border-radius: 15px;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    #carousel { display:none;
+      margin: 16px 64px 16px 64px;
+      padding: 16px 0 16px 0;
+      border-top: 1px solid white;
+      border-bottom: 1px solid white;
+    }
+
+    #carousel img {
+      height: 100px;
+      margin-right: 6px;
+      border: 1px solid white;
+      border-radius: 15px;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    #carousel .img-container { margin: auto; }
+
+    #carousel div:focus { outline: none; }
+
+    input[name="passphrase"] {
+       width: 35%;
+    }
+
+    table {
+      font-family: monospace;
+    }
+    th {
+      min-width: 110px;
+    }
+    td {
+      padding-right: 10px;
+    }
+    td button {
+      margin-right: 2px;
+    }
+    #filter {
+     width: 100px;
+    }
+  </style>
+  `,
 }
 
 exports.styles = styles;
