@@ -90,14 +90,14 @@ app.use((error, req, res, next) => {
 });
 
 // Open pcp keys database
-const { openKeyDb } = require('./src/keydb');
-openKeyDb(cfg)
-  .then((count) => {console.log(`GPG Key database ready - ${count} on file`)})
-  .then(() => {
+//const { openKeyDb } = require('./src/keydb');
+//openKeyDb(cfg)
+//  .then((count) => {console.log(`GPG Key database ready - ${count} on file`)})
+//  .then(() => {
     // Fire up the server!
     app.listen(cfg.listenPort, () => {
       console.log('Steganography server listening on port:', cfg.listenPort);
     })
-  });
+//  });
 
 
