@@ -16,6 +16,8 @@
 <style>
   p {
     width: 50%;
+    padding-left: .7em;
+    border-radius: 10px;
   }
 </style>
 
@@ -54,22 +56,67 @@ onload = () => {
   {{{cfg.heading}}}
 
   <input type="button" value="Messages" onclick="window.location.href='/imagesdir'">
-  <p>Welcome to steganoserver!
-  <br>Before you can start sending secret messages hidden in-plain-site images, a
-  set of keys need to be built to prevent unwanted eyes viewing your messages.</p>
+  <h3>Welcome to steganoserver!</h3>
+  <p>Before you can start sending secret messages hidden in-plain-site images, a
+  lockbox and your personal keys need to be built to prevent unwanted eyes from
+  viewing your messages. Also, note that others need to install steganoserver in
+  order to exchange messages with you.</p>
+
+  <h4>Keys</h4>
  <div>
   <p><img style="height: 3em;width: auto;float:left;border-radius: 15px;margin-right:1em;" src="/assets/private_key.png">
   <img style="height: 3em;width: auto;float:right;border-radius: 15px;margin-left:1em;" src="/assets/public_key.png">
-  The first key is 'private' (pink) and only you have that one. The second key
-  is 'public' (blue) which you exchange with friends. You send/post your public key,
-  they send/post theirs. They download yours, You download theirs.</p>
-
-  <p><img style="height: 3em;width: auto;float:left;border-radius: 10px;margin-right:1em;" src="/assets/key-1242056_640.jpg">
-  Your friends public keys are placed on your key ring. The key ring is used
-  to embed scrambled messages into images. Using key ring(s), you can select which
-  friend(s) can unscramble a given message. Now you can secretly message each other
-  by embedding scrambled messages into other images.</p>
+  There are two keys required to scramble (encrypt and decrypt) messages. The private
+  (pink) key which only you have, and a public (blue) key which you exchange
+  with friends. The private key is safely tucked away and you can pretty much
+  ignore it - though you can view it if you wish.
+  <br>On the other hand, you would send the image of the public key to your friends.
+  Likewise, they send theirs to you. This can be done safely over unsecure networks,
+  social media, cell, email, sneaker.net, etc.</p>
   </div>
+
+  <h4>Lockboxes</h4>
+  <p><img style="height: 5em;width: auto;float:right; margin-left:1em;" src="/assets/chest-2884250_640.png">
+  A lockbox contains a set of keys (a keyring), as well as the images in which that
+  keyring was used to hide messages. You can create as many lockboxes as you want allowing
+  differing groups of recipients.
+  <br>To open a lockbox requires a phrase which
+  is magically bound to the box. The phase can not be changed and the lockbox
+  can not be opened without it. Both the sender and recipient(s) need to know
+  the phrase to open the lockbox.
+  <br>Note that even if one knows the lockbox phrase - each image in the box
+  still requires proper keys to unscramble the messages contained within.</p>
+
+  <h4>Keyrings</h4>
+  <p><img style="height: 3em;width: auto;float:left;border-radius: 10px;margin-right:1em;" src="/assets/key-1242056_640.jpg"></p>
+  <p>When an image contains someones public key you will be given the opportunity
+  to place the key in any lockboxes that you wish. Thus the key will be added
+  to each selected lockbox's keyring.
+  <br>When you put a message (with image) in a lockbox, the message is scrambled,
+  signed, and embedded into the image such that the resulting image can be sent
+  safely; knowing that only the people on the keyring can unscramble it and only
+  if they have your public key, and firstly know the phrase needed to unlock the box.</p>
+
+  <h4>Signing</h4>
+  <p>All messages are signed using the senders keys. This verifies who created
+  the message and insures the message has not been altered.
+
+  <h4>Lockbox phrase</h4>
+  <p><img style="height: 3em;width: auto;float:left;border-radius: 10px;margin-right:1em;" src="/assets/chest-2536477_640.png">
+  Each lockbox has a name which is added to scrambled images filenames.
+  This helps recipients identify images containing messages. The first time
+  an image in a lockbox is unscrambled the system will ask for the lockbox phrase.
+  If is successsful then the phrase is encrypted and stored for future messages,
+  <br>Each Lockbox has a special ability to send it's phrase to others without
+  (obviouly) requiring it to be unlocked by the recipients. Only the creator
+  can send it, and only to people currently on it's keyring.</p>
+
+  <h3>Master passphrase</h3>
+  <p>The master passphrase is the one that rules them all. This phrase is used
+  </p>
+  <p>Messsages created </p>
+  <p><input type="text" name="passphrase" form="genKeysForm" value="{{{cfg.passphrase}}}" </p>
+  <p>This</p>
   <h3>Generate your public and private keys</h3>
   <p>So let's begin with a few questions needed to make your keys...</p>
   <div class="left-side box">
