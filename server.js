@@ -3,7 +3,7 @@ const { cfg } = require('./config');
 // En(De)crypt text and embed/extract to/from images
 const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encrypted images
-const { viewImagesDir, viewKeysDir  } = require('./src/viewdirs');
+const { viewImagesDir, viewKeysDir, viewBoxesDir  } = require('./src/viewdirs');
 // Stored encrypted keys
 const { promptPrimaryKeys, genPrimaryKeys } = require('./src/primarykeys');
 // Render views
@@ -17,6 +17,7 @@ cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 console.log('Home   directory:', cfg.homeDir);
 console.log('Images directory:', cfg.homeDir + '/public/' + cfg.imagesDir);
 console.log('Keys   directory:', cfg.homeDir + '/public/' + cfg.keysDir);
+console.log('Lockboxes directory:', cfg.homeDir + '/public/' + cfg.lockboxesDir);
 //console.log('Keys   directory:', cfg.key.publicDir);
 
 // Clear uploads directory
@@ -25,7 +26,8 @@ try {
 } catch (e) {}
 
 // Insure working directories exist
-['/public/' + cfg.imagesDir, '/public/' + cfg.keysDir, '/uploads']
+['/public/' + cfg.imagesDir, '/public/' + cfg.keysDir,
+  '/public/' + cfg.lockboxesDir, '/uploads']
 .forEach(dir => {
   try {
     fs.mkdirSync(cfg.homeDir + dir, { recursive: true })
@@ -63,6 +65,7 @@ app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmes
 
 // Display custom directory listings public keys and embedded images
 app.get('/keysdir', (req, res) => viewKeysDir(cfg, req, res));
+app.get('/boxesdir', (req, res) => viewBoxesDir(cfg, req, res));
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
 // Display and generation of primary keys

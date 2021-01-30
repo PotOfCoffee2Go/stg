@@ -10,7 +10,7 @@
 
   {{{cfg.theme}}}
 
-  {{{cfg.styles.imagesdir}}}
+  {{{cfg.styles.keysdir}}}
 
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
@@ -130,14 +130,14 @@
 
         imageArray.push(
           '<figure>' +
-          '<img src="/{{{cfg.imagesDir}}}/' + name +
+          '<img src="/{{{cfg.lockboxesDir}}}/' + name +
           '" title="' + name +
           '" onclick="submit{{cfg.carouselClick}}(\'' + name + '\');">' +
           '<figcaption>' + name + '<br>' + datetime.toLocaleString() +'</figcaption>' +
           '</figure>');
 
         carousel.push(
-          '<div class="img-container"><img src="/{{{cfg.imagesDir}}}/' + name +
+          '<div class="img-container"><img src="/{{{cfg.lockboxesDir}}}/' + name +
           '" title="' + name +
           '" onclick="submit{{cfg.carouselClick}}(\'' + name +
           '\');"></div>');
@@ -146,7 +146,7 @@
           '<button onclick="submitView(\'' + name + '\');">read</button>' +
           '<button onclick="submitDecrypt(\'' + name + '\');">decrypt</button></td>'
 
-        name = `<td><a href="/{{{cfg.imagesDir}}}/${name}">${name}</a></td>`;
+        name = `<td><a href="/{{{cfg.lockboxesDir}}}/${name}">${name}</a></td>`;
         size = `<td><span>${formatBytes(size)}</span></td>`;
         mtime = `<td><span>${datetime.toLocaleString().replace(/, (.):/,', 0$1:')}</span></td>`;
         listing.push('<tr>' + actions + name + size + mtime + '</tr>');
@@ -202,14 +202,14 @@
   {{{cfg.heading}}}
   <input type="button" value="<= Go back" onclick="history.back()">
   <input type="button" value="Home" onclick="window.location.href='/';">
+  <input type="button" value="Messages" onclick="window.location.href='/imagesdir'">
   <input type="button" value="Keys" onclick="window.location.href='/keysdir'">
-  <input type="button" value="Lockboxes" onclick="window.location.href='/boxesdir'">
 
   <!-- A form so we can POST our request -->
   <form ref="decryptForm" id="decryptForm" action="/decrypt"
    method="post" encType="multipart/form-data"></form>
 
-  <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
+  <input type="text" name="passphrase" form="decryptForm" style="display: none;" value="" />
 {{#cfg.inlineHelp}}
   <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
 {{/cfg.inlineHelp}}

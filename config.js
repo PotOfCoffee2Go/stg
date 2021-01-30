@@ -44,6 +44,16 @@ const cfg = {
   // Allow overwriting of existing public keys
   keysOverwrite: true,
 
+// ------ Lockbox Options
+
+  // Subdirectory path in 'public' to hold the public keys
+  // Do not include '/public/' - just the subdirectory path
+  // ex: 'keys', 'keys/mine', 'friends'
+  lockboxesDir: 'lockboxes',
+
+  // Allow overwriting of existing public keys
+  lockboxesOverwrite: true,
+
 // ------ Image Options
 
   // Subdirectory path in 'public' to hold the encrypted images
