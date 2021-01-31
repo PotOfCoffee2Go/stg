@@ -12,7 +12,7 @@ const { pgp } = require('./keydb');
 
 // Load keys page template on starup
 const pages = {
-  promptprimarykeys: fs.readFileSync(_projectdir + '/views/promptprimarykeys.html', { encoding: 'utf8' }),
+  promptlockbox: fs.readFileSync(_projectdir + '/views/promptlockbox.html', { encoding: 'utf8' }),
 };
 
 const embedKey = async (srcpath, dstpath, payload, pw) => {
@@ -23,7 +23,7 @@ const embedKey = async (srcpath, dstpath, payload, pw) => {
 
 // Construct keys and embed in images
 const postData = async (cfg, req) => {
-  let type = 'key';
+  let type = 'box';
   let keys = await pgp.genkey(req.body.keyname, req.body.keyemail, req.body.keycomment);
   let keyinfo = {
     name: req.body.keyname, email: req.body.keyemail, comment: req.body.keycomment,
@@ -47,15 +47,15 @@ const postData = async (cfg, req) => {
 }
 
 
-const promptPrimaryKeys = (cfg, req, res) => {
-  return render(cfg, res, pages.promptprimarykeys, {  });
+const promptLockbox = (cfg, req, res) => {
+  return render(cfg, res, pages.promptlockbox, {  });
 }
 
-const genPrimaryKeys = (cfg, req, res) => {
+const genLockbox = (cfg, req, res) => {
   postData(cfg, req);
   return renderError(cfg, res, 'made it');
 }
 
-exports.promptPrimaryKeys = promptPrimaryKeys;
-exports.genPrimaryKeys = genPrimaryKeys;
+exports.promptLockbox = promptLockbox;
+exports.genLockbox = genLockbox;
 

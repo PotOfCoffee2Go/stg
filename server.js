@@ -7,7 +7,7 @@ const { viewImagesDir, viewKeysDir, viewBoxesDir  } = require('./src/viewdirs');
 // Stored encrypted keys
 const { promptPrimaryKeys, genPrimaryKeys } = require('./src/primarykeys');
 // Stored encrypted lockboxes
-const { promptLockBoxes, genLockBoxes } = require('./src/lockboxes');
+const { promptLockBox, genLockBox } = require('./src/lockbox');
 // Render views
 const { render, renderError } = require('./src/render');
 
@@ -74,8 +74,8 @@ app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 app.get('/genkeys', (req, res) => promptPrimaryKeys(cfg, req, res));
 app.post('/genkeys', (req, res) => genPrimaryKeys(cfg, req, res));
 // Prompt and generation of lockboxes
-app.get('/genboxes', (req, res) => promptLockboxes(cfg, req, res));
-app.post('/genboxes', (req, res) => genLockboxes(cfg, req, res));
+app.get('/genbox', (req, res) => promptLockbox(cfg, req, res));
+app.post('/genbox', (req, res) => genLockbox(cfg, req, res));
 
 // ------
 // Static assets
