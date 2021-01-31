@@ -6,6 +6,8 @@ const { encryptImage, decryptImage } = require('./src/stegano');
 const { viewImagesDir, viewKeysDir, viewBoxesDir  } = require('./src/viewdirs');
 // Stored encrypted keys
 const { promptPrimaryKeys, genPrimaryKeys } = require('./src/primarykeys');
+// Stored encrypted lockboxes
+const { promptLockBoxes, genLockBoxes } = require('./src/lockboxes');
 // Render views
 const { render, renderError } = require('./src/render');
 
@@ -14,10 +16,10 @@ const { render, renderError } = require('./src/render');
 const fs = require('fs');
 cfg.keysDir = cfg.keysDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
-console.log('Home   directory:', cfg.homeDir);
-console.log('Images directory:', cfg.homeDir + '/public/' + cfg.imagesDir);
-console.log('Keys   directory:', cfg.homeDir + '/public/' + cfg.keysDir);
-console.log('Lockboxes directory:', cfg.homeDir + '/public/' + cfg.lockboxesDir);
+console.log('Home:      ', cfg.homeDir);
+console.log('Images:    ', cfg.homeDir + '/public/' + cfg.imagesDir);
+console.log('Keys:      ', cfg.homeDir + '/public/' + cfg.keysDir);
+console.log('Lockboxes: ', cfg.homeDir + '/public/' + cfg.lockboxesDir);
 //console.log('Keys   directory:', cfg.key.publicDir);
 
 // Clear uploads directory
@@ -68,9 +70,12 @@ app.get('/keysdir', (req, res) => viewKeysDir(cfg, req, res));
 app.get('/boxesdir', (req, res) => viewBoxesDir(cfg, req, res));
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
-// Display and generation of primary keys
+// Prompt and generation of primary keys
 app.get('/genkeys', (req, res) => promptPrimaryKeys(cfg, req, res));
 app.post('/genkeys', (req, res) => genPrimaryKeys(cfg, req, res));
+// Prompt and generation of lockboxes
+app.get('/genboxes', (req, res) => promptLockboxes(cfg, req, res));
+app.post('/genboxes', (req, res) => genLockboxes(cfg, req, res));
 
 // ------
 // Static assets
