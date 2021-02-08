@@ -19,7 +19,7 @@
 
 const log = require('winston');
 const util = require('./util');
-const openpgp = require('openpgp');
+const openpgp = require('openpgp-db');
 
 const KEY_BEGIN = '-----BEGIN PGP PUBLIC KEY BLOCK-----';
 const KEY_END = '-----END PGP PUBLIC KEY BLOCK-----';
@@ -132,11 +132,13 @@ class PGP {
       if (userStatus !== openpgp.enums.keyStatus.invalid && user.userId && user.userId.userid) {
         try {
           const uid = openpgp.util.parseUserId(user.userId.userid);
+          console.log('>>>>\n', uid);
           if (util.isEmail(uid.email)) {
             // map to local user id object format
             result.push({
               status: userStatus,
               name: uid.name,
+              comment: uid.comment,
               email: util.normalizeEmail(uid.email),
               verified: false
             });
@@ -169,12 +171,13 @@ class PGP {
   async updateKey(srcArmored, dstArmored) {
     const {keys: [srcKey], err: srcErr} = await openpgp.key.readArmored(srcArmored);
     if (srcErr) {
-      log.error('pgp', 'Failed to parse source PGP key for update:\n%s', srcArmored, srcErr);
+      // log.error('pgp', 'Failed to parse source PGP key for update:\n%s', srcArmored, srcErr);
       util.throw(500, 'Failed to parse PGP key');
     }
+    console.log('dst >>>\n', dstArmored);
     const {keys: [dstKey], err: dstErr} = await openpgp.key.readArmored(dstArmored);
     if (dstErr) {
-      log.error('pgp', 'Failed to parse destination PGP key for update:\n%s', dstArmored, dstErr);
+      // log.error('pgp', 'Failed to parse destination PGP key for update:\n%s', dstArmored, dstErr);
       util.throw(500, 'Failed to parse PGP key');
     }
     await dstKey.update(srcKey);

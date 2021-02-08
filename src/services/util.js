@@ -1,4 +1,10 @@
 /**
+ * Modified - added encrypt/decrypt functions
+ * See https://github.com/attacomsian/code-examples
+ *  and https://attacomsian.com/blog/nodejs-encrypt-decrypt-data
+ * Modified by https://github.com/PotOfCoffee2Go
+ *
+ * Original util.js license:
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2016 Mailvelope GmbH
  *
@@ -115,55 +121,31 @@ exports.random = function(bytes) {
 };
 
 /**
- * Check if the user is connecting over a plaintext http connection.
- * This can be used as an indicator to upgrade their connection to https.
- * @param  {Object} ctx   The koa request/repsonse context
- * @return {boolean}      If http is used
+ * Generate a cryptographically secure hash of given text
+ * @param  {string} text   Data to be encrypted
+ * @param  {string} secret Secret phrase for encrption
+ * @return {object}        Encrypted hash of given text
  */
-exports.checkHTTP = function(ctx) {
-  return !ctx.secure && ctx.get('X-Forwarded-Proto') === 'http';
+exports.encrypt = (text, secret = 'vOVH6sdmpNWjrRIqCc7rdxs01lwHzfr3') => {
+    const algorithm = 'aes-256-ctr';
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(algorithm, secret, iv);
+    const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+    return {
+        iv: iv.toString('hex'),
+        content: encrypted.toString('hex')
+    };
 };
 
 /**
- * Check if the user is connecting over a https connection.
- * @param  {Object} ctx   The koa request/repsonse context
- * @return {boolean}      If https is used
+ * Decrypt a cryptographically secure hash
+ * @param  {object} hash   Hash created by encrypt()
+ * @param  {string} secret Secret phrase used when encrpted
+ * @return {string}        Text of given hash
  */
-exports.checkHTTPS = function(ctx) {
-  return ctx.secure || ctx.get('X-Forwarded-Proto') === 'https';
-};
-
-/**
- * Get the server's own origin host and protocol. Required for sending
- * verification links via email. If the PORT environmane variable
- * is set, we assume the protocol to be 'https', since the AWS loadbalancer
- * speaks 'https' externally but 'http' between the LB and the server.
- * @param  {Object} ctx   The koa request/repsonse context
- * @return {Object}       The server origin
- */
-exports.origin = function(ctx) {
-  return {
-    protocol: this.checkHTTPS(ctx) ? 'https' : ctx.protocol,
-    host: ctx.host
-  };
-};
-
-/**
- * Helper to create urls pointing to this server
- * @param  {Object} origin     The server's origin
- * @param  {string} resource   (optional) The resource to point to
- * @return {string}            The complete url
- */
-exports.url = function(origin, resource) {
-  return `${origin.protocol}://${origin.host}${resource || ''}`;
-};
-
-/**
- * Helper to create a url for hkp clients to connect to this server via
- * the hkp protocol.
- * @param  {Object} ctx   The koa request/repsonse context
- * @return {string}       The complete url
- */
-exports.hkpUrl = function(ctx) {
-  return (this.checkHTTPS(ctx) ? 'hkps://' : 'hkp://') + ctx.host;
+exports.decrypt = (hash, secret = 'vOVH6sdmpNWjrRIqCc7rdxs01lwHzfr3') => {
+    const algorithm = 'aes-256-ctr';
+    const decipher = crypto.createDecipheriv(algorithm, secret, Buffer.from(hash.iv, 'hex'));
+    const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash.content, 'hex')), decipher.final()]);
+    return decrpyted.toString();
 };

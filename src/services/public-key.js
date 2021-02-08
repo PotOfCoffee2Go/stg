@@ -1,4 +1,11 @@
 /**
+ * Inspired by https://github.com/mailvelope/keyserver public-keys.js
+ *
+ * Modified to use NeDB https://github.com/louischatriot/nedb
+ *   instead of Mongo database
+ * Modified by https://github.com/PotOfCoffee2Go
+ *
+ * Original public-key.js license:
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2016 Mailvelope GmbH
  *
@@ -16,10 +23,9 @@
  */
 
 'use strict';
-
-const config = require('config');
+const log = require('./logger');
+const config = require('./config');
 const util = require('./util');
-const tpl = require('../email/templates');
 
 /**
  * Database documents have the format:
@@ -42,34 +48,38 @@ const tpl = require('../email/templates');
  *   publicKeyArmored: '-----BEGIN PGP PUBLIC KEY BLOCK----- ... -----END PGP PUBLIC KEY BLOCK-----'
  * }
  */
-const DB_TYPE = 'publickey';
 const KEY_STATUS_VALID = 3;
 
 /**
- * A service that handlers PGP public keys queries to the database
+ * A service that handles PGP public keys queries to the database
  */
 class PublicKey {
   /**
    * Create an instance of the service
    * @param {Object} pgp       An instance of the OpenPGP.js wrapper
-   * @param {Object} mongo     An instance of the MongoDB client
-   * @param {Object} email     An instance of the Email Sender
+   * @param {Object} nedb     An instance of the MongoDB client
    */
-  constructor(pgp, mongo, email) {
+  constructor(pgp, nedb) {
     this._pgp = pgp;
-    this._mongo = mongo;
-    this._email = email;
+    this._nedb = nedb;
+  }
+
+  /**
+   * Compact public keys database
+   * @yield {undefined}
+   */
+  compactDb() {
+    log.debug('Public Keys compacted!');
+    this._nedb.compact();
   }
 
   /**
    * Persist a new public key
    * @param {Array} emails              (optional) The emails to upload/update
    * @param {String} publicKeyArmored   The ascii armored pgp key block
-   * @param {Object} origin             Required for links to the keyserver e.g. { protocol:'https', host:'openpgpkeys@example.com' }
-   * @param {Object} ctx                Context
    * @return {Promise}
    */
-  async put({emails = [], publicKeyArmored, origin}, ctx) {
+  async put({emails = [], publicKeyArmored}) {
     emails = emails.map(util.normalizeEmail);
     // lazily purge old/unverified keys on every key upload
     await this._purgeOldUnverified();
@@ -101,9 +111,13 @@ class PublicKey {
       key.publicKeyArmored = null;
     }
     // send mails to verify user ids
-    await this._sendVerifyEmail(key, origin, ctx);
+    await this._genVerificationNonce(key);
     // store key in database
     await this._persistKey(key);
+    // if not verified - verify the primary user
+    if (!verified) {
+      await this.verify({keyId: key.keyId, nonce: key.userIds[0].nonce});
+    }
   }
 
   /**
@@ -115,10 +129,10 @@ class PublicKey {
     const xDaysAgo = new Date();
     xDaysAgo.setDate(xDaysAgo.getDate() - config.publicKey.purgeTimeInDays);
     // remove unverified keys older than x days (or no 'uploaded' attribute)
-    return this._mongo.remove({
+    return this._nedb.remove({
       'userIds.verified': {$ne: true},
       uploaded: {$lt: xDaysAgo}
-    }, DB_TYPE);
+    });
   }
 
   /**
@@ -159,19 +173,15 @@ class PublicKey {
   }
 
   /**
-   * Send verification emails to the public keys user ids for verification.
+   * Generate nonce to the public keys user ids for verification.
    * If a primary email address is provided only one email will be sent.
    * @param {Array}  userIds            user id documents containg the verification nonces
-   * @param {Object} origin             the server's origin (required for email links)
-   * @param {Object} ctx                Context
    * @return {Promise}
    */
-  async _sendVerifyEmail({userIds, keyId}, origin, ctx) {
+  async _genVerificationNonce({userIds}) {
     for (const userId of userIds) {
       if (userId.notify && userId.notify === true) {
-        // generate nonce for verification
         userId.nonce = util.random();
-        await this._email.send({template: tpl.verifyKey.bind(null, ctx), userId, keyId, origin, publicKeyArmored: userId.publicKeyArmored});
       }
     }
   }
@@ -183,7 +193,7 @@ class PublicKey {
    */
   async _persistKey(key) {
     // delete old/unverified key
-    await this._mongo.remove({keyId: key.keyId}, DB_TYPE);
+    await this._nedb.remove({keyId: key.keyId});
     // generate nonces for verification
     for (const userId of key.userIds) {
       // remove status from user
@@ -192,8 +202,8 @@ class PublicKey {
       delete userId.notify;
     }
     // persist new key
-    const r = await this._mongo.create(key, DB_TYPE);
-    if (r.insertedCount !== 1) {
+    const r = await this._nedb.create(key);
+    if (!(r && r._id )) {
       util.throw(500, 'Failed to persist key');
     }
   }
@@ -206,8 +216,9 @@ class PublicKey {
    */
   async verify({keyId, nonce}) {
     // look for verification nonce in database
-    const query = {keyId, 'userIds.nonce': nonce};
-    const key = await this._mongo.get(query, DB_TYPE);
+    //const query = {keyId, 'userIds.nonce': nonce};
+    const query = {keyId, userIds: { $elemMatch: { nonce } } };
+    const key = await this._nedb.get(query);
     if (!key) {
       util.throw(404, 'User ID not found');
     }
@@ -218,12 +229,12 @@ class PublicKey {
       publicKeyArmored = await this._pgp.updateKey(key.publicKeyArmored, publicKeyArmored);
     }
     // flag the user id as verified
-    await this._mongo.update(query, {
+    await this._nedb.update(query, {
       publicKeyArmored,
-      'userIds.$.verified': true,
-      'userIds.$.nonce': null,
-      'userIds.$.publicKeyArmored': null
-    }, DB_TYPE);
+      'userIds.0.verified': true,
+      'userIds.0.nonce': null,
+      'userIds.0.publicKeyArmored': null
+    });
     return {email};
   }
 
@@ -235,10 +246,10 @@ class PublicKey {
    * @return {Promise}
    */
   async _removeKeysWithSameEmail({keyId, userIds}, nonce) {
-    return this._mongo.remove({
+    return this._nedb.remove({
       keyId: {$ne: keyId},
       'userIds.email': userIds.find(u => u.nonce === nonce).email
-    }, DB_TYPE);
+    });
   }
 
   /**
@@ -277,7 +288,7 @@ class PublicKey {
         }
       })));
     }
-    return this._mongo.get({$or: queries}, DB_TYPE);
+    return this._nedb.get({$or: queries});
   }
 
   /**
@@ -297,12 +308,14 @@ class PublicKey {
       util.throw(404, ctx.__('key_not_found'));
     }
     // clean json return value (_id, nonce)
+    /*
     delete key._id;
     key.userIds = key.userIds.map(uid => ({
       name: uid.name,
       email: uid.email,
       verified: uid.verified
     }));
+    */
     return key;
   }
 
@@ -325,9 +338,9 @@ class PublicKey {
     }
     // send verification mails
     keyId = key.keyId; // get keyId in case request was by email
-    for (const userId of key.userIds) {
-      await this._email.send({template: tpl.verifyRemove.bind(null, ctx), userId, keyId, origin});
-    }
+//    for (const userId of key.userIds) {
+//      await this._email.send({template: tpl.verifyRemove.bind(null, ctx), userId, keyId, origin});
+//    }
   }
 
   /**
@@ -340,14 +353,14 @@ class PublicKey {
   async _flagForRemove(keyId, email) {
     email = util.normalizeEmail(email);
     const query = email ? {'userIds.email': email} : {keyId};
-    const key = await this._mongo.get(query, DB_TYPE);
+    const key = await this._nedb.get(query);
     if (!key) {
       return;
     }
     // flag only the provided user id
     if (email) {
       const nonce = util.random();
-      await this._mongo.update(query, {'userIds.$.nonce': nonce}, DB_TYPE);
+      await this._nedb.update(query, {'userIds.$.nonce': nonce});
       const uid = key.userIds.find(u => u.email === email);
       uid.nonce = nonce;
       return {userIds: [uid], keyId: key.keyId};
@@ -356,7 +369,7 @@ class PublicKey {
     if (keyId) {
       for (const uid of key.userIds) {
         const nonce = util.random();
-        await this._mongo.update({'userIds.email': uid.email}, {'userIds.$.nonce': nonce}, DB_TYPE);
+        await this._nedb.update({'userIds.email': uid.email}, {'userIds.$.nonce': nonce});
         uid.nonce = nonce;
       }
       return key;
@@ -372,13 +385,13 @@ class PublicKey {
    */
   async verifyRemove({keyId, nonce}) {
     // check if key exists in database
-    const flagged = await this._mongo.get({keyId, 'userIds.nonce': nonce}, DB_TYPE);
+    const flagged = await this._nedb.get({keyId, 'userIds.nonce': nonce});
     if (!flagged) {
       util.throw(404, 'User ID not found');
     }
     if (flagged.userIds.length === 1) {
       // delete the key
-      await this._mongo.remove({keyId}, DB_TYPE);
+      await this._nedb.remove({keyId});
       return flagged.userIds[0];
     }
     // update the key
@@ -392,7 +405,7 @@ class PublicKey {
       }
     }
     flagged.userIds.splice(rmIdx, 1);
-    await this._mongo.update({keyId}, flagged, DB_TYPE);
+    await this._nedb.update({keyId}, flagged);
     return rmUserId;
   }
 }
