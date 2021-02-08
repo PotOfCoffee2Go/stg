@@ -10,6 +10,11 @@ const cfg = {
   // Server home directory
   homeDir: process.cwd(),
 
+  // Server log directory
+  // The directory is hard coded in src/services/logger.js
+  //  so is not depending on any library except winston
+  //  Default is project subdirectory 'logs'
+
 // ------ En/Decryption Options
 
   // Default passphrase shown on web pages

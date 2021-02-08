@@ -1,5 +1,6 @@
 // Site configuration
 const { cfg } = require('./config');
+const log = require('./src/services/logger');
 // En(De)crypt text and embed/extract to/from images
 const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encrypted images
@@ -16,11 +17,11 @@ const { render, renderError } = require('./src/render');
 const fs = require('fs');
 cfg.keysDir = cfg.keysDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
-console.log('Home:      ', cfg.homeDir);
-console.log('Images:    ', cfg.homeDir + '/public/' + cfg.imagesDir);
-console.log('Keys:      ', cfg.homeDir + '/public/' + cfg.keysDir);
-console.log('Lockboxes: ', cfg.homeDir + '/public/' + cfg.lockboxesDir);
-//console.log('Keys   directory:', cfg.key.publicDir);
+log.info('Home:      %s', cfg.homeDir);
+log.info('Images:    %s', cfg.homeDir + '/public/' + cfg.imagesDir);
+log.info('Keys:      %s', cfg.homeDir + '/public/' + cfg.keysDir);
+log.info('Lockboxes: %s', cfg.homeDir + '/public/' + cfg.lockboxesDir);
+//log.info('Keys   directory: %s', cfg.key.publicDir);
 
 // Clear uploads directory
 try {
@@ -104,7 +105,7 @@ app.use((error, req, res, next) => {
 //  .then(() => {
     // Fire up the server!
     app.listen(cfg.listenPort, () => {
-      console.log('Steganography server listening on port:', cfg.listenPort);
+      log.info('Steganography server listening on port: %s', cfg.listenPort);
     })
 //  });
 

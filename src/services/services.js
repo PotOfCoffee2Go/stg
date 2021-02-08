@@ -1,4 +1,4 @@
-const config = require('./config');
+//const config = require('./config');
 const NeDB = require('./nedb');
 const PGP = require('./pgp');
 const PublicKey = require('./public-key');
