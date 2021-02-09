@@ -24,7 +24,7 @@
 
 'use strict';
 const log = require('./logger');
-const config = require('./config');
+//const config = require('./config');
 const util = require('./util');
 
 /**
@@ -59,7 +59,8 @@ class PublicKey {
    * @param {Object} pgp       An instance of the OpenPGP.js wrapper
    * @param {Object} nedb     An instance of the MongoDB client
    */
-  constructor(pgp, nedb) {
+  constructor(cfg, pgp, nedb) {
+    this._cfg = cfg;
     this._pgp = pgp;
     this._nedb = nedb;
   }
@@ -127,7 +128,7 @@ class PublicKey {
   async _purgeOldUnverified() {
     // create date in the past to compare with
     const xDaysAgo = new Date();
-    xDaysAgo.setDate(xDaysAgo.getDate() - config.publicKey.purgeTimeInDays);
+    xDaysAgo.setDate(xDaysAgo.getDate() - this._cfg.publicKey.purgeTimeInDays);
     // remove unverified keys older than x days (or no 'uploaded' attribute)
     return this._nedb.remove({
       'userIds.verified': {$ne: true},

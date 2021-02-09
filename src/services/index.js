@@ -1,18 +1,20 @@
 //const config = require('./config');
 const NeDB = require('./nedb');
+const LockBox = require('./lockbox');
 const PGP = require('./pgp');
 const PublicKey = require('./public-key');
-const LockBox = require('./lockbox');
 
-async function init(keysPath, boxesPath) {
+async function init(cfg) {
   const pgp = new PGP();
   const publicKeyDb = new NeDB();
-  const publicKey = new PublicKey(pgp, publicKeyDb);
-  await publicKeyDb.init(keysPath);
+  const publicKey = new PublicKey(cfg, pgp, publicKeyDb);
+  await publicKeyDb.init(cfg.keysDbPath);
 
   const lockBoxDb = new NeDB();
   const lockBox = new LockBox(lockBoxDb, publicKey);
-  await lockBoxDb.init(boxesPath);
+  await lockBoxDb.init(cfg.boxesDpPath);
+
+
 
   return { publicKey, lockBox };
 }

@@ -15,7 +15,7 @@ const { render, renderError } = require('./src/render');
 // ------
 // Directory maintenance on server startup
 const fs = require('fs');
-cfg.keysDir = cfg.keysDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
+//cfg.keysDir = cfg.keysDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 log.info('Home:      %s', cfg.homeDir);
 log.info('Images:    %s', cfg.homeDir + '/public/' + cfg.imagesDir);
@@ -30,7 +30,7 @@ try {
 
 // Insure working directories exist
 ['/public/' + cfg.imagesDir, '/public/' + cfg.keysDir,
-  '/public/' + cfg.lockboxesDir, '/uploads']
+  '/public/' + cfg.lockboxesDir, '/uploads', '/keys/db']
 .forEach(dir => {
   try {
     fs.mkdirSync(cfg.homeDir + dir, { recursive: true })
@@ -99,14 +99,15 @@ app.use((error, req, res, next) => {
 });
 
 // Open pcp keys database
-//const { openKeyDb } = require('./src/keydb');
-//openKeyDb(cfg)
-//  .then((count) => {console.log(`GPG Key database ready - ${count} on file`)})
-//  .then(() => {
+require('./src/services').init(cfg)
+  .then(({publicKey, lockBox}) => {
+    // Give access to the publicKeys and lockboxes
+    cfg.publicKey = publicKey;
+    cfg.lockBox = lockBox;
     // Fire up the server!
     app.listen(cfg.listenPort, () => {
       log.info('Steganography server listening on port: %s', cfg.listenPort);
     })
-//  });
+  });
 
 

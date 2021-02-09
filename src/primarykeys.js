@@ -30,6 +30,10 @@ const postData = async (cfg, req) => {
   };
 
   keyinfo.keyarmored = keys.publicKeyArmored;
+
+  cfg.publicKey.put({publicKeyArmored: keys.publicKeyArmored})
+    .then(() => cfg.publicKey.compactDb())
+
   let message = JSON.stringify(keyinfo, null, 2);
   let payload = JSON.stringify({ type, message }, null, 2);
   await embedKey(

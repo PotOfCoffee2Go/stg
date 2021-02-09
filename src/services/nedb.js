@@ -3,6 +3,8 @@
  */
 
 'use strict';
+const _projectdir = require('path').resolve(__dirname, '../..');
+const log = require('./logger');
 
 const { datastore } = require('nedb-promise');
 

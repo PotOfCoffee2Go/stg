@@ -46,15 +46,22 @@ const cfg = {
   // ex: 'keys', 'keys/mine', 'friends'
   keysDir: 'keys',
 
+  // Database of public keys
+  keysDbPath: 'keys/db/publickeys.json',
+
   // Allow overwriting of existing public keys
   keysOverwrite: true,
 
+
 // ------ Lockbox Options
 
-  // Subdirectory path in 'public' to hold the public keys
+  // Subdirectory path in 'public' to hold the lockboxes
   // Do not include '/public/' - just the subdirectory path
-  // ex: 'keys', 'keys/mine', 'friends'
+  // ex: 'lockboxes', 'lockboxes/mine', 'boxes'
   lockboxesDir: 'lockboxes',
+
+  // Database of lockboxes
+  boxesDbPath: 'keys/db/lockboxes.json',
 
   // Allow overwriting of existing public keys
   lockboxesOverwrite: true,
@@ -95,6 +102,10 @@ const cfg = {
 // ------ OpenPGP options
 
   // Primary key settings
+  serverSecret: 'vOVH6sdmpNWjrRIqCc7rdxs01lwHzfr3',
+  publicKey: {
+    purgeTimeInDays: process.env.PUBLIC_KEY_PURGE_TIME || 30
+  },
   key: {
     passphrase: 'long and hard to guess secret passphrase',
     primary: {

@@ -4,7 +4,7 @@
  */
 'use strict';
 const log = require('./logger');
-const config = require('./config');
+// const config = require('./config');
 const util = require('./util');
 
 /**
@@ -166,7 +166,7 @@ class LockBox {
    */
   _encrypt(decrypted) {
     return {
-      boxkey: util.encrypt(decrypted.boxkey, config.serverSecret),
+      boxkey: util.encrypt(decrypted.boxkey, cfg.serverSecret),
       keyring: util.encrypt(decrypted.keyring.toString(), decrypted.boxkey)
     }
   }
@@ -177,7 +177,7 @@ class LockBox {
    * @return {Object}           The decrypted boxkey and public key ids
    */
   _decrypt(encrypted) {
-    const boxkey = util.decrypt(encrypted.boxkey, config.serverSecret);
+    const boxkey = util.decrypt(encrypted.boxkey, cfg.serverSecret);
     return {
       boxkey: boxkey,
       keyring: util.decrypt(encrypted.keyring, boxkey).split(',')
