@@ -75,8 +75,8 @@ app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 app.get('/genkeys', (req, res) => promptPrimaryKeys(cfg, req, res));
 app.post('/genkeys', (req, res) => genPrimaryKeys(cfg, req, res));
 // Prompt and generation of lockboxes
-app.get('/genbox', (req, res) => promptLockbox(cfg, req, res));
-app.post('/genbox', (req, res) => genLockbox(cfg, req, res));
+app.get('/genbox', (req, res) => promptLockBox(cfg, req, res));
+app.post('/genbox', (req, res) => genLockBox(cfg, req, res));
 
 // ------
 // Static assets

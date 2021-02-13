@@ -47,15 +47,15 @@ const postData = async (cfg, req) => {
 }
 
 
-const promptLockbox = (cfg, req, res) => {
+const promptLockBox = (cfg, req, res) => {
   return render(cfg, res, pages.promptlockbox, {  });
 }
 
-const genLockbox = (cfg, req, res) => {
+const genLockBox = (cfg, req, res) => {
   postData(cfg, req);
   return renderError(cfg, res, 'made it');
 }
 
-exports.promptLockbox = promptLockbox;
-exports.genLockbox = genLockbox;
+exports.promptLockBox = promptLockBox;
+exports.genLockBox = genLockBox;
 

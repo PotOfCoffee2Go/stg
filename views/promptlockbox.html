@@ -56,24 +56,6 @@ onload = () => {
   {{{cfg.heading}}}
 
   <input type="button" value="Messages" onclick="window.location.href='/imagesdir'">
-  <h3>Welcome to steganoserver!</h3>
-  <p>Before you can start sending secret messages hidden in-plain-site images, a
-  lockbox and your personal keys need to be built to prevent unwanted eyes from
-  viewing your messages. Also, note that others need to install steganoserver in
-  order to exchange messages with you.</p>
-
-  <h4>Keys</h4>
- <div>
-  <p><img style="height: 3em;width: auto;float:left;border-radius: 15px;margin-right:1em;" src="/assets/private_key.png">
-  <img style="height: 3em;width: auto;float:right;border-radius: 15px;margin-left:1em;" src="/assets/public_key.png">
-  There are two keys required to scramble (encrypt and decrypt) messages. The private
-  (pink) key which only you have, and a public (blue) key which you exchange
-  with friends. The private key is safely tucked away and you can pretty much
-  ignore it - though you can view it if you wish.
-  <br>On the other hand, you would send the image of the public key to your friends.
-  Likewise, they send theirs to you. This can be done safely over unsecure networks,
-  social media, cell, email, sneaker.net, etc.</p>
-  </div>
 
   <h4>Lockboxes</h4>
   <p><img style="height: 5em;width: auto;float:right; margin-left:1em;" src="/assets/chest-2884250_640.png">
@@ -87,20 +69,6 @@ onload = () => {
   <br>Note that even if one knows the lockbox phrase - each image in the box
   still requires proper keys to unscramble the messages contained within.</p>
 
-  <h4>Keyrings</h4>
-  <p><img style="height: 3em;width: auto;float:left;border-radius: 10px;margin-right:1em;" src="/assets/key-1242056_640.jpg"></p>
-  <p>When an image contains someones public key you will be given the opportunity
-  to place the key in any lockboxes that you wish. Thus the key will be added
-  to each selected lockbox's keyring.
-  <br>When you put a message (with image) in a lockbox, the message is scrambled,
-  signed, and embedded into the image such that the resulting image can be sent
-  safely; knowing that only the people on the keyring can unscramble it and only
-  if they have your public key, and firstly know the phrase needed to unlock the box.</p>
-
-  <h4>Signing</h4>
-  <p>All messages are signed using the senders keys. This verifies who created
-  the message and insures the message has not been altered.
-
   <h4>Lockbox phrase</h4>
   <p><img style="height: 3em;width: auto;float:left;border-radius: 10px;margin-right:1em;" src="/assets/chest-2536477_640.png">
   Each lockbox has a name which is added to scrambled images filenames.
@@ -111,43 +79,33 @@ onload = () => {
   (obviouly) requiring it to be unlocked by the recipients. Only the creator
   can send it, and only to people currently on it's keyring.</p>
 
-  <h3>Master passphrase</h3>
-  <p>The master passphrase is the one that rules them all. This phrase is used
-  </p>
-  <p>Messsages created </p>
-  <p><input type="text" name="passphrase" form="genKeysForm" value="{{{cfg.passphrase}}}" </p>
-  <p>This</p>
-  <h3>Generate your public and private keys</h3>
-  <p>So let's begin with a few questions needed to make your keys...</p>
+  <h4>Keyrings</h4>
+  <p><img style="height: 3em;width: auto;float:left;border-radius: 10px;margin-right:1em;" src="/assets/key-1242056_640.jpg"></p>
+  <p>When an image contains someones public key you will be given the opportunity
+  to place the key in any lockboxes that you wish. Thus the key will be added
+  to each selected lockbox's keyring.
+  <br>When you put a message (with image) in a lockbox, the message is scrambled,
+  signed, and embedded into the image such that the resulting image can be sent
+  safely; knowing that only the people on the keyring can unscramble it and only
+  if they have your public key, and firstly know the phrase needed to unlock the box.</p>
+
+  <h3>Make your lockbox</h3>
+  <p>So let's begin with a few questions needed to make you lockbox...</p>
   <div class="left-side box">
-    <form name="genKeysForm" id="genKeysForm" action="/genkeys" method="post" encType="multipart/form-data">
-    Name, nickname, handle, or identity so friends know it is you. Images will
+    <form name="lockboxForm" id="lockboxForm" action="/genbox" method="post" encType="multipart/form-data">
+    Name of lockbox so friends know it is yours. Images will
     have this name included in their filename - so only letters, numbers, spaces,
     and underbars are allowed :(<br>
     <input type="text" id="keyname" name="keyname" form="genKeysForm" value="" />
-    <br>Email, can be real or fake but needs to be formatted to look like a real one<br>
-    <input type="text" id="keyemail" name="keyemail" form="genKeysForm" value="" />
-    <br>Optional short description, quote, saying shown with your public key<br>
-    <input type="text" name="keycomment" form="genKeysForm" value="" />
-  </div>
-  <div style="clear: both;"></div>
-  <p>  <img style="height: 5em;width: auto;float:right; margin-left:1em;" src="/assets/chest-2884250_640.png">
-  Almost done! Because your private key is so precious, it must be safely locked away
-  in a lockbox with a few other dark secrets used to scramble your messages.
-  To open the lockbox you will need to give a secret phrase.</p>
-  <p><img style="height: 3em;width: auto;float:left;border-radius: 10px;margin-right:1em;" src="/assets/chest-2536477_640.png">
-  Remember! The words
-  are magically bound to the box when it is cast, so it can never-ever be re-opened
-  if the phrase is forgotten. Your previous messages can not be unscrambled and you
-  would have to start over with a brand new set of keys!</p>
-  <p>Also, you will need your secret lockbox phrase to restart this steganography server!</p>
-  <div class="left-side box">
+   <br>Optional short description, quote, saying shown with your public key<br>
+    <input type="text" name="keycomment" form="lockboxForm" value="" />
+  <br><img style="height: 5em;width: auto;float:right; margin-left:1em;" src="/assets/chest-2884250_640.png">
     Enter secret phrase that opens the lockbox containing your private key. Any characters can
     be used but highly recommend just words of a phrase you will remember. The phrase
     you enter will not be known or shown again, so might wanna have a copy in a safe place.<br>
-    <input type="text" name="keypassphrase" form="genKeysForm" value="{{{cfg.key.passphrase}}}" />
+    <input type="text" name="keypassphrase" form="lockboxForm" value="{{{cfg.key.passphrase}}}" />
     <br>Excellent, press this button to create your keys.<br>
-    <button onclick="submitGenKeys();">Create keys and lockbox</button>
+    <button onclick="submitLockbox();">Create keys and lockbox</button>
     </form>
   </div>
   <div class="right-side"></div>
