@@ -9,7 +9,7 @@ const { render, renderError } = require('./render');
 const pages = {
   keysdir: fs.readFileSync(_projectdir + '/views/keysdir.html', { encoding: 'utf8' }),
   boxesdir: fs.readFileSync(_projectdir + '/views/boxesdir.html', { encoding: 'utf8' }),
-  imagesdir: fs.readFileSync(_projectdir + '/views/imagesdir.html', { encoding: 'utf8' }),
+  messagesdir: fs.readFileSync(_projectdir + '/views/messagesdir.html', { encoding: 'utf8' }),
 };
 
 // Get the keys directory file statistics and render to page
@@ -60,9 +60,9 @@ const viewKeysDir = async (cfg, req, res) => {
 const viewImagesDir = async (cfg, req, res) => {
   try {
     let dirlist = [];
-    let files = await fsp.readdir(cfg.homeDir + '/public/' + cfg.imagesDir);
+    let files = await fsp.readdir(cfg.homeDir + '/public/' + cfg.messagesDir);
     for (let file of files) {
-      let stats = await fsp.stat(cfg.homeDir + '/public/' + cfg.imagesDir + '/' + file);
+      let stats = await fsp.stat(cfg.homeDir + '/public/' + cfg.messagesDir + '/' + file);
       dirlist.push({
         name: file,
         isFile: stats.isFile(),
@@ -72,7 +72,7 @@ const viewImagesDir = async (cfg, req, res) => {
       });
     }
     let dirlistJsonStr = JSON.stringify(dirlist);
-    render(cfg, res, pages.imagesdir, { dirlistJsonStr });
+    render(cfg, res, pages.messagesdir, { dirlistJsonStr });
   } catch (error) {
     return renderError(cfg, res, error);
   }

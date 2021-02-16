@@ -16,9 +16,9 @@ const { render, renderError } = require('./src/render');
 // Directory maintenance on server startup
 const fs = require('fs');
 //cfg.keysDir = cfg.keysDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
-cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
+cfg.messagesDir = cfg.messagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
 log.info('Home:      %s', cfg.homeDir);
-log.info('Images:    %s', cfg.homeDir + '/public/' + cfg.imagesDir);
+log.info('Images:    %s', cfg.homeDir + '/public/' + cfg.messagesDir);
 log.info('Keys:      %s', cfg.homeDir + '/public/' + cfg.keysDir);
 log.info('Lockboxes: %s', cfg.homeDir + '/public/' + cfg.lockboxesDir);
 //log.info('Keys   directory: %s', cfg.key.publicDir);
@@ -29,7 +29,7 @@ try {
 } catch (e) {}
 
 // Insure working directories exist
-['/public/' + cfg.imagesDir, '/public/' + cfg.keysDir,
+['/public/' + cfg.messagesDir, '/public/' + cfg.keysDir,
   '/public/' + cfg.lockboxesDir, '/uploads', '/keys/db']
 .forEach(dir => {
   try {
@@ -69,7 +69,7 @@ app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmes
 // Display custom directory listings public keys and embedded images
 app.get('/keysdir', (req, res) => viewKeysDir(cfg, req, res));
 app.get('/boxesdir', (req, res) => viewBoxesDir(cfg, req, res));
-app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
+app.get('/messagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
 // Prompt and generation of primary keys
 app.get('/genkeys', (req, res) => promptPrimaryKeys(cfg, req, res));

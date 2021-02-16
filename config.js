@@ -1,5 +1,4 @@
 // Server configuration options allow the site to be personalized
-//
 const cfg = {
 
 // ------ Server Options
@@ -71,7 +70,7 @@ const cfg = {
   // Subdirectory path in 'public' to hold the encrypted images
   // Do not include '/public/' - just the subdirectory path
   // ex: 'images', 'images/mine', 'pictures'
-  imagesDir: 'images/mine',
+  messagesDir: 'messages/mine',
 
   // Help identify encrypted images by prefixing the image's filename
   // The filename is prefixed when an image is encrypted.

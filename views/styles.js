@@ -90,9 +90,9 @@ const styles = {
   `,
 
 
-  imagesdir: `
+  messagesdir: `
   <style>
-
+messagesdir
     .filter {
       margin-bottom: 16px;
     }
