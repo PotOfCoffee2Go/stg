@@ -12,3 +12,4 @@ keys/db
 
 # Public keys - might want to comment out
 public/keys
+public/messages/**
