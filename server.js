@@ -101,9 +101,6 @@ app.use((error, req, res, next) => {
 // Open pcp keys database
 require('./src/services').init(cfg)
   .then(({publicKey, lockBox}) => {
-    // Give access to the publicKeys and lockboxes
-    cfg.publicKey = publicKey;
-    cfg.lockBox = lockBox;
     // Fire up the server!
     app.listen(cfg.listenPort, () => {
       log.info('Steganography server listening on port: %s', cfg.listenPort);

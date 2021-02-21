@@ -1,4 +1,4 @@
-This project is the initial code creation of a Steganography application server. Once the code has been fleshed out, this repo will be archived as to show the commits from inception to initial release.
+This project is the initial creation of a Steganography application server. Once the code has been fleshed out, this repo will be archived as to show the commits from inception to initial release.
 
 Steganoserver is a node.js application designed to run locally on the user's computer using a web browser as the graphical user interface. The application embeds OpenPGP encrypted text into images which can be securely published either through private or public means. To decrypt the message the receipiant must know the passphrase to extract the text from the image as well as
 have a private key to decode the message itself.

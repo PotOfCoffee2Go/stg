@@ -14,7 +14,9 @@ async function init(cfg) {
   const lockBox = new LockBox(lockBoxDb, publicKey);
   await lockBoxDb.init(cfg.boxesDpPath);
 
-
+  // Give access to the publicKeys and lockboxes
+  cfg.publicKey = publicKey;
+  cfg.lockBox = lockBox;
 
   return { publicKey, lockBox };
 }
