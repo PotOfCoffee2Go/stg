@@ -18,6 +18,7 @@ class NeDB {
    * @yield {undefined}
    */
   async init(dbpath) {
+    log.info('Db path : %s', dbpath);
     this._db = await datastore({ filename: dbpath, autoload: true })
   }
 

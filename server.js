@@ -37,18 +37,19 @@ try {
   } catch (e) {}
 });
 
+// ------
 // Load index page template
 const pages = {
   index: fs.readFileSync(__dirname + '/views/index.html', { encoding: 'utf8' }),
 };
 
-// ------
 // Express web server
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const app = express();
 
+// Enable CORS
 app.use(cors(cfg.corsOptions));
 
 // Image files are uploaded for processing
@@ -100,7 +101,7 @@ app.use((error, req, res, next) => {
 
 // Open pcp keys database
 require('./src/services').init(cfg)
-  .then(({publicKey, lockBox}) => {
+  .then(() => {
     // Fire up the server!
     app.listen(cfg.listenPort, () => {
       log.info('Steganography server listening on port: %s', cfg.listenPort);

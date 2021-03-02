@@ -12,9 +12,9 @@ async function init(cfg) {
 
   const lockBoxDb = new NeDB();
   const lockBox = new LockBox(lockBoxDb, publicKey);
-  await lockBoxDb.init(cfg.boxesDpPath);
+  await lockBoxDb.init(cfg.boxesDbPath);
 
-  // Give access to the publicKeys and lockboxes
+  // Reference to publicKeys and lockboxes
   cfg.publicKey = publicKey;
   cfg.lockBox = lockBox;
 
