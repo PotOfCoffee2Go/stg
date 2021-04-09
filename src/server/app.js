@@ -32,9 +32,12 @@ try {
 
 // Express web server
 const express = require('express');
+const app = express()
+const server = { cfg, express, app };
+
+// Middleware
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-const app = express();
 
 // Enable CORS
 app.use(cors(cfg.corsOptions));
@@ -42,8 +45,8 @@ app.use(cors(cfg.corsOptions));
 // Image files are uploaded for processing
 app.use(fileUpload());
 
-// Assign steganography routes to server app
-require('./routes').routes(express, app);
+// Assign steganography routes
+require('./routes').assignTo(server);
 
   // Open pcp keys database
 require('../services').init(cfg)

@@ -1,8 +1,5 @@
 'use strict';
 const _projectdir = require('path').resolve(__dirname, '../..');
-
-// Site configuration
-const { cfg } = require('../../config');
 const log = require('../services/logger');
 
 // En(De)crypt text and embed/extract to/from images
@@ -15,14 +12,16 @@ const { promptPrimaryKeys, genPrimaryKeys } = require('../primarykeys');
 const { promptLockBox, genLockBox } = require('../lockbox');
 // Render views
 const { render, renderError } = require('../render');
+
 // Load index page template
 const pages = {
   index: require('fs').readFileSync(_projectdir + '/views/index.html', { encoding: 'utf8' }),
 };
 
-const routes = (express, app) => {
-  // ------
-  // Site routes
+// ------
+// Site routes
+const routes = (server) => {
+  const {cfg, express, app} = server;
   // Render index.html
   app.get(['/','/index','/index.html'], (req, res) => {
     render(cfg, res, pages.index, {});
@@ -66,4 +65,4 @@ const routes = (express, app) => {
   });
 }
 
-exports.routes = routes;
+exports.assignTo = routes;
