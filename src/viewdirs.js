@@ -7,9 +7,9 @@ const { render, renderError } = require('./render');
 
 // Load page template(s) on startup
 const pages = {
-  keysdir: fs.readFileSync(_projectdir + '/views/keysdir.html', { encoding: 'utf8' }),
-  boxesdir: fs.readFileSync(_projectdir + '/views/boxesdir.html', { encoding: 'utf8' }),
-  messagesdir: fs.readFileSync(_projectdir + '/views/messagesdir.html', { encoding: 'utf8' }),
+  keysdir: fs.readFileSync(_projectdir + '/src/views/keysdir.html', { encoding: 'utf8' }),
+  boxesdir: fs.readFileSync(_projectdir + '/src/views/boxesdir.html', { encoding: 'utf8' }),
+  messagesdir: fs.readFileSync(_projectdir + '/src/views/messagesdir.html', { encoding: 'utf8' }),
 };
 
 // Get the keys directory file statistics and render to page

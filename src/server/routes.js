@@ -15,7 +15,7 @@ const { render, renderError } = require('../render');
 
 // Load index page template
 const pages = {
-  index: require('fs').readFileSync(_projectdir + '/views/index.html', { encoding: 'utf8' }),
+  index: require('fs').readFileSync(_projectdir + '/src/views/index.html', { encoding: 'utf8' }),
 };
 
 // ------

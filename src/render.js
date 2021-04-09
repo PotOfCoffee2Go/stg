@@ -6,7 +6,7 @@ const Mustache = require('mustache');
 
 // Load error page template on starup
 const pages = {
-  error: fs.readFileSync(_projectdir + '/views/error.html', { encoding: 'utf8' }),
+  error: fs.readFileSync(_projectdir + '/src/views/error.html', { encoding: 'utf8' }),
 };
 
 // Render template with dynamic data

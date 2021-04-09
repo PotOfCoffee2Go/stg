@@ -151,8 +151,8 @@ a:active { color: blue; }   /* selected link */
 </style>
 `;
 
-// Page specific styles are in './views/styles.js'
-const { styles } = require('./views/styles');
+// Page specific styles are in './src/views/styles.js'
+const { styles } = require('./src/views/styles');
 cfg.styles = styles;
 
 

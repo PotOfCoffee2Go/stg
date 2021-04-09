@@ -9,8 +9,8 @@ const { embed, digUp } = require('@mykeels/steganography');
 
 // Load page template(s) on startup
 const pages = {
-  stegano: fs.readFileSync(_projectdir + '/views/stegano.html', { encoding: 'utf8' }),
-  viewmessage: fs.readFileSync(_projectdir + '/views/viewmessage.html', { encoding: 'utf8' }),
+  stegano: fs.readFileSync(_projectdir + '/src/views/stegano.html', { encoding: 'utf8' }),
+  viewmessage: fs.readFileSync(_projectdir + '/src/views/viewmessage.html', { encoding: 'utf8' }),
 };
 
 // Insure request has at least one file

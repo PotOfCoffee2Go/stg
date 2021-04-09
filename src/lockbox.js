@@ -12,7 +12,7 @@ const { pgp } = require('./keydb');
 
 // Load keys page template on starup
 const pages = {
-  promptlockbox: fs.readFileSync(_projectdir + '/views/promptlockbox.html', { encoding: 'utf8' }),
+  promptlockbox: fs.readFileSync(_projectdir + '/src/views/promptlockbox.html', { encoding: 'utf8' }),
 };
 
 const embedKey = async (srcpath, dstpath, payload, pw) => {
