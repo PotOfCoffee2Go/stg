@@ -1,0 +1,31 @@
+::comment::
+Creates ids #ouchbutton and #ouchtext
+
+<div style="display: inline-block;">
+  ::#ouchbutton::<button>Click me!</button> ::hilite #ouchtext::<span></span>
+</div>
+
+<script>
+  document.getElementById("ouchbutton").addEventListener(
+    "click",
+    () => {
+      document.getElementById("ouchtext").innerHTML += " ouch!";
+    },
+    false
+  );
+</script>
+
+<style>
+  .hilite {
+    background: lightgreen;
+    color: black;
+  }
+  .rnd-box {
+    background: lightblue;
+    border-radius: 6px;
+  }
+</style>
+
+<wbdd id="mountains">
+  <img src="user/images/mountains.png" />
+</wbdd>
