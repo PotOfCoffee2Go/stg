@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stegano</title>
+
+    <script src="webdocs-startup.js"></script>
+
+    <script>
+      // webdocdown - directory/gist containing WebDocDown source code
+      // document - default document to display
+      // element - id of a <div>, <article>, <iframe> etc to display document
+      // hljsSheet - highlight.js stylesheet for code blocks
+      // data  - passed to Mustache.js when rendering document
+      const sources = {
+        webdocdown: (file) => "https://gist.githubusercontent.com/" +
+          "PotOfCoffee2Go/72e5308a90de277552b2c925f89a4c8d/" +
+          `raw/${file}`,
+        document: "user/pages/intro.html",
+        element: "webdocdown",
+        hljsSheet: "railscasts.min.css",
+        data: {
+          name: "PotOfCoffee2Go",
+          wbdd: {}, // used by WebDocDown
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --wbddbgclr: #e1f9e1;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body style="background: var(--wbddbgclr);">
+    <div id="webdocdown" style="margin: 0 7% 0 7%">Loading...</div>
+  </body>
+</html>

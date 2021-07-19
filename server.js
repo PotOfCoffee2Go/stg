@@ -47,7 +47,7 @@ app.use(fileUpload());
 // ------
 // Site specific pages
 // Render index.html
-app.get(['/','/index','/index.html'], (req, res) => {
+app.get(['/'], (req, res) => {
     render(cfg, res, pages.index, {});
 });
 
@@ -62,6 +62,7 @@ app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 // ------
 // Static assets
 // Expose any pages in the public directory
+app.use(express.static(cfg.homeDir + '/docs'));
 app.use(express.static(cfg.homeDir + '/public'));
 
 // ------
