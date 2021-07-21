@@ -1,5 +1,5 @@
 ::heading::<div>
-## _[PotOfCoffee2Go][] Encrypted Steganography_
+## _[PotOfCoffee2Go][] Encoded Steganography_
 
 ::tx-.8::_by [PotOfCoffee2Go][]_
 
@@ -7,13 +7,36 @@ _Introduction_
 </div>
 
 # Welcome
-[PotOfCoffee2Go][]'s Encrypted Steganography System is web based with a local server backend using the browser as the frontend. The text to be embedded into a chosen image is pasted into a text box. Text can be plain, [Markdown][], or HTML. The encryption passphase (sometimes called 'secret key' or 'password') is entered which both the sender and all recipients must know in order to decode the message.
+[PotOfCoffee2Go][]'s Encoded Steganography System is web based on a local server backend using the browser as the frontend. The text to be embedded into a chosen image is pasted into a text box. Text can be plain, [Markdown][], or HTML. The encoding passphase (sometimes called 'secret key' or 'password') is entered which both the sender and all
+recipients must know in order to decode the message from the image. The system works similar to sending encrypted text in email, only using images instead.
 
-As there are many differing encryption applications available for various operating systems, no attempt is made to dictate encryption beyond the passphrase encryption  ([symmetric][]). An example of using [OpenPGP] to encrypt messages prior to embedding in an image can be found [here](#).
+::#definitions::
+Since encryption can be confusing. will define a few words to that will be used in this documentation.
+
+  * Message
+    - Data to be embedded into an image.
+  * Encode
+    - Embed message into an image using a passphrase.
+  * Decode
+    - Extract message from an image using the same passphrase.
+  * Encrypt
+    - Message that has been encrypted using various protocols.
+  * Decrypt
+    - Message restored to original using same protocol.
+
+Basic usage is to enter a passsphrase and choose an image file.  Press 'Decode' and the message will apear in the text box. Type/paste a message in the text box and press 'Encode' to embed the message.
+
+Many differing encryption protocols and applications are available so no attempt is made to dictate which encryption protocol is to be used.
+
+If the message has been encrypted using a protocol like [OpenPGP][], anyone knowing the passphrase can decode the message from the image, however, only the recipients for which it was encrypted be able to decrypt the message.
+
+ An example of using [OpenPGP] to encrypt messages prior to embedding in an image can be found [here](#).
+
 
 
 
 [PotOfCoffee2Go]: https://github.com/PotOfCoffee2Go
 [symmetric]: https://sslmagic.com/blog/symmetric-encryption-101-how-it-works-when-its-used/
+[asymmetric]: #
 
 ::plugin-user/plugins/common.html::

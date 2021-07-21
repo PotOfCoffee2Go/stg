@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Stegano</title>
 
-    <script src="webdocs-startup.js"></script>
-
     <script>
       // webdocdown - directory/gist containing WebDocDown source code
       // document - default document to display
@@ -25,6 +23,27 @@
           wbdd: {}, // used by WebDocDown
         },
       };
+
+    // Append fetched script to <head>
+    function fetchWebDocDown(script) {
+      return fetch(sources.webdocdown(script))
+        .then((response) => response.text())
+        .then((text) => {
+          let elem = document.createElement("script");
+          elem.innerHTML = text;
+          document.head.appendChild(elem);
+        });
+    }
+
+    // Load WebDocDown on startup
+    window.onload = () => {
+      fetchWebDocDown("webdocdown.js")
+        .then(() => new WebDocFetch())
+        .then((webdocfetch) => webdocfetch.loadWebDocDown(sources))
+        .catch((err) => {
+          document.getElementById(sources.element).innerHTML = err;
+        });
+    };
     </script>
     <style>
       :root {
