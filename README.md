@@ -2,6 +2,8 @@
 
 This steganography web server not only hides messages in images, it also encrypts the messages embedded in the images. The heavy lifting is done by [@mykeels/steganography][1] which is inspired by [rodrigouroz/steganography][2].
 
+> This is a Draft project to produce the baseline code needed to produce the production server! Use for experimentation.
+
 Messages can be rendered as plain text, Markdown, or an HTML document. The passphrases used to encrypt/decrypt messages are used on-the-fly and **NOT STORED ANYWHERE** - server or client side. (So... if you forget the passphrase, your pretty much out of luck on decrypting the message!)
 
 > That being said, as a convenience the server has a `default passphase` configuration parameter in the config.js file which you can use or not. Note that...
