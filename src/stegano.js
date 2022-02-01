@@ -53,7 +53,6 @@ const encryptImage = (cfg, req, res) => {
     return renderError(cfg,res, 'No image file selected to encrypt.');
   }
   const { imageFile, fname, iname, uploadPath, imagesPath, webaddr, pw } = postData(cfg, req, false, true);
-  console.log('<<>>', exists(imagesPath), !cfg.imageOverwrite, imagesPath);
   if (exists(imagesPath) && !cfg.imageOverwrite) {
     return renderError(cfg, res, `Image ${iname} already exists`);
   }
@@ -62,7 +61,6 @@ const encryptImage = (cfg, req, res) => {
     try {
       let message = req.body.message;
       let type = req.body.textType;
-      console.log('3>>>', { type, message });
       payload = JSON.stringify({ type, message }, null, 2);
       const buffer = await embed(uploadPath, payload, pw);
       fs.writeFileSync(imagesPath, buffer);

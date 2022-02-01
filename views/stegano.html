@@ -29,12 +29,16 @@
   }
 
   const downloadText = () => {
+    // The download file name (append .asc if gpg data)
+    let filename = 'stegano.txt';
+    if (/^\s*-{5}/.test(payload.message)) filename += '.asc';
+
     //creating an invisible element
     var element = document.createElement('a');
     element.setAttribute('href',
     'data:text/plain;charset=utf-8,'
     + encodeURIComponent(payload.message));
-    element.setAttribute('download', 'stegano.txt');
+    element.setAttribute('download', filename);
     // Above code is equivalent to
     // <a href="path of file" download="file name">
     document.body.appendChild(element);
