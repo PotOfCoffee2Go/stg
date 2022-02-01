@@ -11,7 +11,7 @@ const styles = {
      width: 100%;
     }
     footer {
-      width: 50%;
+      width: 100%;
       margin-top: 10px;
     }
 
@@ -25,7 +25,7 @@ const styles = {
 
     .box {
       background: #09365d;
-      width: 50%;
+      width: 100%;
       padding: 0 10px 0 10px;
       border: 1px solid #444;
       border-radius: 16px;
@@ -73,17 +73,17 @@ const styles = {
     }
     #stegano-container p,
     #stegano-container textarea,
-    #stegano-container input[type="text"],
-    #stegano-container img {
-       width: 100%;
+    #stegano-container input[type="text"] {
+      width: 100%;
     }
     #stegano-container img {
+      width: 35%;
       border: 1px solid #888;
       border-radius: 15px;
     }
 
     #stegano-container {
-      width: 35%;
+      width: 100%;
       margin-right: 5%;
     }
   </style>

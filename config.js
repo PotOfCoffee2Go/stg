@@ -26,7 +26,7 @@ const cfg = {
     style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;">`,
 
   // Heading on top of page
-  heading: '<h3>PotOfCoffee2Go Encrypted Steganography</h3>',
+  heading: '<h3>PotOfCoffee2Go Encoded Steganography</h3>',
 
   // Footer on bottom of page
   footer: `<div><hr>Images by <a href="https://pixabay.com" target="_blank">Pixabay</a><hr></div>`,
@@ -125,8 +125,10 @@ cfg.corsOptions = {
     allowedOrigins.forEach(allowed => {
       if (origin.indexOf(allowed) !== -1) originAllowed = true;
     });
-    if (originAllowed) return callback(null, true);
-    return callback(new Error(`CORS 'Access-Control-Allow-Origin' does not allow '${origin}'`));
+    if (!originAllowed) {
+      return callback(new Error(`CORS 'Access-Control-Allow-Origin' does not allow '${origin}'`));
+    }
+    return callback(null, true);
   }
 }
 

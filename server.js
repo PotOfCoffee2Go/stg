@@ -29,7 +29,7 @@ try {
 
 // Load index page template
 const pages = {
-  index: fs.readFileSync(__dirname + '/views/index.html', { encoding: 'utf8' }),
+  home: fs.readFileSync(__dirname + '/views/home.html', { encoding: 'utf8' }),
 };
 
 // ------
@@ -48,7 +48,7 @@ app.use(fileUpload());
 // Site specific pages
 // Render index.html
 app.get(['/'], (req, res) => {
-    render(cfg, res, pages.index, {});
+    render(cfg, res, pages.home, {});
 });
 
 // Encrypt/Decrypt/View requested message within image
@@ -61,7 +61,7 @@ app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
 // ------
 // Static assets
-// Expose any pages in the public directory
+// Expose any pages in the public directories
 app.use(express.static(cfg.homeDir + '/docs'));
 app.use(express.static(cfg.homeDir + '/public'));
 

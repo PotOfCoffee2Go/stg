@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Stegano</title>
+  <meta name="generator" content="Geany 1.33" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+  {{{cfg.head}}}
+
+  {{{cfg.theme}}}
+
+  {{{cfg.styles.index}}}
+
+</head>
+<script>
+  const checkUrl = async (form, action = 'decrypt') => {
+    const formdata = new FormData(form);
+    const fileUrl = formdata.get('sampleUrlFile');
+    if (fileUrl) {
+      let fname = fileUrl.split('/').pop();
+      // Fetch, decrypt, and store a URL image
+      let imageBlob = await fetch(fileUrl).then(rsp => rsp.blob());
+      formdata.set("imageFile", imageBlob, fname);
+      let response = await fetch(`/${action}`, {
+        method: 'POST',
+        body: formdata
+      });
+      // Now get and decrypt the image from our server
+      form.setAttribute('action', `/${action}/${fname}`);
+      form.submit();
+      return true;
+    }
+    // Decrypt a local file
+    form.setAttribute('action', `/${action}`);
+    form.submit();
+    return false;
+  }
+
+  const submitDecrypt = async () => {
+    const form = document.getElementById('homeForm');
+    try {
+      let hasUrl = await checkUrl(form, 'decrypt');
+    } catch(error) { window.location.href = `/error/${error}` }
+  }
+
+  const submitView = () => {
+    const form = document.getElementById('homeForm');
+    form.setAttribute('action', `/view`);
+    form.submit();
+  }
+
+  const submitEncrypt = async () => {
+    const form = document.getElementById('homeForm');
+    try {
+      let hasUrl = await checkUrl(form, 'encrypt');
+    } catch(error) { window.location.href = `/error/${error}` }
+  }
+
+
+  onload = () => {
+    try {
+      let elem = document.getElementById('{{cfg.textType}}');
+      elem.checked = true;
+    } catch(e) {}
+  }
+</script>
+
+<body>
+  {{{cfg.logo}}}
+  {{{cfg.heading}}}
+
+  <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
+
+  <h3>Decode a message from an image:</h3>
+  <div class="left-side box">
+    <form ref="homeForm" id="homeForm" action="/encrypt" method="post" encType="multipart/form-data">
+      <input type="file" name="imageFile" accept=".png,.jpg,.bmp,.tiff" />
+{{#cfg.askurl}}
+      <br>
+      or image web address:
+      <input type="text" name="sampleUrlFile" />
+{{/cfg.askurl}}
+    </form>
+    <input type="text" name="passphrase" form="homeForm" value="{{{cfg.passphrase}}}" />
+    <button onclick="submitDecrypt();">Decode</button>
+      Or... Enter a message to encode into the image.
+    <br>
+    <textarea name="message" form="homeForm" style="height: 120px;" placeholder="Enter your text, markdown, or HTML document..."></textarea>
+    <span style="padding-right: 6px; border-right: 1px solid black; ">View as: </span>
+    <input type="radio" id="plain" name="textType" value="plain" form="homeForm">
+    <label for="plain">Text</label>
+    <input type="radio" id="markdown" name="textType" value="markdown" form="homeForm">
+    <label for="markdown">Markdown</label>
+    <input type="radio" id="html" name="textType" value="html" form="homeForm">
+    <label for="html">HTML Document</label>
+    <br>
+    <!-- p>Optional, rename resulting encrypted image (maybe a hint of the passphrase? ;)</p>
+    <input type="text" id="save-as" name="save-as" form="homeForm" value="" placeholder="Name of encrypted image"/>
+    <br -->
+    <button onclick="submitEncrypt();">Encode</button>
+  </div>
+  <div class="right-side"></div>
+  <div style="clear: both;"> </div>
+  <footer>{{{cfg.footer}}}</footer>
+</body>
+
+</html>
