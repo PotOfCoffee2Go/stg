@@ -28,6 +28,20 @@
     form.submit();
   }
 
+  const downloadText = () => {
+    //creating an invisible element
+    var element = document.createElement('a');
+    element.setAttribute('href',
+    'data:text/plain;charset=utf-8,'
+    + encodeURIComponent(payload.message));
+    element.setAttribute('download', 'stegano.txt');
+    // Above code is equivalent to
+    // <a href="path of file" download="file name">
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
   const raw = (containingElem, btn) => {
     if (btn.value === 'Show') {
       btn.value = 'Raw';
@@ -40,7 +54,7 @@
     containingElem.innerHTML = '';
     containingElem.appendChild(frm);
     btn.value = 'Show';
- }
+  }
 
   var msg;
   const frame = async (containingElem) => {
@@ -84,6 +98,7 @@
     <p> Encrypted image uploaded to:</p>
 {{/cfg.inlineHelp}}
     <a href="{{webaddr}}">{{webaddr}}</a>
+    <hr>
 {{#cfg.inlineHelp}}
     <p>To download, <b>Click</b> the image or <b>Right-click</b> -> 'Save image as ...'</p>
 {{/cfg.inlineHelp}}
@@ -96,6 +111,8 @@
   <input type="button" value="Read" onclick="submitView();">
   <input type="button" value="Raw" style="min-width: 4em;"
       onclick="raw(document.getElementById('message-container'), this);">
+  <input type="button" value="Download" onclick="downloadText();">
+
   <div id="message-container"></div>
 
    <form name="viewForm" id="viewForm" action="/view/{{fname}}" method="post"
