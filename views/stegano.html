@@ -51,13 +51,24 @@
       btn.value = 'Raw';
       return frame(containingElem);
     }
-
     const frm = document.createElement('iframe');
     frm.srcdoc = '<pre>' + mkdwn.utils.escapeHtml(payload.message) + '</pre>';
     frm.setAttribute('onload', 'resizeIframe(this)');
     containingElem.innerHTML = '';
     containingElem.appendChild(frm);
     btn.value = 'Show';
+  }
+
+  const copyToClipboard = (btn) => {
+    navigator.clipboard.writeText(payload.message)
+      .then(() => {
+        btn.value = 'Copied';
+      }, () => {
+        btn.value = 'Failed';
+      })
+      .then(() => {
+        setTimeout(() => {btn.value = 'Copy';}, 4000);
+      });
   }
 
   var msg;
@@ -116,6 +127,7 @@
   <input type="button" value="Raw" style="min-width: 4em;"
       onclick="raw(document.getElementById('message-container'), this);">
   <input type="button" value="Download" onclick="downloadText();">
+  <input type="button" value="Copy" onclick="copyToClipboard(this);">
 
   <div id="message-container"></div>
 
