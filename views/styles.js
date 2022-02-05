@@ -92,7 +92,6 @@ const styles = {
 
   imagesdir: `
   <style>
-
     .filter {
       margin-bottom: 16px;
     }
@@ -139,7 +138,7 @@ const styles = {
     #carousel div:focus { outline: none; }
 
     input[name="passphrase"] {
-       width: 35%;
+       width: 100%;
     }
 
     table {

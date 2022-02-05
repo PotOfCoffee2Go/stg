@@ -4,6 +4,8 @@ const { cfg } = require('./config');
 const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encrypted images
 const { viewImagesDir } = require('./src/imagesdir');
+// Setttings page
+const { viewSettings } = require('./src/settings');
 // Render views
 const { render, renderError } = require('./src/render');
 
@@ -27,9 +29,10 @@ try {
   } catch (e) {}
 });
 
-// Load index page template
+// Load index and settings page templates
 const pages = {
   home: fs.readFileSync(__dirname + '/views/home.html', { encoding: 'utf8' }),
+  settings: fs.readFileSync(__dirname + '/views/settings.html', { encoding: 'utf8' }),
 };
 
 // ------
@@ -46,12 +49,14 @@ app.use(fileUpload());
 
 // ------
 // Site specific pages
-// Render index.html
-app.get(['/'], (req, res) => {
-    render(cfg, res, pages.home, {});
-});
+// Render index.html or settings.html
+app.get(['/'], (req, res) => { render(cfg, res, pages.home, {}); });
+app.get('/settings', (req, res) => render(cfg, res, pages.settings, {}));
 
-// Encrypt/Decrypt/View requested message within image
+// Modify settings
+app.post('/settings', (req, res) => postSettings(cfg, req, res));
+
+// Encode/Deccode/View requested message within image
 app.post('/encrypt', (req, res) => encryptImage(cfg, req, res));
 app.post('/decrypt/:imagename?', (req, res) => decryptImage(cfg, req, res, 'stegano'));
 app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmessage'));

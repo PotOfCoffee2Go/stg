@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Stegano</title>
+  <meta name="generator" content="Geany 1.33" />
+
+  {{{cfg.head}}}
+
+  {{{cfg.theme}}}
+
+  {{{cfg.styles.index}}}
+
+  <script>
+  </script>
+
+</head>
+
+<body>
+  {{{cfg.logo}}}
+  {{{cfg.heading}}}
+  <input type="button" value="<= Go back" onclick="history.back()">
+  <input type="button" value="Home" onclick="window.location.href='/';">
+  <br>
+  <hr>
+  <div class="left-side box">
+    <!-- A form so we can POST our request -->
+    <form ref="settingsForm" id="decodeForm" action="/settings"
+      method="post" encType="multipart/form-data"></form>
+
+    <label for="passphrase">Default passphrase</label>
+    <input type="text" name="passphrase" form="settingsForm" value="{{{cfg.passphrase}}}" />
+  </div>
+
+{{#cfg.inlineHelp}}
+  <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
+{{/cfg.inlineHelp}}
+  {{{cfg.footer}}}
+</body>
+
+</html>
