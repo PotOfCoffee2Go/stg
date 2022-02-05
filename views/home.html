@@ -72,8 +72,10 @@
   {{{cfg.heading}}}
 
   <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
-
-  <h3>Decode a message from an image:</h3>
+  <input type="button" value="Docs" onclick="window.location.href='/index.html'"
+    style="float: right;">
+  <br>
+  <hr>
   <div class="left-side box">
     <form ref="homeForm" id="homeForm" action="/encrypt" method="post" encType="multipart/form-data">
       <input type="file" name="imageFile" accept=".png,.jpg,.bmp,.tiff" />
@@ -84,10 +86,16 @@
 {{/cfg.askurl}}
     </form>
     <input type="text" name="passphrase" form="homeForm" value="{{{cfg.passphrase}}}" />
+  </div>
+  <hr>
+    Decode a message from the image
+  <div class="left-side box">
     <button onclick="submitDecrypt();">Decode</button>
+  </div>
       Or... Enter a message to encode into the image.
-    <br>
-    <textarea name="message" form="homeForm" style="height: 120px;" placeholder="Enter your text, markdown, or HTML document..."></textarea>
+  <div class="left-side box">
+    <textarea name="message" form="homeForm" style="height: 120px; margin-top: 0.6em;"
+      placeholder="Enter your text, markdown, or HTML document..."></textarea>
     <span style="padding-right: 6px; border-right: 1px solid black; ">View as: </span>
     <input type="radio" id="plain" name="textType" value="plain" form="homeForm">
     <label for="plain">Text</label>

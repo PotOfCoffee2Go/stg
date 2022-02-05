@@ -144,7 +144,7 @@
 
         let actions = '<td>' +
           '<button onclick="submitView(\'' + name + '\');">read</button>' +
-          '<button onclick="submitDecrypt(\'' + name + '\');">decrypt</button></td>'
+          '<button onclick="submitDecrypt(\'' + name + '\');">decode</button></td>'
 
         name = `<td><a href="/{{{cfg.imagesDir}}}/${name}">${name}</a></td>`;
         size = `<td><span>${formatBytes(size)}</span></td>`;
@@ -177,13 +177,13 @@
 
 
     const submitDecrypt = (filename) => {
-      const form = document.getElementById('decryptForm');
+      const form = document.getElementById('decodeForm');
       form.setAttribute('action', `/decrypt/${filename}`);
       form.submit();
     }
 
     const submitView = (filename) => {
-      const form = document.getElementById('decryptForm');
+      const form = document.getElementById('decodeForm');
       form.setAttribute('action', `/view/${filename}`);
       form.submit();
     }
@@ -204,10 +204,10 @@
   <input type="button" value="Home" onclick="window.location.href='/';">
 
   <!-- A form so we can POST our request -->
-  <form ref="decryptForm" id="decryptForm" action="/decrypt"
+  <form ref="decodeForm" id="decodeForm" action="/decrypt"
    method="post" encType="multipart/form-data"></form>
 
-  <input type="text" name="passphrase" form="decryptForm" value="{{{cfg.passphrase}}}" />
+  <input type="text" name="passphrase" form="decodeForm" value="{{{cfg.passphrase}}}" />
 {{#cfg.inlineHelp}}
   <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
 {{/cfg.inlineHelp}}

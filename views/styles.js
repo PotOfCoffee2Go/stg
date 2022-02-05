@@ -16,7 +16,7 @@ const styles = {
     }
 
     .left-side {
-      float: left;
+      /* float: left; */
     }
     .right-side {
       float: right;
@@ -26,7 +26,7 @@ const styles = {
     .box {
       background: #09365d;
       width: 100%;
-      padding: 0 10px 0 10px;
+      padding: 0 10px 4px 10px;
       border: 1px solid #444;
       border-radius: 16px;
     }

@@ -95,10 +95,14 @@ cfg.theme = `
   p { background: #2f328c; }
 
 
-a:link { color: aliceblue; font-weight: bold; } /* unvisited link */
-a:visited { color: aliceblue; } /* visited link */
-a:hover { color: hotpink; } /* mouse over link */
-a:active { color: blue; }   /* selected link */
+  input[type="button"], button {
+    border-radius: 10px;
+  }
+
+  a:link { color: aliceblue; font-weight: bold; } /* unvisited link */
+  a:visited { color: aliceblue; } /* visited link */
+  a:hover { color: hotpink; } /* mouse over link */
+  a:active { color: blue; }   /* selected link */
 
 </style>
 `;

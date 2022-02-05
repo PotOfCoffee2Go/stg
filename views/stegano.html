@@ -62,12 +62,12 @@
   const copyToClipboard = (btn) => {
     navigator.clipboard.writeText(payload.message)
       .then(() => {
-        btn.value = 'Copied';
+        btn.value = 'Copied!';
       }, () => {
-        btn.value = 'Failed';
+        btn.value = 'Failed!';
       })
       .then(() => {
-        setTimeout(() => {btn.value = 'Copy';}, 4000);
+        setTimeout(() => {btn.value = 'Copy';}, 1500);
       });
   }
 
@@ -110,12 +110,13 @@
   <div id="stegano-container">
     <hr>
 {{#cfg.inlineHelp}}
-    <p> Encrypted image uploaded to:</p>
+    <p> Encoded image uploaded to:</p>
 {{/cfg.inlineHelp}}
     <a href="{{webaddr}}">{{webaddr}}</a>
     <hr>
 {{#cfg.inlineHelp}}
-    <p>To download, <b>Click</b> the image or <b>Right-click</b> -> 'Save image as ...'</p>
+    <p>To copy, <b>Right-click</b> -> 'Copy image'<br>
+To download, <b>Click</b> the image or <b>Right-click</b> -> 'Save image as ...'</p>
 {{/cfg.inlineHelp}}
     <a href="{{webaddr}}" download>
       <img src="{{webaddr}}">
