@@ -17,6 +17,16 @@
 <script>
   const checkUrl = async (form, action = 'decrypt') => {
     const formdata = new FormData(form);
+    if (document.getElementById('fileNameSpan').innerHTML.length === 0) {
+      alert('Please select an image');
+      return;
+    }
+    if (action === 'encrypt') {
+        if (formdata.get('message').length === 0) {
+          alert('Please enter a message to encode');
+          return false;
+        }
+    }
     const fileUrl = formdata.get('sampleUrlFile');
     if (fileUrl) {
       let fname = fileUrl.split('/').pop();
@@ -58,6 +68,22 @@
     } catch(error) { window.location.href = `/error/${error}` }
   }
 
+  const imageSelected = () => {
+    let imageFileBtn = document.getElementById('imageFileBtn');
+    let file = imageFileBtn.files[imageFileBtn.files.length - 1];
+    document.getElementById('fileNameSpan').innerHTML =
+      file.name + ' | ' + formatBytes(file.size);
+  }
+
+  // Label size KB, MB, GB, etc. - from stackoverflow
+  const formatBytes = (bytes, decimals = 2) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
 
   onload = () => {
     try {
@@ -72,15 +98,18 @@
   {{{cfg.heading}}}
 
   <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
-  <div style="float: right; display: inline-block">
-    <input type="button" value="Docs" onclick="window.location.href='/index.html'">
-    <input type="button" value="Settings" onclick="window.location.href='/settings'">
-  </div>
+  <input type="button" value="Docs" onclick="window.location.href='/index.html'">
+  <input type="button" value="Settings" onclick="window.location.href='/settings'">
   <br>
   <hr>
   <div class="left-side box">
     <form ref="homeForm" id="homeForm" action="/encrypt" method="post" encType="multipart/form-data">
-      <input type="file" name="imageFile" accept=".png,.jpg,.bmp,.tiff" />
+
+      <input type="button" onclick="document.getElementById('imageFileBtn').click()"
+        value="Select an image" />
+      <span id="fileNameSpan" style="font-family: monospace;"></span>
+      <input type="file" id="imageFileBtn" name="imageFile" onchange="imageSelected();"
+        style="width: 0;" accept=".png,.jpg,.bmp,.tiff" />
 {{#cfg.askurl}}
       <br>
       or image web address:
@@ -90,11 +119,9 @@
     <input type="text" name="passphrase" form="homeForm" value="{{{cfg.passphrase}}}" />
   </div>
   <hr>
-    Decode a message from the image
-  <div class="left-side box">
-    <button onclick="submitDecrypt();">Decode</button>
-  </div>
-      Or... Enter a message to encode into the image.
+    <button onclick="submitDecrypt();">Decode</button> message from the image
+    <br><span style="font-family: monospace; margin-left: 8em;"> ...OR... </span>
+    <br><button onclick="submitEncrypt();">Encode</button> a message into the image.
   <div class="left-side box">
     <textarea name="message" form="homeForm" style="height: 120px; margin-top: 0.6em;"
       placeholder="Enter your text, markdown, or HTML document..."></textarea>
@@ -109,7 +136,6 @@
     <!-- p>Optional, rename resulting encrypted image (maybe a hint of the passphrase? ;)</p>
     <input type="text" id="save-as" name="save-as" form="homeForm" value="" placeholder="Name of encrypted image"/>
     <br -->
-    <button onclick="submitEncrypt();">Encode</button>
   </div>
   <div class="right-side"></div>
   <div style="clear: both;"> </div>
