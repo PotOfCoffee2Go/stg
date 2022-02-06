@@ -1,22 +1,16 @@
 // Server configuration options allow the site to be personalized
 //
-const cfg = {
+const config = {
 
 // ------ Server Options
-
   // Port the server listens for requests
   listenPort: 8000,
 
-  // Server home directory
-  homeDir: process.cwd(),
-
 // ------ En/Decode Options (can be modified via 'settings' page)
-
   // Default passphrase shown on web pages
   passphrase: 'YOUR_PASSPHRASE_HERE', // 'YouR PassphasE H3R3',
 
 // ------ Page Layout
-
   // HTML of logo in-front of heading
   logo: `<img src="/assets/logo.png"
     style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;">`,
@@ -73,13 +67,13 @@ const cfg = {
 // HTML inserted in pages <head> tag
 // At least, place your preferred font family here
 //  and in cfg.theme below
-cfg.head = `
+config.head = `
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
 `,
 
 // Common styles for the pages
-cfg.theme = `
+config.theme = `
 <style>
   * {
     box-sizing: border-box;
@@ -108,7 +102,7 @@ cfg.theme = `
 
 // Page specific styles are in './views/styles.js'
 const { styles } = require('./views/styles');
-cfg.styles = styles;
+config.styles = styles;
 
 
 // ------ Code used by server. Rarely changed!
@@ -119,7 +113,7 @@ const allowedOrigins = ['http://localhost', 'http://127.0.0.1'];
 
 // Function that determines if a site has permissions to en/decrypt
 //  - callback(null, true) = yes, callback(error) = no
-cfg.corsOptions = {
+config.corsOptions = {
   origin: (origin, callback) => {
     // Allow routes not monitored by CORS
     if (!origin) return callback(null, true);
@@ -137,7 +131,7 @@ cfg.corsOptions = {
 
 // Server command line interface
 // Allows temporary override of configuration parameters defined above
-cfg.cli = () => {
+config.cli = () => {
   var argv = require('yargs')
     .option('port', {
       alias: 'p',
@@ -158,18 +152,18 @@ cfg.cli = () => {
     .argv;
 
   if (argv.p) {
-    cfg.listenPort = argv.p;
+    config.listenPort = argv.p;
   }
   if (argv.a) {
-    cfg.askurl = true;
+    config.askurl = true;
   }
   if (argv.d) {
-    cfg.testdir = argv.d;
+    config.testdir = argv.d;
     console.log('test dir>>>>', argv.d);
   }
 }
 
 // Apply command line options
-cfg.cli();
+config.cli();
 
-exports.cfg = cfg;
+exports.config = config;

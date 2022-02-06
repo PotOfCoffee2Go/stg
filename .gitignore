@@ -3,3 +3,6 @@ node_modules/
 
 # uploads is temp directory
 uploads/
+
+# settings can have personal configuration values
+settings/

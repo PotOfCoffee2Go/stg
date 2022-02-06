@@ -1,39 +1,67 @@
-// Site configuration
-const { cfg } = require('./config');
-// En(De)crypt text and embed/extract to/from images
+const fs = require('fs');
+
+// Server home directory
+const homeDir = process.cwd();
+
+// ------
+// Code modules
+// Site default configuration
+const { config } = require('./config');
+// En(De)code text and embed/extract to/from images
 const { encryptImage, decryptImage } = require('./src/stegano');
-// Directory listing of stored encrypted images
+// Directory listing of stored encoded images
 const { viewImagesDir } = require('./src/imagesdir');
-// Setttings page
-const { viewSettings } = require('./src/settings');
+// Settings page
+const { settings } = require('./src/settings');
 // Render views
 const { render, renderError } = require('./src/render');
 
 // ------
-// Directory maintenance on server startup
-const fs = require('fs');
-cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
-console.log('Home   directory:', cfg.homeDir);
-console.log('Images directory:', cfg.homeDir + '/public/' + cfg.imagesDir);
+// Setup server directories and configuration
 
-// Clear uploads directory
+// Clear prior uploads
 try {
-  fs.rmdirSync(cfg.homeDir + '/uploads', { recursive: true });
+  fs.rmdirSync(homeDir + '/uploads', { recursive: true });
 } catch (e) {}
 
 // Insure working directories exist
-['/public/' + cfg.imagesDir, '/uploads']
-.forEach(dir => {
+['/uploads', '/settings'].forEach(dir => {
   try {
-    fs.mkdirSync(cfg.homeDir + dir, { recursive: true })
+    fs.mkdirSync(homeDir + dir, { recursive: true })
   } catch (e) {}
 });
 
+// If settings config does not exist create using defaults
+try {
+  fs.openSync(homeDir + '/settings/config.js');
+} catch (err) {
+  if (err.code === 'ENOENT') {
+    fs.writeFileSync(homeDir + '/settings/config.js',
+    'const cfg = ' +
+    JSON.stringify(config) +
+    '\nexports.cfg = cfg;\n');
+  } else {
+    throw err;
+  }
+}
+
+// Site configuration - includes values from 'settings' page
+const { cfg } = require('./settings/config');
+
+// Insure image directory exists
+cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
+try {
+  fs.mkdirSync(homeDir + '/public/' + cfg.imagesDir, { recursive: true })
+} catch (e) {}
+
 // Load index and settings page templates
 const pages = {
-  home: fs.readFileSync(__dirname + '/views/home.html', { encoding: 'utf8' }),
-  settings: fs.readFileSync(__dirname + '/views/settings.html', { encoding: 'utf8' }),
+  home: fs.readFileSync(homeDir + '/views/home.html', { encoding: 'utf8' }),
+  settings: fs.readFileSync(homeDir + '/views/settings.html', { encoding: 'utf8' }),
 };
+
+console.log('Home   directory:', homeDir);
+console.log('Images directory:', homeDir + '/public/' + cfg.imagesDir);
 
 // ------
 // Express web server
@@ -42,31 +70,32 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const app = express();
 
+// CORS insures only local machine can decode messages
 app.use(cors(cfg.corsOptions));
 
 // Image files are uploaded for processing
 app.use(fileUpload());
 
 // ------
-// Site specific pages
-// Render index.html or settings.html
+// Site pages
+// Render home page
 app.get(['/'], (req, res) => { render(cfg, res, pages.home, {}); });
-app.get('/settings', (req, res) => render(cfg, res, pages.settings, {}));
 
-// Modify settings
+// Get and Modify configuration settings
+app.get('/settings', (req, res) => render(cfg, res, pages.settings, {}));
 app.post('/settings', (req, res) => postSettings(cfg, req, res));
 
-// Encode/Deccode/View requested message within image
+// Encode/Decode/View message within an image
 app.post('/encrypt', (req, res) => encryptImage(cfg, req, res));
 app.post('/decrypt/:imagename?', (req, res) => decryptImage(cfg, req, res, 'stegano'));
 app.post('/view/:imagename?', (req, res) => decryptImage(cfg, req, res, 'viewmessage'));
 
-// Display custom directory listing of stored embedded images
+// Display custom directory listing of stored encoded images
 app.get('/imagesdir', (req, res) => viewImagesDir(cfg, req, res));
 
 // ------
 // Static assets
-// Expose any pages in the public directories
+// Expose any pages in the public and doc directories
 app.use(express.static(cfg.homeDir + '/docs'));
 app.use(express.static(cfg.homeDir + '/public'));
 
