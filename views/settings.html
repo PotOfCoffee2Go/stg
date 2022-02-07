@@ -10,11 +10,50 @@
 
   {{{cfg.theme}}}
 
-  {{{cfg.styles.index}}}
+  {{{cfg.styles.settings}}}
+
+  <style>
+    fieldset {
+      margin-bottom: 1em;
+    }
+    p {
+      margin: .5em;
+    }
+  </style>
 
   <script>
   const submitSettings = () => {
-    document.getElementById('settingsForm').submit();
+    let formData = new FormData(document.getElementById('settingsForm'));
+    let request = new XMLHttpRequest();
+    // Reload page on successful data submission
+    request.addEventListener( 'load', ( event) => {
+      alert('Settings updated');
+      location.href = '/settings';
+    });
+    // Say got an error
+    request.addEventListener( 'error', ( event) => {
+      alert('Settings error - not updated!');
+      location.href = '/settings';
+    });
+    request.open("POST", "/settings");
+    request.send(formData);
+/*
+// Display the values
+for (var value of formData.entries()) {
+ console.log(value);
+}
+*/
+  }
+
+  const hideDesc = () => {
+    const checked = document.getElementById('hideHelp').checked;
+    document.querySelectorAll('p').forEach(p => {
+      if (checked) {
+        p.style.display = "none";
+      } else {
+        p.style.display = "block";
+      }
+    });
   }
   </script>
 
@@ -23,31 +62,83 @@
 <body>
   {{{cfg.logo}}}
   {{{cfg.heading}}}
-  <input type="button" value="<= Go back" onclick="history.back()">
   <input type="button" value="Home" onclick="window.location.href='/';">
+  <input type="checkbox" id="hideHelp" name="hideHelp" value="hide" onclick="hideDesc();">
+  <label for="hideHelp"> Hide setting descriptions</label>
   <br>
   <hr>
-  <div class="left-side box">
     <!-- A form so we can POST our request -->
     <form id="settingsForm" action="/settings" method="post"
       encType="multipart/form-data">
     <label for="passphrase">Default passphrase</label>
+<div style="color: pink; background: black; margin: .3em 4em .3em 4em; text-align: center;">
+WARNING: Passphrases are not stored - Except Here!
+This passphrase will be stored in a config file!
+</div>
+
     <input type="text" name="passphrase" form="settingsForm" value="{{{cfg.passphrase}}}" />
 
+  <!-- Image settings -->
     <fieldset>
-      <legend>Images</legend>
-    <label for="imagesDir">Directory (will be a subdirectory of
-      <span style="font-family: monospace;">/public/</span>)</label>
+    <legend>Images</legend>
+
+    <fieldset>
+    <legend>Directory</legend>
+<p>Subdirectory path in 'public' to hold the encoded images.
+   Do not need to include <span style="font-family: monospace;">'/public/'</span>
+   - just the subdirectory path <br>
+   examples: 'images', 'images/mine', 'pictures'
+</p>
     <input type="text" name="imagesDir" form="settingsForm" value="{{{cfg.imagesDir}}}" />
-      </legend>
     </fieldset>
+
+    <fieldset>
+      <legend>Image Name Prefix</legend>
+<p>Helps identify encoded images by prefixing the image's filename.<br>
+   The filename is prefixed when an image is encoded.
+   To prevent prefixing just make it blank.<br>
+   Is useful to identify person that encoded the image
+   and/or hint of the passphrase used.
+</p>
+    <input type="text" name="imagePrefix" form="settingsForm" value="{{{cfg.imagePrefix}}}" />
+    </fieldset>
+
+    <fieldset>
+    <legend>Replace existing message</legend>
+<p>Allow overwriting of existing encoded images.<br>
+   The message in an image can be overwritten with a different message
+</p>
+    <input type="text" name="imageOverwrite" form="settingsForm" value="{{{cfg.imageOverwrite}}}" />
+    </fieldset>
+
+    <fieldset>
+    <legend>Fetch by web address</legend>
+<p>Allow fetching of images by URL.<br>
+   Display text field to paste web link to an image.<br>
+    Note: Not uncommon to get a 'CORS' permission error depending
+       on how the sending web site's permissions are configured
+</p>
+    <input type="text" name="askurl" form="settingsForm" value="{{{cfg.askurl}}}" />
+    </fieldset>
+
+    </fieldset>
+
+  <!-- Message settings -->
+    <fieldset>
+    <legend>Message formatting</legend>
+
+    <fieldset>
+    <legend>Text type</legend>
+<p>Default text type 'plain', 'markdown',  'html'
+</p>
+    <input type="text" name="textType" form="settingsForm" value="{{{cfg.textType}}}" />
+    </fieldset>
+
+    </fieldset>
+
     </form>
-  </div>
   <input type="button" value="Submit" onclick="submitSettings();">
 
-{{#cfg.inlineHelp}}
-  <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>
-{{/cfg.inlineHelp}}
   {{{cfg.footer}}}
 </body>
 

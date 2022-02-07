@@ -23,12 +23,17 @@ const saveSettings = (cfg, req, res) => {
 
 const postSettings = (cfg, req, res) => {
   Object.assign(cfg, req.body);
+  // Convert string yes, Yes, True, true to bool
+  cfg.imageOverwrite = /^[tTyY]/.test(cfg.imageOverwrite);
+  cfg.askurl = /^[tTyY]/.test(cfg.askurl);
 
   // Insure image directory exists
   cfg.imagesDir = cfg.imagesDir.trim().replace(/^[/]/,'').replace(/[/]$/,'');
   try {
     fs.mkdirSync(cfg.homeDir + '/public/' + cfg.imagesDir, { recursive: true })
   } catch (e) {}
+
+  console.log('cfg.imageOverwrite', cfg.imageOverwrite);
 
   return saveSettings(cfg, req, res);
 }

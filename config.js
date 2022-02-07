@@ -71,8 +71,9 @@ const config = {
 // At least, place your preferred font family here
 //  and in cfg.theme below
 config.head = `
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 `,
 
 // Common styles for the pages
@@ -83,7 +84,7 @@ config.theme = `
   }
 
   body {
-    font-family: 'Bad Script'; //, cursive;
+    font-family: 'Roboto', sans-serif;
     background: #16095d;
     color: aliceblue;
   }

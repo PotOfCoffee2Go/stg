@@ -1,5 +1,5 @@
 const styles = {
-  index: `
+  settings: `
   <style>
     p,
     textarea,
@@ -137,6 +137,7 @@ const styles = {
 
     #carousel div:focus { outline: none; }
 
+    textarea,
     input[name="passphrase"] {
        width: 100%;
     }

@@ -11,7 +11,7 @@
 
   {{{cfg.theme}}}
 
-  {{{cfg.styles.index}}}
+  {{{cfg.styles.imagesdir}}}
 
 </head>
 <script>
@@ -102,9 +102,9 @@
   <input type="button" value="Settings" onclick="window.location.href='/settings'">
   <br>
   <hr>
-  <div class="left-side box">
     <form ref="homeForm" id="homeForm" action="/encrypt" method="post" encType="multipart/form-data">
-
+      <input type="text" name="passphrase" form="homeForm" value="{{{cfg.passphrase}}}" />
+      <br><br>
       <input type="button" onclick="document.getElementById('imageFileBtn').click()"
         value="Select an image" />
       <span id="fileNameSpan" style="font-family: monospace;"></span>
@@ -116,8 +116,6 @@
       <input type="text" name="sampleUrlFile" />
 {{/cfg.askurl}}
     </form>
-    <input type="text" name="passphrase" form="homeForm" value="{{{cfg.passphrase}}}" />
-  </div>
   <hr>
     <button onclick="submitDecrypt();">Decode</button> message from the image
     <br><span style="font-family: monospace; margin-left: 8em;"> ...OR... </span>
