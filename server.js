@@ -12,7 +12,7 @@ const { encryptImage, decryptImage } = require('./src/stegano');
 // Directory listing of stored encoded images
 const { viewImagesDir } = require('./src/imagesdir');
 // Settings page
-const { settings } = require('./src/settings');
+const { postSettings } = require('./src/settings');
 // Render views
 const { render, renderError } = require('./src/render');
 

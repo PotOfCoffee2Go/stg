@@ -13,6 +13,9 @@
   {{{cfg.styles.index}}}
 
   <script>
+  const submitSettings = () => {
+    document.getElementById('settingsForm').submit();
+  }
   </script>
 
 </head>
@@ -26,12 +29,21 @@
   <hr>
   <div class="left-side box">
     <!-- A form so we can POST our request -->
-    <form ref="settingsForm" id="decodeForm" action="/settings"
-      method="post" encType="multipart/form-data"></form>
-
+    <form id="settingsForm" action="/settings" method="post"
+      encType="multipart/form-data">
     <label for="passphrase">Default passphrase</label>
     <input type="text" name="passphrase" form="settingsForm" value="{{{cfg.passphrase}}}" />
+
+    <fieldset>
+      <legend>Images</legend>
+    <label for="imagesDir">Directory (will be a subdirectory of
+      <span style="font-family: monospace;">/public/</span>)</label>
+    <input type="text" name="imagesDir" form="settingsForm" value="{{{cfg.imagesDir}}}" />
+      </legend>
+    </fieldset>
+    </form>
   </div>
+  <input type="button" value="Submit" onclick="submitSettings();">
 
 {{#cfg.inlineHelp}}
   <p>Filter: (text or can use regex!) then press ENTER or click a column to filter</p>

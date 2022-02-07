@@ -6,6 +6,9 @@ const config = {
   // Port the server listens for requests
   listenPort: 8000,
 
+  // Server home directory
+  homeDir: process.cwd(),
+
 // ------ En/Decode Options (can be modified via 'settings' page)
   // Default passphrase shown on web pages
   passphrase: 'YOUR_PASSPHRASE_HERE', // 'YouR PassphasE H3R3',
