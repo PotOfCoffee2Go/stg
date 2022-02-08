@@ -55,6 +55,15 @@ const config = {
   //     on how the sending web site's permissions are configured
   askurl: false,
 
+  // Override CORS
+  // This option should be used with care as browser from any location
+  // will have full access to the server
+  // Is helpful to temporarily access the server (usually from a
+  // device on your local network)
+  // Must restart server to take effect
+  corsOptions: { origin: ['http://localhost', 'http://127.0.0.1'] },
+
+
 // ------ Message formatting options (can be modified via 'settings' page)
 
   // Default text type 'plain', 'markdown,  'html'
@@ -63,21 +72,20 @@ const config = {
   markdowncss: 'agate.min.css',
   // Code highlightjs styles - see https://highlightjs.org/static/demo/
   highlightcss: 'agate.min.css',
-}
 
 // ------ HTML to include in web pages
 
 // HTML inserted in pages <head> tag
 // At least, place your preferred font family here
 //  and in cfg.theme below
-config.head = `
+head: `
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 `,
 
 // Common styles for the pages
-config.theme = `
+theme: `
 <style>
   * {
     box-sizing: border-box;
@@ -102,7 +110,8 @@ config.theme = `
   a:active { color: blue; }   /* selected link */
 
 </style>
-`;
+`,
+}
 
 // Page specific styles are in './views/styles.js'
 const { styles } = require('./views/styles');
@@ -110,28 +119,6 @@ config.styles = styles;
 
 
 // ------ Code used by server. Rarely changed!
-
-// Sites allowed access to steganography server
-//  Note: any site can GET files from 'public' and it's subdirectories
-const allowedOrigins = ['http://localhost', 'http://127.0.0.1'];
-
-// Function that determines if a site has permissions to en/decrypt
-//  - callback(null, true) = yes, callback(error) = no
-config.corsOptions = {
-  origin: (origin, callback) => {
-    // Allow routes not monitored by CORS
-    if (!origin) return callback(null, true);
-
-    let originAllowed = false;
-    allowedOrigins.forEach(allowed => {
-      if (origin.indexOf(allowed) !== -1) originAllowed = true;
-    });
-    if (!originAllowed) {
-      return callback(new Error(`CORS 'Access-Control-Allow-Origin' does not allow '${origin}'`));
-    }
-    return callback(null, true);
-  }
-}
 
 // Server command line interface
 // Allows temporary override of configuration parameters defined above

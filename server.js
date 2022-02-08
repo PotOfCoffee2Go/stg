@@ -71,7 +71,8 @@ const fileUpload = require('express-fileupload');
 const app = express();
 
 // CORS insures only local machine can decode messages
-app.use(cors(cfg.corsOptions));
+//  Don't work :(
+app.use(cors({ origin: 'http://localhost' }));
 
 // Image files are uploaded for processing
 app.use(fileUpload());
