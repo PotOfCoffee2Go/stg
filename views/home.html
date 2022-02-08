@@ -15,9 +15,14 @@
 
 </head>
 <script>
+  const isImageFileSelected = () => {
+    let imageFileBtn = document.getElementById('imageFileBtn');
+    return !!imageFileBtn.files.length;
+  }
+
   const checkUrl = async (form, action = 'decrypt') => {
     const formdata = new FormData(form);
-    if (document.getElementById('fileNameSpan').innerHTML.length === 0) {
+    if (!isImageFileSelected()) {
       alert('Please select an image');
       return;
     }
@@ -85,18 +90,35 @@
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
+  const initImagePaste = () => {
+    const fileInput = document.getElementById("imageFileBtn");
+    window.addEventListener('paste', e => {
+      fileInput.files = e.clipboardData.files;
+      console.log('files', fileInput.files);
+      if (fileInput.files.length > 0) {
+        imageSelected();
+      }
+      else {
+        document.getElementById('fileNameSpan').innerHTML = 'Clipboard content is not an image';
+      }
+    });
+  }
+
   onload = () => {
     try {
+      initImagePaste();
       let elem = document.getElementById('{{cfg.textType}}');
       elem.checked = true;
     } catch(e) {}
   }
+
 </script>
 
 <body>
   {{{cfg.logo}}}
   {{{cfg.heading}}}
 
+  <input type="button" value="Home" onclick="window.location.href='/';">
   <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
   <input type="button" value="Docs" onclick="window.location.href='/index.html'">
   <input type="button" value="Settings" onclick="window.location.href='/settings'">
@@ -107,9 +129,13 @@
       <br><br>
       <input type="button" onclick="document.getElementById('imageFileBtn').click()"
         value="Select an image" />
-      <span id="fileNameSpan" style="font-family: monospace;"></span>
+      <span id="fileNameSpan" style="font-family: monospace;">
+{{#cfg.inlineHelp}}
+   (or press ctrl-v to paste an image)
+{{/cfg.inlineHelp}}
+      </span>
       <input type="file" id="imageFileBtn" name="imageFile" onchange="imageSelected();"
-        style="width: 0;" accept=".png,.jpg,.bmp,.tiff" />
+        style="width: 0%" accept=".png,.jpg,.bmp,.tiff" />
 {{#cfg.askurl}}
       <br>
       or image web address:

@@ -72,7 +72,7 @@ const app = express();
 
 // CORS insures only local machine can decode messages
 //  Don't work :(
-app.use(cors({ origin: 'http://localhost' }));
+app.use(cors({ origin: 'http://localhost:8000' }));
 
 // Image files are uploaded for processing
 app.use(fileUpload());
