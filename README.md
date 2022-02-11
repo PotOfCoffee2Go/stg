@@ -1,4 +1,4 @@
-# PotOfCoffee2Go Encrypted Steganography Server
+# Imbosk Encoded Steganography Server
 
 This steganography web server not only hides messages in images, it also encrypts the messages embedded in the images. The heavy lifting is done by [@mykeels/steganography][1] which is inspired by [rodrigouroz/steganography][2].
 

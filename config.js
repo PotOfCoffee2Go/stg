@@ -19,7 +19,7 @@ const config = {
     style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;">`,
 
   // Heading on top of page
-  heading: '<h3>PotOfCoffee2Go Encoded Steganography</h3>',
+  heading: '<h3>Imbosk Encoded Steganography</h3>',
 
   // Footer on bottom of page
   footer: `<div><hr>Images by <a href="https://pixabay.com" target="_blank">Pixabay</a><hr></div>`,
@@ -93,11 +93,11 @@ theme: `
 
   body {
     font-family: 'Roboto', sans-serif;
-    background: #16095d;
-    color: aliceblue;
+    background: #282828;
+    color: #fbf1c7;
   }
 
-  p { background: #2f328c; }
+  p { background: #665c54; }
 
 
   input[type="button"], button {
