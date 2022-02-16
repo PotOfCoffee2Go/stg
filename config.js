@@ -15,11 +15,18 @@ const config = {
 
 // ------ Page Layout
   // HTML of logo in-front of heading
-  logo: `<img src="/assets/logo.png"
-    style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;">`,
+  logo: `<!-- img src="/assets/logo.png"
+    style="float: left; width: 48px; transform: scaleX(-1); margin-right: 6px;" -->`,
 
   // Heading on top of page
-  heading: '<h3>Imbosk Encoded Steganography</h3>',
+  heading: `<!-- h3>Imbosk Encoded Steganography</h3>
+  <div>
+  <input type="button" value="Home" onclick="window.location.href='/';">
+  <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
+  <input type="button" value="Docs" onclick="window.location.href='/index.html'">
+  <input type="button" value="Settings" onclick="window.location.href='/settings'">
+  </div -->
+  `,
 
   // Footer on bottom of page
   footer: `<div><hr>Images by <a href="https://pixabay.com" target="_blank">Pixabay</a><hr></div>`,
@@ -99,8 +106,14 @@ theme: `
 
   p { background: #665c54; }
 
+  input[type="text"], textarea {
+    color: #fbf1c7;
+    background: #282828;
+  }
 
   input[type="button"], button {
+    color: black;
+    background: #fbf1c7;
     border-radius: 10px;
   }
 

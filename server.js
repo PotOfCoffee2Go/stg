@@ -57,6 +57,8 @@ try {
 // Load index and settings page templates
 const pages = {
   home: fs.readFileSync(homeDir + '/views/home.html', { encoding: 'utf8' }),
+  encode: fs.readFileSync(homeDir + '/views/encode.html', { encoding: 'utf8' }),
+  decode: fs.readFileSync(homeDir + '/views/decode.html', { encoding: 'utf8' }),
   settings: fs.readFileSync(homeDir + '/views/settings.html', { encoding: 'utf8' }),
 };
 
@@ -79,8 +81,9 @@ app.use(fileUpload());
 
 // ------
 // Site pages
-// Render home page
-app.get(['/'], (req, res) => { render(cfg, res, pages.home, {}); });
+// Render home pages
+app.get(['/embed'], (req, res) => { render(cfg, res, pages.encode, {}); });
+app.get(['/extract'], (req, res) => { render(cfg, res, pages.decode, {}); });
 
 // Get and Modify configuration settings
 app.get('/settings', (req, res) => render(cfg, res, pages.settings, {}));

@@ -101,12 +101,7 @@
 <body>
   {{{cfg.logo}}}
   {{{cfg.heading}}}
-  <div>
-  <input type="button" value="Home" onclick="window.location.href='/';">
-  <input type="button" value="Images" onclick="window.location.href='/imagesdir'">
-  <input type="button" value="Docs" onclick="window.location.href='/index.html'">
-  <input type="button" value="Settings" onclick="window.location.href='/settings'">
-  </div>
+  <input type="button" value="<= Go back" onclick="history.back()">
 
   <div id="stegano-container">
     <hr>
@@ -125,6 +120,7 @@ To download, <b>Click</b> the image or <b>Right-click</b> -> 'Save image as ...'
   </div>
 
   <hr>
+  <input type="button" value="<= Go back" onclick="history.back()">
   <input type="button" value="Read" onclick="submitView();">
   <input type="button" value="Raw" style="min-width: 4em;"
       onclick="raw(document.getElementById('message-container'), this);">

@@ -15,6 +15,15 @@
 
 </head>
 <script>
+  var $tw;
+  const init = () => {
+    $tw = window.parent.$tw;
+    console.log('tw is:', $tw);
+    $tw.hooks.addHook('th-saving-tiddler', (newTiddler, oldTiddler) => {
+      document.getElementById('msgText').value = newTiddler.fields.text;
+      return newTiddler;
+    })
+  }
   const isImageFileSelected = () => {
     let imageFileBtn = document.getElementById('imageFileBtn');
     return !!imageFileBtn.files.length;
@@ -106,6 +115,7 @@
 
   onload = () => {
     try {
+      init();
       initImagePaste();
       let elem = document.getElementById('{{cfg.textType}}');
       elem.checked = true;
@@ -136,14 +146,9 @@
       <input type="text" name="sampleUrlFile" />
 {{/cfg.askurl}}
     </form>
-    <hr style="height: 5px;">
-    <button onclick="submitDecrypt();">Decode</button> message from the image
-    <hr>
-    <span style="font-family: monospace; margin-left: 8em;"> ...OR... </span>
-    <hr>
-    <button onclick="submitEncrypt();">Encode</button> a message into the image.
+  <hr style="height: 5px;">
   <div class="left-side box">
-    <textarea name="message" form="homeForm" style="height: 120px; margin-top: 0.6em;"
+    <textarea id="msgText" name="message" form="homeForm" style="height: 120px; margin-top: 0.6em;"
       placeholder="Enter your text, markdown, or HTML document..."></textarea>
     <span style="padding-right: 6px; border-right: 1px solid black; ">View as: </span>
     <input type="radio" id="plain" name="textType" value="plain" form="homeForm">
@@ -153,6 +158,8 @@
     <input type="radio" id="html" name="textType" value="html" form="homeForm">
     <label for="html">HTML Document</label>
     <br>
+    <hr style="height: 5px;">
+    <button onclick="submitEncrypt();">Encode</button> a message into the image.
     <!-- p>Optional, rename resulting encrypted image (maybe a hint of the passphrase? ;)</p>
     <input type="text" id="save-as" name="save-as" form="homeForm" value="" placeholder="Name of encrypted image"/>
     <br -->
